@@ -1,0 +1,10 @@
+/*
+ *company list toolbar
+ */
+.listmenutoolbar{
+         position:absolute;
+         background-image:url(../images/bar_bkg.png);
+         background-repeat:repeat-x;
+         height:38px;
+         width:100%;
+}
