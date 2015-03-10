@@ -34,7 +34,8 @@ Ext.application({
         'UserListStore'
     ],
     views: [
-        'AdminViewport'
+        'AdminViewport',
+        'AddUser'
     ],
     name: 'Xixixi',
 
