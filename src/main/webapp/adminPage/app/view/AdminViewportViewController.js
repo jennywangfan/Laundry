@@ -22,8 +22,6 @@ Ext.define('Xixixi.view.AdminViewportViewController', {
             Ext.getCmp('centerContainer').getLayout().setActiveItem(0);
 
             var userListStore = this.getStore("userListViewStore");
-            //    console.log(this);
-            //   console.log(userListStore);
             userListStore.removeAll();
             userListStore.load();
         },this);
@@ -33,7 +31,6 @@ Ext.define('Xixixi.view.AdminViewportViewController', {
         Ext.get('menu_department').on('click',function(){
             Ext.getCmp('centerContainer').getLayout().setActiveItem(1);
             var departmentListStore = this.getStore('departmentListViewStore');
-            console.log(departmentListStore);
             departmentListStore.removeAll();
             departmentListStore.load();
         },this);
@@ -41,6 +38,15 @@ Ext.define('Xixixi.view.AdminViewportViewController', {
 
     onMenu_adduserAfterRender: function(component, eOpts) {
 
+    	Ext.get('menu_adduser').on('click',function(){
+    	       var addUserWin = Ext.get('addUserWindow');
+
+    	            if(!addUserWin){
+    	                Ext.create('Xixixi.view.AddUser').show();
+    	            }
+    	            else
+    	            	Ext.get('addUserWindow').show();
+    	},this);
     },
 
     onMenu_deleteuserAfterRender: function(component, eOpts) {
@@ -75,7 +81,12 @@ Ext.define('Xixixi.view.AdminViewportViewController', {
     },
 
     onMenu_refreshdepartmentAfterRender: function(component, eOpts) {
+    	 Ext.get('menu_refreshdepartment').on('click',function(){
+             var departmentListStore = this.getStore('departmentListViewStore');
+             departmentListStore.removeAll();
+             departmentListStore.load();
 
+         },this);
     }
 
 });

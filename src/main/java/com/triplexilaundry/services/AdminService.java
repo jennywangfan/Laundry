@@ -80,7 +80,19 @@ public class AdminService {
 	* <p>Description: </p>
 	* @return
 	*/
+	@Transactional
 	public List<DepartmentDataReturnModel> findAllDepartments() {
 		return departmentDao.findAllDepartmentForAdmin();
+	}
+	/**
+	* <p>Title: checkUserName</p>
+	* <p>Description: </p>
+	* @param userName
+	* @return
+	*/
+	@Transactional
+	public Employee checkUserName(String userName) {
+		// TODO Auto-generated method stub
+		return employeeDao.findbyIdForAuthentication(userName);
 	}
 }

@@ -21,7 +21,7 @@ public class DepartmentDataReturnModel {
 	private int departmentId;
 	private String departmentName;
 	private String departmentDesc;
-	private int departmentNum;
+	private long departmentNum;
 	public int getDepartmentId() {
 		return departmentId;
 	}
@@ -40,10 +40,10 @@ public class DepartmentDataReturnModel {
 	public void setDepartmentDesc(String departmentDesc) {
 		this.departmentDesc = departmentDesc;
 	}
-	public int getDepartmentNum() {
+	public long getDepartmentNum() {
 		return departmentNum;
 	}
-	public void setDepartmentNum(int departmentNum) {
+	public void setDepartmentNum(long departmentNum) {
 		this.departmentNum = departmentNum;
 	}
 

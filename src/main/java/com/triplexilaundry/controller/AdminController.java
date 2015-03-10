@@ -6,11 +6,14 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.triplexilaundry.domain.company.Employee;
 import com.triplexilaundry.extjsdata.DepartmentDataReturnModel;
 import com.triplexilaundry.extjsdata.EmployeeDataReturnModel;
 import com.triplexilaundry.extjsdata.ExtJSReturn;
@@ -35,7 +38,7 @@ public class AdminController{
 			return ExtJSReturn.mapUserListOK(results);
 		} catch (Exception e) {
 			log.error("load user list controller exception");
-			return ExtJSReturn.mapError("Error retrieving user data from database.");
+			return ExtJSReturn.mapError("Error when retrieving user data from database.");
 		}
 	}
 	
@@ -49,7 +52,27 @@ public class AdminController{
 			
 		}catch(Exception e){
 			log.error("load department list controller exception");
-			return ExtJSReturn.mapError("Error retrieving department data from database.");
+			return ExtJSReturn.mapError("Error when retrieving department data from database.");
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET,value="/admin/userIdValidate.action")
+	public @ResponseBody String IdentifyUserByName(@RequestParam String userName){
+		log.info("check userName whether exists");
+		try{
+			Employee e = adminService.checkUserName(userName);
+			if(e == null){
+				log.info("no such userName in database");
+				return ExtJSReturn.simpleResult(true, userName + "can be created");
+			}
+			else{
+				log.info("userName already existed");
+				return ExtJSReturn.simpleResult(false,userName+ " already existed");
+			}
+			
+		}catch(Exception e){
+		log.error("fail to check the username exists or not");
+		return ExtJSReturn.simpleResult(false, "error when checking userName");
 		}
 	}
 
