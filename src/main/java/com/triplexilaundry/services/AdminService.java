@@ -19,6 +19,7 @@ import com.triplexilaundry.dao.CompanyDepartmentDao;
 import com.triplexilaundry.dao.EmployeeDao;
 import com.triplexilaundry.domain.company.CompanyDepartment;
 import com.triplexilaundry.domain.company.Employee;
+import com.triplexilaundry.extjsdata.ComboboxModel;
 import com.triplexilaundry.extjsdata.DepartmentDataReturnModel;
 import com.triplexilaundry.extjsdata.EmployeeDataReturnModel;
 
@@ -94,5 +95,14 @@ public class AdminService {
 	public Employee checkUserName(String userName) {
 		// TODO Auto-generated method stub
 		return employeeDao.findbyIdForAuthentication(userName);
+	}
+	/**
+	* <p>Title: getDepartmentForCombo</p>
+	* <p>Description: </p>
+	* @return
+	*/
+	@Transactional
+	public List<ComboboxModel> getDepartmentForCombo() {
+		return departmentDao.getDepartmentListForCombo();
 	}
 }

@@ -44,8 +44,7 @@ Ext.define('Xixixi.view.AdminViewportViewController', {
     	            if(!addUserWin){
     	                Ext.create('Xixixi.view.AddUser').show();
     	            }
-    	            else
-    	            	Ext.get('addUserWindow').show();
+    	           
     	},this);
     },
 

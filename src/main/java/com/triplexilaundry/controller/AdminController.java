@@ -6,7 +6,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.triplexilaundry.domain.company.Employee;
+import com.triplexilaundry.extjsdata.ComboboxModel;
 import com.triplexilaundry.extjsdata.DepartmentDataReturnModel;
 import com.triplexilaundry.extjsdata.EmployeeDataReturnModel;
 import com.triplexilaundry.extjsdata.ExtJSReturn;
@@ -74,6 +74,22 @@ public class AdminController{
 		log.error("fail to check the username exists or not");
 		return ExtJSReturn.simpleResult(false, "error when checking userName");
 		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET,value = "/getAllDepartment.action")
+	public @ResponseBody Map<String,? extends Object> getAllDepartmentForComboList(){
+		log.info("get all department list for showing in user window");
+		try{
+			List<ComboboxModel> departmentCombo = adminService.getDepartmentForCombo();
+			
+			return ExtJSReturn.mapComboboxOK(departmentCombo);
+			
+			
+		}catch(Exception e){
+			log.error("fail to get department list for combobox ");
+			return ExtJSReturn.mapError("fail to get department list for combobox");
+		}
+		
 	}
 
 	

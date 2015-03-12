@@ -46,68 +46,75 @@ public class EmployeeDao {
 	
 	
 	public Employee findbyIdForAuthentication( String id){
-		Employee em = null;
-		log.debug("find employee by id");
+		
+		log.info("find employee by id");
 		try{
 		
-			em = entityManager.find(Employee.class, id);
+			Employee em = entityManager.find(Employee.class, id);
 			if(em != null){
 				//get accessRole for authentication
 				em.getAccessRole();
-				log.debug("success to find employee by id " + id);
+				log.info("success to find employee by id " + id);
 				
 			}	   
 			else
-			log.debug("can't find employee by id " + id);
+			log.info("can't find employee by id " + id);
+			return em;
 		}catch(RuntimeException re){
 			log.error("fail to find employee by id " + id,re);
+			throw re;
 			
 		}
-		return em;
+		
 	}
 	
 	public void persist(Employee employee){
-		log.debug("persist employee");
+		log.info("persist employee");
 		try{
 			entityManager.persist(employee);
 			entityManager.flush();
 		}catch(RuntimeException re){
 			log.error("fail to persist employee",re);
+			throw re;
 		}
 	}
 	
 	public void remove(Employee employee){
-		log.debug("remove employee");
+		log.info("remove employee");
 		try{
 			entityManager.remove(employee);
 			entityManager.flush();
 		}catch(RuntimeException re){
 			log.error("fail to remove employee", re);
+			throw re;
 		}
 	}
 	
 	public void merge(Employee employee){
-		log.debug("merge employee");
+		log.info("merge employee");
 		try{
 			entityManager.merge(employee);
 			entityManager.flush();
 		}catch(RuntimeException re){
 			log.error("fail to merge employee", re);
+			throw re;
 		}
 	}
 	
 	public List<?> findByDepartmentId(int depId){
-		List<?> userList = null;
+		log.info("find employee by department id");
 		try{
 			String sql = "select e from Employee e where"
 					+ " e.CompanyDepartment.departmentId = : paraDepID";
 			Query query = entityManager.createQuery(sql);
 			query.setParameter("paraDepID", depId);
-			userList = query.getResultList();
+			List<?> userList = query.getResultList();
+			return userList;
 		}catch(RuntimeException re){
 			log.error("fail to find employee by department id", re);
+			throw re;
 		}
-		return userList;
+		
 	}
 
 	/**
@@ -116,10 +123,12 @@ public class EmployeeDao {
 	* @return
 	*/
 	public List<EmployeeDataReturnModel> findAllEmployeesForAdmin() {
-		
+		log.info("find all employee for admin page");
+		try{
 		String sql = "select e.username,e.department,e.employeeRole,"
 				+ "e.reportTo,e.fullName,e.createDate from Employee e";
 		Query query = entityManager.createQuery(sql);
+		@SuppressWarnings("unchecked")
 		List<Object[]> employeeList = query.getResultList();
 		
 		List<EmployeeDataReturnModel> extEmployeeList = new ArrayList<>();
@@ -134,6 +143,10 @@ public class EmployeeDao {
 			extEmployeeList.add(em);
 		}
 		return extEmployeeList;
+		}catch(RuntimeException re){
+			log.error("fail to find all employees for admin page");
+			throw re;
+		}
 	}
 	
 	

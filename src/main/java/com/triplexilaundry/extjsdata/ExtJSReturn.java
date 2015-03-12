@@ -75,6 +75,23 @@ public class ExtJSReturn {
 	}
 
 
+	/**
+	* <p>Title: mapComboboxOK</p>
+	* <p>Description: </p>
+	* @param departmentCombo
+	* @return
+	*/
+	public static Map<String, ? extends Object> mapComboboxOK(
+			List<ComboboxModel> results) {
+		// TODO Auto-generated method stub
+		Map<String,Object> modelMap = new HashMap<String,Object>(2);
+		modelMap.put("results", results);
+		modelMap.put("success", true);
+		modelMap.put("message", "success to return");
+		return modelMap;
+	}
+
+
 	
 	
 }

@@ -31,11 +31,10 @@ Ext.application({
     ],
     stores: [
         'GetUserNameStore',
-        'UserListStore'
+        'DepartmentListStore'
     ],
     views: [
-        'AdminViewport',
-        'AddUser'
+        'AdminViewport'
     ],
     name: 'Xixixi',
 
