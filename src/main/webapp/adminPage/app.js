@@ -31,7 +31,10 @@ Ext.application({
     ],
     stores: [
         'GetUserNameStore',
-        'DepartmentListStore'
+        'DepartmentListStore',
+        'EmployeeRoleListStore',
+        'AccessRoleListStore',
+        'ManagerListStore'
     ],
     views: [
         'AdminViewport'

@@ -18,17 +18,17 @@ package com.triplexilaundry.extjsdata;
  */
 public class ComboboxModel {
 	private String name;
-	private int attribute;
+	private String attribute;
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getAttribute() {
+	public String getAttribute() {
 		return attribute;
 	}
-	public void setAttribute(int attribute) {
+	public void setAttribute(String attribute) {
 		this.attribute = attribute;
 	}
 	

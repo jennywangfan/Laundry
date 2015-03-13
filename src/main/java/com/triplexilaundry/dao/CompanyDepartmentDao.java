@@ -9,7 +9,6 @@
  */
 package com.triplexilaundry.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -21,8 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.triplexilaundry.domain.company.CompanyDepartment;
-import com.triplexilaundry.extjsdata.ComboboxModel;
-import com.triplexilaundry.extjsdata.DepartmentDataReturnModel;
 
 /**
  * <p>
@@ -88,7 +85,7 @@ public class CompanyDepartmentDao {
 	 * 
 	 * @return
 	 */
-	public List<DepartmentDataReturnModel> findAllDepartmentForAdmin() {
+	public List<Object[]> findAllDepartmentForAdmin() {
 		log.info("get all departments");
 		try {
 			String sql = "select d.departmentId,d.depName,d.depDesc,count(e)"
@@ -97,19 +94,8 @@ public class CompanyDepartmentDao {
 
 			@SuppressWarnings("unchecked")
 			List<Object[]> departmentList = query.getResultList();
-			List<DepartmentDataReturnModel> extDepartmentList = null;
-			if (departmentList != null) {
-				extDepartmentList = new ArrayList<>();
-				for (Object[] o : departmentList) {
-					DepartmentDataReturnModel drm = new DepartmentDataReturnModel();
-					drm.setDepartmentId((int) o[0]);
-					drm.setDepartmentName((o[1] == null ? "" : (String) o[1]));
-					drm.setDepartmentDesc((o[2] == null ? "" : (String) o[2]));
-					drm.setDepartmentNum((o[3] == null ? 0 : (long) o[3]));
-					extDepartmentList.add(drm);
-				}
-			}
-			return extDepartmentList;
+			return departmentList;
+			
 		} catch (RuntimeException re) {
 			log.error("fail to get all departments", re);
 			throw re;
@@ -127,7 +113,7 @@ public class CompanyDepartmentDao {
 	 * 
 	 * @return
 	 */
-	public List<ComboboxModel> getDepartmentListForCombo() {
+	public List<Object[]> getDepartmentListForCombo() {
 		log.info("get department list of combobox");
 		try {
 			String sql = "select d.depName,d.departmentId from CompanyDepartment d";
@@ -135,17 +121,7 @@ public class CompanyDepartmentDao {
 			@SuppressWarnings("unchecked")
 			List<Object[]> departmentList = query.getResultList();
 
-			List<ComboboxModel> extDepartmentList = null;
-			if (departmentList != null) {
-				extDepartmentList = new ArrayList<>();
-				for (Object[] o : departmentList) {
-					ComboboxModel cm = new ComboboxModel();
-					cm.setName(o[0] == null ? "" : (String) o[0]);
-					cm.setAttribute(o[1] == null ? -1 : ((Integer) o[1]).intValue());
-					extDepartmentList.add(cm);
-				}
-			}
-			return extDepartmentList;
+		    return departmentList;
 		} catch (RuntimeException re) {
 			log.error("fail when try to load department list for combobox");
 			throw re;

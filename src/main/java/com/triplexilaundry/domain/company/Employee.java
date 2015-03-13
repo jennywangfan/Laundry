@@ -207,7 +207,7 @@ public class Employee implements UserDetails, Serializable{
 		return this.getEnable();
 	}
 	@Temporal(TemporalType.DATE)
-	@Column(name = "create_ate")
+	@Column(name = "create_date")
 	public Date getCreateDate() {
 		return createDate;
 	}

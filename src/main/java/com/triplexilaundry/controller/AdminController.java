@@ -91,6 +91,40 @@ public class AdminController{
 		}
 		
 	}
-
 	
+	@RequestMapping(method= RequestMethod.GET,value = "/getAllEmployeeRole.action")
+	public @ResponseBody Map<String, ? extends Object> getAllEmployeeRoleForComboList(){
+		log.info("get all employee role list for showing in user window");
+		try{
+			List<ComboboxModel> employeeRoleCombo = adminService.getEmployeeRoleForCombo();
+			return ExtJSReturn.mapComboboxOK(employeeRoleCombo);
+		}catch(Exception e){
+			log.error("fail to get all employee role list for combobox");
+			return ExtJSReturn.mapError("fail to get all employee role list for combobox");
+		}
+	}
+
+	@RequestMapping(method= RequestMethod.GET,value = "/getAllAccessRole.action")
+	public @ResponseBody Map<String, ? extends Object> getAllAccessRoleForComboList(){
+		log.info("get all access role list for showing in user window");
+		try{
+			List<ComboboxModel> accessRoleCombo = adminService.getAccessRoleForCombo();
+			return ExtJSReturn.mapComboboxOK(accessRoleCombo);
+		}catch(Exception e){
+			log.error("fail to get all access role list for combobox");
+			return ExtJSReturn.mapError("fail to get all access role list for combobox");
+		}
+	}
+	
+	@RequestMapping(method= RequestMethod.GET,value = "/getAllDepManagers.action")
+	public @ResponseBody Map<String, ? extends Object> getAllManagersForComboList(@RequestParam String departmentId){
+		log.info("get all managers for a department showing in user window");
+		try{
+			List<ComboboxModel> managerCombo = adminService.getDepManagersForCombo(Integer.valueOf(departmentId));
+			return ExtJSReturn.mapComboboxOK(managerCombo);
+		}catch(Exception e){
+			log.error("fail to get all manager list for combobox");
+			return ExtJSReturn.mapError("fail to get all manager list for combobox");
+		}
+	}
 }

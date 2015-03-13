@@ -9,8 +9,6 @@
 */
 package com.triplexilaundry.dao;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -21,10 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.triplexilaundry.domain.company.CompanyDepartment;
 import com.triplexilaundry.domain.company.Employee;
-import com.triplexilaundry.domain.company.EmployeeRole;
-import com.triplexilaundry.extjsdata.EmployeeDataReturnModel;
 
 /**
  * <p>Title: EmployeeDao</p>
@@ -122,7 +117,7 @@ public class EmployeeDao {
 	* <p>Description: </p>
 	* @return
 	*/
-	public List<EmployeeDataReturnModel> findAllEmployeesForAdmin() {
+	public List<Object[]> findAllEmployeesForAdmin() {
 		log.info("find all employee for admin page");
 		try{
 		String sql = "select e.username,e.department,e.employeeRole,"
@@ -130,27 +125,52 @@ public class EmployeeDao {
 		Query query = entityManager.createQuery(sql);
 		@SuppressWarnings("unchecked")
 		List<Object[]> employeeList = query.getResultList();
+		return employeeList;
 		
-		List<EmployeeDataReturnModel> extEmployeeList = new ArrayList<>();
-		for(Object[] o : employeeList){
-			EmployeeDataReturnModel em = new EmployeeDataReturnModel();
-			em.setUserName((String) o[0]);
-			em.setDepartment(o[1]==null? "":((CompanyDepartment)(o[1])).getDepName());
-			em.setRole(o[2]==null? "":((EmployeeRole)(o[2])).getRoleName());
-			em.setManager(o[3]==null? "":((Employee)(o[3])).getFullName());
-			em.setFullName(o[4]==null? "":(String)o[4]);
-			em.setCreatedDate(o[2]==null? null:(Date) o[5]);
-			extEmployeeList.add(em);
-		}
-		return extEmployeeList;
 		}catch(RuntimeException re){
-			log.error("fail to find all employees for admin page");
+			log.error("fail to find all employees for admin page",re);
+			throw re;
+		}
+	}
+
+	/**
+	* <p>Title: getEmployeeRoleListForCombo</p>
+	* <p>Description: </p>
+	* @return
+	*/
+	public List<Object[]> getEmployeeRoleListForCombo() {
+		// TODO Auto-generated method stub
+		log.info("get all employee role list for combo");
+		try{
+			String sql = "select e.roleName , e.employeeRoleId from EmployeeRole e";
+			Query query = entityManager.createQuery(sql);
+			@SuppressWarnings("unchecked")
+			List<Object []> employeeRoleList = query.getResultList();
+			return employeeRoleList;
+		}catch(RuntimeException re){
+			log.error("fail to get employee role list for combobox",re);
 			throw re;
 		}
 	}
 	
 	
-
+    public List<Object[]> getManagerListForCombo(int departmentId){
+    	log.info("get managerlist according to the department id");
+    	try{
+    		String sql = "select e.fullName,e.username from Employee e "
+    				+ "where e.department.departmentId = :depId and e.employeeRole.employeeRoleId = :manager";
+    		Query query = entityManager.createQuery(sql);
+    		query.setParameter("depId", departmentId);
+    		query.setParameter("manager", 4);
+    		@SuppressWarnings("unchecked")
+			List<Object[]> managerList = query.getResultList();
+			return managerList;
+    		
+    	}catch(RuntimeException re){
+    		log.error("fail to get managerlist for the combobox",re);
+    		throw re;
+    	}
+    }
 	
 
 }

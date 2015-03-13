@@ -17,8 +17,7 @@ Ext.define('Xixixi.store.DepartmentListStore', {
     extend: 'Ext.data.Store',
 
     requires: [
-        'Ext.data.field.String',
-        'Ext.data.field.Integer'
+        'Ext.data.field.String'
     ],
 
     constructor: function(cfg) {
@@ -26,13 +25,14 @@ Ext.define('Xixixi.store.DepartmentListStore', {
         cfg = cfg || {};
         me.callParent([Ext.apply({
             storeId: 'DepartmentListStore',
+            autoLoad: false,
             fields: [
                 {
                     type: 'string',
                     name: 'name'
                 },
                 {
-                    type: 'int',
+                    type: 'string',
                     name: 'attribute'
                 }
             ]

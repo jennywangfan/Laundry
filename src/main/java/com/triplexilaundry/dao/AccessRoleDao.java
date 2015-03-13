@@ -9,7 +9,6 @@
 */
 package com.triplexilaundry.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -21,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.triplexilaundry.domain.company.AccessRole;
-import com.triplexilaundry.extjsdata.ComboboxModel;
 
 /**
  * <p>Title: AccessRoleDao</p>
@@ -74,21 +72,14 @@ public class AccessRoleDao {
     	
     }
     
-    public List<ComboboxModel> getRoleListForCombo(){
+    public List<Object[]> getRoleListForCombo(){
     	log.info("get accessrole list for combobox");
     	try{
     		String sql = "select a.authority, a.roleId from AccessRole a";
     		Query query = entityManager.createQuery(sql);
     		@SuppressWarnings("unchecked")
 			List<Object[]> roleList = query.getResultList();
-    		List<ComboboxModel> extRoleList = new ArrayList<>();
-    		for(Object[] o : roleList){
-    			ComboboxModel cm = new ComboboxModel();
-    			cm.setName(o[0] == null ? "":(String)o[0]);
-    			cm.setAttribute(o[1]==null ? -1:((Integer)o[1]).intValue());
-    			extRoleList.add(cm);
-    		}
-    		return extRoleList;
+			return roleList;
     	}catch(RuntimeException re){
     		log.error("fail to get role list for combobox");
     		throw re;
