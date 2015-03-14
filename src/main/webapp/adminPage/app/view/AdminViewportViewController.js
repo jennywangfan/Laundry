@@ -73,10 +73,6 @@ Ext.define('Xixixi.view.AdminViewportViewController', {
 
     },
 
-    onMenu_deletedepartmentAfterRender: function(component, eOpts) {
-
-    },
-
     onMenu_refreshdepartmentAfterRender: function(component, eOpts) {
         Ext.get('menu_refreshdepartment').on('click',function(){
             var departmentListStore = Ext.data.StoreManager.lookup('DepartmentListViewStore');
@@ -84,7 +80,107 @@ Ext.define('Xixixi.view.AdminViewportViewController', {
             departmentListStore.load();
 
         },this);
+    },
+
+    onCenterContainerAfterRender: function(component, eOpts) {
+        Ext.get('menu_deleteuser').on('click',function(){
+            var grid = Ext.getCmp('userlistgrid');
+            var record = grid.getSelectionModel().getSelection()[0];
+            if(record){
+                var userName = record.data.userName;
+                var currentUser = Ext.data.StoreManager.lookup('GetUserNameStore').first();
+                if(currentUser)
+                {
+                    var currentUserName = currentUser.get('username');
+                    if(userName == currentUserName){
+                        Ext.Msg.show({
+                            title:'警告',
+                            msg:'不能删除自己',
+                            buttons: Ext.Msg.OK,
+                            icon: Ext.Msg.WARNING
+                        });
+                    }
+                    else{
+                        Ext.MessageBox.confirm('删除用户?','确定要删除用户, 用户名是 = '+userName+' ?',
+
+                        function(e){
+                            if(e=='yes'){
+                                Ext.Ajax.timeout = 40000; // 40 seconds
+
+                                Ext.Ajax.request({
+
+                                    url: 'admin/userDestory.action',
+                                    method : 'POST',
+                                    params :  { userName: userName },
+                                    success: function(response) {
+
+                                        var respText = Ext.JSON.decode(response.responseText);
+
+                                        if(respText.success){
+
+                                            Ext.Msg.alert('成功', respText.message);
+                                            var userListStore = Ext.data.StoreManager.lookup("UserListViewStore");
+                                            userListStore.remove(record);
+
+                                        }else{
+
+                                            Ext.Msg.show({
+                                                title:'失败',
+                                                msg:respText.message,
+                                                buttons: Ext.Msg.OK,
+                                                icon: Ext.Msg.ERROR
+                                            });
+
+                                        }
+
+                                    },
+
+                                    failure: function(form, action){
+
+                                        if (action.failureType === Ext.form.action.Action.CLIENT_INVALID) {
+
+                                            Ext.Msg.show({
+                                                title:'失败',
+                                                msg: '纪录可能有不合格字段',
+                                                buttons: Ext.Msg.OK,
+                                                icon: Ext.Msg.ERROR
+                                            });
+
+                                        }
+
+                                        if (action.failureType === Ext.form.action.Action.CONNECT_FAILURE){
+
+                                            Ext.Msg.show({
+                                                title:'错误',
+                                                msg: '状态:'+action.response.status+': '+action.response.statusText,
+                                                buttons: Ext.Msg.OK,
+                                                icon: Ext.Msg.ERROR
+                                            });
+
+                                        }
+
+                                        if (action.failureType === Ext.form.action.Action.SERVER_INVALID){
+
+                                            // server responded with success = false
+                                            Ext.Msg.show({
+                                                title:'服务器无效',
+                                                msg: action.result.errormsg,
+                                                buttons: Ext.Msg.OK,
+                                                icon: Ext.Msg.ERROR
+                                            });
+
+                                        }
+
+                                    }
+                                });
+                            }
+                        }
+                        );
+                    }
+                }
+            }
+
+        },this);
     }
 
 });
-

@@ -165,10 +165,7 @@ Ext.define('Xixixi.view.AdminViewport', {
                                     xtype: 'container',
                                     html: '<div><span><img src="adminPage/images/delete.gif" alt="delete icon" height=15 width=15></span><span class="list_menu_text">删除</span></div>',
                                     id: 'menu_deleteuser',
-                                    margin: '0 10 0 10',
-                                    listeners: {
-                                        afterrender: 'onMenu_deleteuserAfterRender'
-                                    }
+                                    margin: '0 10 0 10'
                                 },
                                 {
                                     xtype: 'container',
@@ -184,6 +181,8 @@ Ext.define('Xixixi.view.AdminViewport', {
                         {
                             xtype: 'gridpanel',
                             flex: 1,
+                            id: 'userlistgrid',
+                            itemId: 'userlistgrid',
                             scrollable: true,
                             header: false,
                             title: 'My Grid Panel',
@@ -261,10 +260,7 @@ Ext.define('Xixixi.view.AdminViewport', {
                                     xtype: 'container',
                                     html: '<div><span><img src="adminPage/images/delete.gif" alt="delete icon" height=15 width=15></span><span class="list_menu_text">删除</span></div>',
                                     id: 'menu_deletedepartment',
-                                    margin: '0 10 0 10',
-                                    listeners: {
-                                        afterrender: 'onMenu_deletedepartmentAfterRender'
-                                    }
+                                    margin: '0 10 0 10'
                                 },
                                 {
                                     xtype: 'container',
@@ -280,6 +276,8 @@ Ext.define('Xixixi.view.AdminViewport', {
                         {
                             xtype: 'gridpanel',
                             flex: 1,
+                            id: 'departmentlistgrid',
+                            itemId: 'departmentlistgrid',
                             scrollable: true,
                             header: false,
                             bind: {
@@ -312,7 +310,10 @@ Ext.define('Xixixi.view.AdminViewport', {
                         }
                     ]
                 }
-            ]
+            ],
+            listeners: {
+                afterrender: 'onCenterContainerAfterRender'
+            }
         }
     ]
 

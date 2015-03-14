@@ -10,7 +10,6 @@
 package com.triplexilaundry.services;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ import com.triplexilaundry.dao.CompanyDepartmentDao;
 import com.triplexilaundry.dao.EmployeeDao;
 import com.triplexilaundry.domain.company.CompanyDepartment;
 import com.triplexilaundry.domain.company.Employee;
-import com.triplexilaundry.domain.company.EmployeeRole;
 import com.triplexilaundry.extjsdata.ComboboxModel;
 import com.triplexilaundry.extjsdata.DepartmentDataReturnModel;
 import com.triplexilaundry.extjsdata.EmployeeDataReturnModel;
@@ -80,19 +78,21 @@ public class AdminService {
 	@Transactional
 	public List<EmployeeDataReturnModel> findAllEmployees() {
 		// TODO Auto-generated method stub
-		List<Object[]> employeeList = employeeDao.findAllEmployeesForAdmin();
+		List<Employee> employeeList = employeeDao.findAllEmployeesForAdmin();
 		List<EmployeeDataReturnModel> extEmployeeList = null;
 		if(employeeList != null)
 		    extEmployeeList = new ArrayList<>();
-		for(Object[] o : employeeList){
+
+		for(Employee e : employeeList){
 			EmployeeDataReturnModel em = new EmployeeDataReturnModel();
-			em.setUserName((String) o[0]);
-			em.setDepartment(o[1]==null? "":((CompanyDepartment)(o[1])).getDepName());
-			em.setRole(o[2]==null? "":((EmployeeRole)(o[2])).getRoleName());
-			em.setManager(o[3]==null? "":((Employee)(o[3])).getFullName());
-			em.setFullName(o[4]==null? "":(String)o[4]);
-			em.setCreatedDate(o[2]==null? null:(Date) o[5]);
+			em.setUserName(e.getUsername());
+			em.setDepartment(e.getDepartment() == null ? "": e.getDepartment().getDepName());
+			em.setFullName(e.getFullName());
+			em.setCreatedDate(e.getCreateDate());
+			em.setManager(e.getReportTo()==null ? "": e.getReportTo().getFullName());
+			em.setRole(e.getEmployeeRole()==null ? "" :e.getEmployeeRole().getRoleName());
 			extEmployeeList.add(em);
+			
 		}
 		return extEmployeeList;
 	
@@ -176,6 +176,7 @@ public class AdminService {
 	* <p>Description: </p>
 	* @return
 	*/
+	@Transactional
 	public List<ComboboxModel> getAccessRoleForCombo() {
 		List<Object[]> roleList = accessRoleDao.getRoleListForCombo();
 		
@@ -195,6 +196,7 @@ public class AdminService {
 	* <p>Description: </p>
 	* @return
 	*/
+	@Transactional
 	public List<ComboboxModel> getDepManagersForCombo(int departmentId) {
 		List<Object[]> managerList = employeeDao.getManagerListForCombo(departmentId);
 		List<ComboboxModel> extManagerList = null;
@@ -207,5 +209,15 @@ public class AdminService {
 			extManagerList.add(cm);
 		}
 		return extManagerList;
+	}
+	/**
+	* <p>Title: deleteUser</p>
+	* <p>Description: </p>
+	* @param userName
+	*/
+	@Transactional
+	public void destroyUser(String userName) {
+		employeeDao.deleteUserById(userName);   
+		
 	}
 }

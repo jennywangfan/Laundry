@@ -117,14 +117,18 @@ public class EmployeeDao {
 	* <p>Description: </p>
 	* @return
 	*/
-	public List<Object[]> findAllEmployeesForAdmin() {
+	public List<Employee> findAllEmployeesForAdmin() {
 		log.info("find all employee for admin page");
 		try{
-		String sql = "select e.username,e.department,e.employeeRole,"
-				+ "e.reportTo,e.fullName,e.createDate from Employee e";
+			
+//		String sql = "select e.username,e.department,e.employeeRole,"
+//				+ "e.reportTo,e.fullName,e.createDate from Employee e";
+		String sql = "select e from Employee e";
 		Query query = entityManager.createQuery(sql);
+	//	@SuppressWarnings("unchecked")
+		//List<Object[]> employeeList = query.getResultList();
 		@SuppressWarnings("unchecked")
-		List<Object[]> employeeList = query.getResultList();
+		List<Employee> employeeList = query.getResultList();
 		return employeeList;
 		
 		}catch(RuntimeException re){
@@ -184,7 +188,25 @@ public class EmployeeDao {
 			Employee e = entityManager.find(Employee.class, userName);
 			return e;
 		}catch(RuntimeException re){
-			log.error("fail to find employee by username" + userName);
+			log.error("fail to find employee by username" + userName,re);
+			throw re;
+		}
+	}
+
+	/**
+	* <p>Title: deleteUserById</p>
+	* <p>Description: </p>
+	* @param userName
+	*/
+	public void deleteUserById(String userName) {
+		log.info("delete user by id " + "userName");
+		try{
+			String sql  = "delete from Employee e where e.username = :userName";
+			Query query = entityManager.createQuery(sql);
+			query.setParameter("userName", userName);
+			query.executeUpdate();
+		}catch(RuntimeException re){
+			log.error("fail to delete user by id " +userName,re);
 			throw re;
 		}
 	}

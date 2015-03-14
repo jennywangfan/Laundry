@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.triplexilaundry.domain.company.Employee;
 import com.triplexilaundry.extjsdata.ComboboxModel;
 import com.triplexilaundry.extjsdata.DepartmentDataReturnModel;
+import com.triplexilaundry.extjsdata.EmployeeDataCreateModel;
 import com.triplexilaundry.extjsdata.EmployeeDataReturnModel;
 import com.triplexilaundry.extjsdata.ExtJSReturn;
-import com.triplexilaundry.extjsdata.EmployeeDataCreateModel;
 import com.triplexilaundry.services.AdminService;
 import com.triplexilaundry.services.EmployeeWrapperService;
 
@@ -142,5 +142,21 @@ public class AdminController{
 			log.error("add user controller exception");
 			return ExtJSReturn.mapError("添加用户过程出错");
 		}
+	}
+	
+	@RequestMapping(method=RequestMethod.POST,value="/admin/userDestory.action")
+	public @ResponseBody Map<String, ? extends Object> destroyUser(@RequestParam String userName){
+		log.info("delete user " +userName);
+		try{
+			adminService.destroyUser(userName);
+			
+				log.info("success to delete the user");
+				return ExtJSReturn.mapOKMessage("删除成功");
+			}catch(Exception e){
+				log.error("fail to delete the user");
+				return ExtJSReturn.mapError("删除失败");
+			}
+			
+		
 	}
 }

@@ -188,7 +188,8 @@ Ext.define('Xixixi.view.AddUser', {
                     store: 'EmployeeRoleListStore',
                     valueField: 'attribute',
                     listeners: {
-                        focus: 'onEmployeerolecomboFocus'
+                        focus: 'onEmployeerolecomboFocus',
+                        change: 'onEmployeerolecomboChange'
                     }
                 },
                 {
@@ -409,6 +410,20 @@ Ext.define('Xixixi.view.AddUser', {
 
     },
 
+    onEmployeerolecomboChange: function(field, newValue, oldValue, eOpts) {
+        var managerCombo = Ext.getCmp('managercombo');
+        if(newValue == 4){
+
+            managerCombo.disable(true);
+        }
+        else{
+            managerCombo.enable(true);
+            managerCombo.reset();
+            var store = Ext.data.StoreManager.lookup('ManagerListStore');
+            store.removeAll();
+        }
+    },
+
     onAccessrolecomboFocus: function(component, event, eOpts) {
         var store = Ext.data.StoreManager.lookup('AccessRoleListStore');
         store.setProxy({
@@ -574,35 +589,35 @@ Ext.define('Xixixi.view.AddUser', {
     validateUserName: function(value) {
         if(value.length >= 3){
             Ext.Ajax.setTimeout(20000);
-        Ext.Ajax.request({
-                                    url:'admin/userIdValidate.action',
-                                    method: 'GET',
-                                    async: false,
-                                    params :{
-                                        userName : value
-                                    },
-                                    success: function(response){
-                                        var respText = Ext.JSON.decode(response.responseText);
-                                        if(respText.success){
-                                            Ext.getCmp('password').focus();
-                                            Ext.Msg.alert('提示','用户名可用');
-                                        }
+            Ext.Ajax.request({
+                url:'admin/userIdValidate.action',
+                method: 'GET',
+                async: false,
+                params :{
+                    userName : value
+                },
+                success: function(response){
+                    var respText = Ext.JSON.decode(response.responseText);
+                    if(respText.success){
+                        Ext.getCmp('password').focus();
+                        Ext.Msg.alert('提示','用户名可用');
+                    }
 
-                                        else{
-                                            Ext.getCmp('username').focus();
-                                            Ext.Msg.alert('提示',value + '已经存在');
-                                        }
+                    else{
+                        Ext.getCmp('username').focus();
+                        Ext.Msg.alert('提示',value + '已经存在');
+                    }
 
 
-                                    },
-                                    failure: function(form,action){
+                },
+                failure: function(form,action){
 
-                                        Ext.getCmp('username').focus();
-                                        Ext.Msg.alert('提示','验证用户名出错');
+                    Ext.getCmp('username').focus();
+                    Ext.Msg.alert('提示','验证用户名出错');
 
-                                    }
+                }
 
-                                });
+            });
 
 
         }
