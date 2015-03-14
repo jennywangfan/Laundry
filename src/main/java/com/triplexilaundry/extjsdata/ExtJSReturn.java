@@ -87,9 +87,24 @@ public class ExtJSReturn {
 		Map<String,Object> modelMap = new HashMap<String,Object>(3);
 		modelMap.put("results", results);
 		modelMap.put("success", true);
-		modelMap.put("message", "success to return");
+		modelMap.put("message", "成功获取");
 		return modelMap;
 	}
+
+
+	/**
+	* <p>Title: mapOKMessage</p>
+	* <p>Description: </p>
+	* @param string
+	* @return
+	*/
+	public static Map<String,Object> mapOKMessage(String msg){
+
+		Map<String,Object> modelMap = new HashMap<String,Object>(2);
+		modelMap.put("message", msg);
+		modelMap.put("success", true);
+		return modelMap;
+	} 
 
 
 	

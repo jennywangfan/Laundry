@@ -75,7 +75,7 @@ public class AccessRoleDao {
     public List<Object[]> getRoleListForCombo(){
     	log.info("get accessrole list for combobox");
     	try{
-    		String sql = "select a.authority, a.roleId from AccessRole a";
+    		String sql = "select a.authorityDesc, a.roleId from AccessRole a";
     		Query query = entityManager.createQuery(sql);
     		@SuppressWarnings("unchecked")
 			List<Object[]> roleList = query.getResultList();

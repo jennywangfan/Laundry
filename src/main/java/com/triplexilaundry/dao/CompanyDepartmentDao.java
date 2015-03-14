@@ -128,4 +128,22 @@ public class CompanyDepartmentDao {
 		}
 	}
 
+	/**
+	* <p>Title: findDepartmentById</p>
+	* <p>Description: </p>
+	* @param intValue
+	* @return
+	*/
+	public CompanyDepartment findDepartmentById(int id) {
+		// TODO Auto-generated method stub
+		log.info("find department by id" + id);
+		try{
+			CompanyDepartment department = entityManager.find(CompanyDepartment.class, id);
+			return department;
+		}catch(RuntimeException re){
+			log.error("fail to find department by id" + id);
+			throw re;
+		}
+	}
+
 }

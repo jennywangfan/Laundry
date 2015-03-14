@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:mvc="http://www.springframework.org/schema/mvc"
-	   xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:tx="http://www.springframework.org/schema/tx"
-	   xsi:schemaLocation="
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
 			http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 			http://www.springframework.org/schema/context 
@@ -14,36 +12,40 @@
 			http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
 			http://www.springframework.org/schema/tx
 			http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
-	   default-autowire="byName">
-	
-	<!-- Enables the Spring MVC @Controller programming model -->
-	
-	<context:component-scan base-package="com.triplexilaundry.controller" />
-	
-	<mvc:annotation-driven />
-	
-	<mvc:view-controller path="/" view-name="login"/>
+	default-autowire="byName">
 
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
-	<mvc:resources mapping="/images/**" location="/images/"/>
-	<mvc:resources mapping="/css/**" location="/css/"/>
-	<mvc:resources mapping="/js/**" location="/js/"/>
-	<mvc:resources mapping="/ext/**" location="/ext/"/>
-	<mvc:resources mapping="/resources/**" location="/resources/"/>
+	<!-- Enables the Spring MVC @Controller programming model -->
+
+	<context:component-scan base-package="com.triplexilaundry.controller" />
+
+	<mvc:annotation-driven/>
+	 
+	<mvc:view-controller path="/" view-name="login" />
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources mapping="/ext5/**" location="/ext5/" />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:default-servlet-handler />
-	
-	<!-- Transaction Config -->  
+
+	<!-- Transaction Config -->
 	<!-- Enable the configuration of transactional behavior based on annotations -->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
 	<!-- Configure the multipart resolver -->
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <!-- one of the properties available; the maximum file size in bytes -->
-        <property name="maxUploadSize" value="100000"/>
-    </bean>
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- one of the properties available; the maximum file size in bytes -->
+		<property name="maxUploadSize" value="100000" />
+	</bean>
+
+
 	
-	
+
 </beans>

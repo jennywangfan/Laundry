@@ -24,6 +24,7 @@ Ext.Loader.setConfig({
 	}
 });
 
+
 Ext.application({
     models: [
         'UserListModel',
@@ -34,7 +35,9 @@ Ext.application({
         'DepartmentListStore',
         'EmployeeRoleListStore',
         'AccessRoleListStore',
-        'ManagerListStore'
+        'ManagerListStore',
+        'UserListViewStore',
+        'DepartmentListViewStore'
     ],
     views: [
         'AdminViewport'

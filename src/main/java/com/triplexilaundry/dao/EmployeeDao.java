@@ -171,6 +171,23 @@ public class EmployeeDao {
     		throw re;
     	}
     }
+
+	/**
+	* <p>Title: findEmployeeByUserName</p>
+	* <p>Description: </p>
+	* @param reportManagerId
+	* @return
+	*/
+	public Employee findEmployeeByUserName(String userName) {
+		log.info("find employee by username" + userName);
+		try{
+			Employee e = entityManager.find(Employee.class, userName);
+			return e;
+		}catch(RuntimeException re){
+			log.error("fail to find employee by username" + userName);
+			throw re;
+		}
+	}
 	
 
 }

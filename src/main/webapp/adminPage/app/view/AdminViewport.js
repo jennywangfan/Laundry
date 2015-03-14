@@ -188,7 +188,7 @@ Ext.define('Xixixi.view.AdminViewport', {
                             header: false,
                             title: 'My Grid Panel',
                             bind: {
-                                store: '{userListViewStore}'
+                                store: 'UserListViewStore'
                             },
                             columns: [
                                 {
@@ -283,13 +283,14 @@ Ext.define('Xixixi.view.AdminViewport', {
                             scrollable: true,
                             header: false,
                             bind: {
-                                store: '{departmentListViewStore}'
+                                store: 'DepartmentListViewStore'
                             },
                             columns: [
                                 {
                                     xtype: 'numbercolumn',
                                     dataIndex: 'departmentId',
-                                    text: '部门编号'
+                                    text: '部门编号',
+                                    format: '0,000'
                                 },
                                 {
                                     xtype: 'gridcolumn',
@@ -304,7 +305,8 @@ Ext.define('Xixixi.view.AdminViewport', {
                                 {
                                     xtype: 'numbercolumn',
                                     dataIndex: 'departmentNum',
-                                    text: '部门人数'
+                                    text: '部门人数',
+                                    format: '0,000'
                                 }
                             ]
                         }
