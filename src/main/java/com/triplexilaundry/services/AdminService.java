@@ -220,4 +220,25 @@ public class AdminService {
 		employeeDao.deleteUserById(userName);   
 		
 	}
+	/**
+	* <p>Title: checkDepName</p>
+	* <p>Description: </p>
+	* @param depName
+	* @return
+	*/
+	@Transactional
+	public boolean checkDepName(String depName) {
+		boolean result = departmentDao.findDepartmentByName(depName);
+		return result;
+	}
+	/**
+	* <p>Title: destroyDepartment</p>
+	* <p>Description: </p>
+	* @param depId
+	*/
+	@Transactional
+	public void destroyDepartment(String depId) {
+		departmentDao.deleteDepById(Integer.valueOf(depId));
+		
+	}
 }

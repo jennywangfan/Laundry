@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.triplexilaundry.domain.company.Employee;
 import com.triplexilaundry.extjsdata.ComboboxModel;
+import com.triplexilaundry.extjsdata.DepartmentDataCreateModel;
 import com.triplexilaundry.extjsdata.DepartmentDataReturnModel;
 import com.triplexilaundry.extjsdata.EmployeeDataCreateModel;
 import com.triplexilaundry.extjsdata.EmployeeDataReturnModel;
 import com.triplexilaundry.extjsdata.ExtJSReturn;
 import com.triplexilaundry.services.AdminService;
+import com.triplexilaundry.services.DepartmentWrapperService;
 import com.triplexilaundry.services.EmployeeWrapperService;
 
 @Controller
@@ -30,6 +32,8 @@ public class AdminController{
 	private AdminService adminService;
 	@Autowired
 	private EmployeeWrapperService employeeWrapperService;
+	@Autowired
+	private DepartmentWrapperService depWrapperService;
 	
 	
 	@RequestMapping(method=RequestMethod.GET,value="/admin/userLoad.action")
@@ -154,6 +158,54 @@ public class AdminController{
 				return ExtJSReturn.mapOKMessage("删除成功");
 			}catch(Exception e){
 				log.error("fail to delete the user");
+				return ExtJSReturn.mapError("删除失败");
+			}
+			
+		
+	}
+	
+	@RequestMapping(method=RequestMethod.GET,value="admin/depNameValidate.action")
+	public @ResponseBody String validateDepName(@RequestParam String depName){
+		log.info("validate whether dep name exists");
+		try{
+			boolean cd = adminService.checkDepName(depName);
+			if(cd){
+				log.info(depName + " exists");
+				return ExtJSReturn.simpleResult(false, depName +"已经存在");
+			}
+			else{
+				log.info(depName +" not exists");
+				return ExtJSReturn.simpleResult(true, depName + "可以使用");
+			}
+		}catch(Exception e){
+			log.error("fail to check dep name "+depName);
+			return ExtJSReturn.simpleResult(false, "验证部门名称出错");
+		}
+	}
+	
+	@RequestMapping(method=RequestMethod.POST,value="/admin/depCreate.action")
+	public @ResponseBody Map<String,? extends Object> createDepartment(@RequestBody DepartmentDataCreateModel data) {
+		log.info(" add a new user ");
+		try{
+			depWrapperService.createDepartment(data);
+			 log.info("add department success");
+			return ExtJSReturn.mapOKMessage("添加成功");
+		} catch (Exception e) {
+			log.error("add department controller exception");
+			return ExtJSReturn.mapError("添加部门过程出错");
+		}
+	}
+	
+	@RequestMapping(method=RequestMethod.POST,value="/admin/depDestory.action")
+	public @ResponseBody Map<String, ? extends Object> destroyDepartment(@RequestParam String depId){
+		log.info("delete department " +depId);
+		try{
+			adminService.destroyDepartment(depId);
+			
+				log.info("success to delete the department");
+				return ExtJSReturn.mapOKMessage("删除成功");
+			}catch(Exception e){
+				log.error("fail to delete the department");
 				return ExtJSReturn.mapError("删除失败");
 			}
 			

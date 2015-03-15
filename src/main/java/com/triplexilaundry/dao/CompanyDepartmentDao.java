@@ -123,7 +123,7 @@ public class CompanyDepartmentDao {
 
 		    return departmentList;
 		} catch (RuntimeException re) {
-			log.error("fail when try to load department list for combobox");
+			log.error("fail when try to load department list for combobox",re);
 			throw re;
 		}
 	}
@@ -141,7 +141,50 @@ public class CompanyDepartmentDao {
 			CompanyDepartment department = entityManager.find(CompanyDepartment.class, id);
 			return department;
 		}catch(RuntimeException re){
-			log.error("fail to find department by id" + id);
+			log.error("fail to find department by id" + id,re);
+			throw re;
+		}
+	}
+
+	/**
+	* <p>Title: findDepartmentByName</p>
+	* <p>Description: </p>
+	* @param depName
+	* @return
+	*/
+	public boolean findDepartmentByName(String depName) {
+		log.info("find department by name "+ depName);
+		try{
+			String sql = "select d from CompanyDepartment d where d.depName = :name";
+			Query query = entityManager.createQuery(sql);
+			query.setParameter("name", depName);
+			int cd = query.getFirstResult();
+			if(cd == 0)
+				return false;
+			else return true;
+		}catch(RuntimeException re){
+			log.error("fail department by name "+depName,re);
+			throw re;
+		}
+	}
+
+	/**
+	* <p>Title: deleteDepById</p>
+	* <p>Description: </p>
+	* @param valueOf
+	*/
+	public void deleteDepById(int id) {
+		// TODO Auto-generated method stub
+		log.info("remove department by id" + id);
+		try{
+			
+			String sql = "delete from CompanyDepartment cd where cd.departmentId = :dId";
+			Query query = entityManager.createQuery(sql);
+			query.setParameter("dId", id);
+			query.executeUpdate();
+			log.info("success to delete department by id "+id);
+		}catch(RuntimeException re){
+			log.error("fail to delete department by id "+id,re);
 			throw re;
 		}
 	}

@@ -108,19 +108,13 @@ Ext.define('Xixixi.view.AdminViewport', {
                     xtype: 'container',
                     html: '<div class="menu_operator">雇员</div>',
                     id: 'menu_user',
-                    margin: '0 10 0 10',
-                    listeners: {
-                        afterrender: 'onMenu_userAfterRender'
-                    }
+                    margin: '0 10 0 10'
                 },
                 {
                     xtype: 'container',
                     html: '<div class="menu_operator">部门</div>',
                     id: 'menu_department',
-                    margin: '0 10 0 10',
-                    listeners: {
-                        afterrender: 'onMenu_departmentAfterRender'
-                    }
+                    margin: '0 10 0 10'
                 }
             ]
         },
@@ -171,10 +165,7 @@ Ext.define('Xixixi.view.AdminViewport', {
                                     xtype: 'container',
                                     html: '<div><span><img src="adminPage/images/refresh.gif" alt="delete icon" height=15 width=15></span><span class="list_menu_text">刷新</span></div>',
                                     id: 'menu_refreshuser',
-                                    margin: '0 10 0 10',
-                                    listeners: {
-                                        afterrender: 'onMenu_refreshuserAfterRender'
-                                    }
+                                    margin: '0 10 0 10'
                                 }
                             ]
                         },
@@ -266,10 +257,7 @@ Ext.define('Xixixi.view.AdminViewport', {
                                     xtype: 'container',
                                     html: '<div><span><img src="adminPage/images/refresh.gif" alt="delete icon" height=15 width=15></span><span class="list_menu_text">刷新</span></div>',
                                     id: 'menu_refreshdepartment',
-                                    margin: '0 10 0 10',
-                                    listeners: {
-                                        afterrender: 'onMenu_refreshdepartmentAfterRender'
-                                    }
+                                    margin: '0 10 0 10'
                                 }
                             ]
                         },
@@ -312,7 +300,28 @@ Ext.define('Xixixi.view.AdminViewport', {
                 }
             ],
             listeners: {
-                afterrender: 'onCenterContainerAfterRender'
+                _afterrender0: 'onCenterContainerAfterRender',
+                _afterrender1: 'onCenterContainerAfterRender1',
+                _afterrender2: 'onCenterContainerAfterRender2',
+                _afterrender3: 'onCenterContainerAfterRender3',
+                _afterrender4: 'onCenterContainerAfterRender4',
+                _afterrender5: 'onCenterContainerAfterRender5',
+                afterrender: function() {
+                    var me = this,
+                        args = Ext.toArray(arguments, 0, -1);
+                    args.unshift('_afterrender0');
+                    me.fireEvent.apply(me, args);
+                    args[0] = '_afterrender1';
+                    me.fireEvent.apply(me, args);
+                    args[0] = '_afterrender2';
+                    me.fireEvent.apply(me, args);
+                    args[0] = '_afterrender3';
+                    me.fireEvent.apply(me, args);
+                    args[0] = '_afterrender4';
+                    me.fireEvent.apply(me, args);
+                    args[0] = '_afterrender5';
+                    me.fireEvent.apply(me, args);
+                }
             }
         }
     ]
