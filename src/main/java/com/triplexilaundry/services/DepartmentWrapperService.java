@@ -51,12 +51,29 @@ public class DepartmentWrapperService {
 		// TODO Auto-generated method stub
 		if (data != null) {
 			CompanyDepartment cd = new CompanyDepartment();
-			cd.setDepName(data.getDepName());
-			cd.setDepDesc(data.getDepDesc());
-			if(!depDao.findDepartmentByName(data.getDepName()))
-			   depDao.persist(cd);
+			cd.setDepName(data.getDepartmentName());
+			cd.setDepDesc(data.getDepartmentDesc());
+			depDao.persist(cd);
 		}
 
+	}
+
+	/**
+	* <p>Title: editDepartment</p>
+	* <p>Description: </p>
+	* @param data
+	*/
+	@Transactional
+	public void editDepartment(DepartmentDataCreateModel data) {
+		// TODO Auto-generated method stub
+		if(data != null){
+			CompanyDepartment cd = new CompanyDepartment();
+			cd.setDepName(data.getDepartmentName());
+			cd.setDepDesc(data.getDepartmentDesc());
+			cd.setDepartmentId(Integer.valueOf(data.getDepartmentId()));
+			depDao.merge(cd);
+		}
+		
 	}
 
 }

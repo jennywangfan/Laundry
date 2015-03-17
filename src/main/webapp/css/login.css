@@ -1,0 +1,174 @@
+/* CSS Document */
+html,body {
+	font-family: Arial, Helvetica, sans-serif;	
+	height:100%;
+	width:100%;
+	margin:0;
+	padding:0;
+	background-color:#FEFEFE;
+}
+#header{
+	background-image:url(../images/banner_bkg_mid.png);
+	background-repeat:repeat-x;
+	 height:93px;
+	 width:100%;
+	 margin:0;
+	 padding:0;
+	}
+#blueowl_logo {
+	margin-left:20px;
+	margin-top:10px; 
+	size:auto;
+}
+#header-left{
+background-image:url(../images/banner_bkg_left.png);
+background-repeat:no-repeat;
+height:93px;
+width:490px;
+float:left;
+}
+#header-right{
+height:93px;
+width: auto;
+float:right;
+}
+#header-r2{
+background-image:url(../images/banner_bkg_right.png);
+background-repeat:no-repeat;
+height:93px;
+width: 490px;
+float:right;
+}
+	
+#brow{
+    padding-top:0px;
+    clear:both;
+    width:100%;
+    height:50px;
+}
+#container{
+	min-height:100%;
+	height: 100%; 
+	position: relative;
+}
+#body {
+width: 100%;
+height:auto;
+margin: 0 auto;
+padding-top:80px;
+padding-bottom: 30px;
+}
+
+#intro_img {
+	-moz-box-shadow: 0px 5px 20px rgba(0,0,0,0.8);
+	-webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.8);
+	box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.8);
+}
+#login {
+	float:right; 
+	width: 37%;
+	height:495px;
+}
+#input{
+	float:left;
+	color: #2A9FFF;
+	width:370px;
+	height:495px;
+	background-image:url(../images/login_frame.png);
+	background-repeat:no-repeat;
+	border-radius:10px;
+	-moz-box-shadow: 0px 5px 20px rgba(0,0,0,0.8);
+	-webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.8);
+	box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.8);
+	}
+#edit_area {
+	margin-left:50px;
+	font-family: Arial, Helvetica, sans-serif; 
+	font-weight: bold;
+}
+#btn_area {
+	margin-left: 55px; 
+	margin-top:8px; 
+	font-size: 16px; 
+	color: #FFFFFF;
+}
+#error_info {
+	width:250px;
+	height:55px;
+	margin-left:50px;
+	font-size:15px;
+	color:#EFE73D;
+	}
+#forget_password {
+	margin-left:100px; 
+	padding-top:10px;
+	}
+#footer {
+	position:fixed;
+	bottom: 0;
+	width: 100%;
+	height: 30px;
+	clear: both;
+	background-color: #CAE2E8;
+	vertical-align:bottom;
+}
+
+.login_header {
+	margin-left:50px;
+	margin-top:10px;
+	font-size: 30px; 
+	font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif; 
+	font-weight: bold;
+}
+.lbl_edit {
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-bottom: 13px;
+	font-size: 20px;
+	font-weight: bold;
+	
+}
+
+/*text box shadow style */
+.enter{
+	width:250px;
+	height:30px;
+	padding:6px;
+	background-image:url(../images/txt_default.png);
+	background-repeat:no-repeat;
+	font-size: 18px;
+	font-weight: bold;
+}
+.enter:hover{
+	background-image:url(../images/txt_hover.png);
+	background-repeat:no-repeat;
+	outline:none;
+}
+.enter:focus{
+	outline:none;
+	-moz-box-shadow:0 0 5px rgba(0,0,0,.5);  
+	-webkit-box-shadow:0 0 5px rgba(0,0,0,.5);  
+	box-shadow:0 0 5px rgba(0,0,0,.5);          
+}
+
+/* button style */
+button::-moz-focus-inner {
+  border: 0; }
+
+button.image_based{
+	background-image: url(../images/btn_default.png);
+	text-align: center;
+	border:0;
+	height:28px;
+	width:120px;
+	margin-right:10px;
+	font:Arial, Helvetica, sans-serif;
+	font-size:18px;
+	color:#FFF;
+	}
+button.image_based:hover{
+	background-image: url(../images/btn_hover.png);
+	}
+button.image_based:active{
+background-image: url(../images/btn_active.png);
+}

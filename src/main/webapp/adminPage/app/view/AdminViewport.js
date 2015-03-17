@@ -214,7 +214,7 @@ Ext.define('Xixixi.view.AdminViewport', {
                                 }
                             ],
                             listeners: {
-                                itemdblclick: 'onGridpanelItemDblClick'
+                                itemdblclick: 'onUserlistgridItemDblClick'
                             }
                         }
                     ]
@@ -294,7 +294,10 @@ Ext.define('Xixixi.view.AdminViewport', {
                                     text: '部门人数',
                                     format: '0,000'
                                 }
-                            ]
+                            ],
+                            listeners: {
+                                itemdblclick: 'onDepartmentlistgridItemDblClick'
+                            }
                         }
                     ]
                 }

@@ -183,8 +183,29 @@ public class AdminController{
 		}
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value="/admin/depCreate.action")
+	@RequestMapping(method=RequestMethod.POST,value="/admin/depCreateOrEdit.action")
 	public @ResponseBody Map<String,? extends Object> createDepartment(@RequestBody DepartmentDataCreateModel data) {
+		log.info(" add a new user ");
+		try{
+			
+			if(data.getDepartmentId() == null){
+			 depWrapperService.createDepartment(data);
+			 log.info("success to add department");
+			 return ExtJSReturn.mapOKMessage("添加成功");
+			}else{
+				depWrapperService.editDepartment(data);
+				log.info("success to edit department");
+				return ExtJSReturn.mapOKMessage("编辑成功");
+			}
+			
+		} catch (Exception e) {
+			log.error("add department controller exception");
+			return ExtJSReturn.mapError("操作部门过程出错");
+		}
+	}
+	
+	@RequestMapping(method=RequestMethod.POST,value="/admin/depEdit.action")
+	public @ResponseBody Map<String,? extends Object> EditDepartment(@RequestBody DepartmentDataCreateModel data) {
 		log.info(" add a new user ");
 		try{
 			depWrapperService.createDepartment(data);

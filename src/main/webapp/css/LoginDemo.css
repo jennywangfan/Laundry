@@ -1,0 +1,237 @@
+/* CSS Document */
+* {margin: 0;padding: 0;}
+body {color: #FFFFFF;font-family: Arial,Tahoma,sans-serif;}
+a {font-weight: bold; text-decoration:none;color:#0066FF} 
+p{pargin: 0px;padding:0px;}
+h1,h2,h3,h4,h5,h6{ margin:0px; padding:0px}
+select{height:18px;vertical-align:middle;border:1px solid #7F9DB9;}
+option{line-height:21px;}
+img { border:0;}
+form { margin: 0; }
+em{color:#666;}
+ul, ol { margin:0px; padding:0px;}
+ul li{list-style:none;}
+
+html,body {
+	font-family: Arial, Helvetica, sans-serif;	
+	height:100%;
+	width:100%;
+	margin:0;
+	padding:0;
+	background-color:#FEFEFE;
+}
+#container{
+	min-height:100%;
+	height: 100%; 
+	position: relative;
+}
+#header{
+	background:-webkit-gradient(linear,0% 0%,100% 0%, from(#ffffff),to(#3c82a6) );
+	background:-moz-linear-gradient(left, #ffffff, #3c82a6);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#ffffff", endColorstr="#3c82a6", gradientType='1'); 
+ 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(  startColorstr="#ffffff", endColorstr="#3c82a6", gradientType='1')"; 	 
+	 
+	 height:97px;
+	 width:100%;
+	 margin:0;
+	 padding:0;
+	}
+#blueowl_logo {
+	margin-left:30px;
+	margin-top:32px; 
+	size:auto;
+	height:48px;
+}
+
+#title_line{
+	background-image:url(../images/up_shadow.png);
+	background-repeat:repeat-x;
+    clear:right;
+	float:none;
+	color:#636363;
+	height:49px;
+	width:100%;
+	font-weight:bold;
+	font-size:25px;
+	margin-top:-32px;
+	overflow:visible;
+	position:absolute;	
+}
+#title{
+	margin-left:170px;
+}
+
+#BODY {
+	background-image:url(../images/BODY_bkg.png);
+	background-repeat:repeat-x;
+	width: 100%;
+	height: 713px;
+	padding-top:0px;
+	position:
+}
+#blank1{
+	height:100px;
+	width:1000px;
+}
+#map{
+	background-image:url(../images/bkg_map.png);
+	background-repeat:no-repeat;
+	height:577px;
+	width:787px;
+	margin: 0 auto;
+}
+#LoginBox{
+	height:310px;
+	width:488px;
+	margin:0 auto;
+	padding-top:63px;
+	padding-left:25px;
+	overflow:hidden;
+}
+#Up_dectration{
+	background-image:url(../images/up_line.png);
+	width:488px;
+	height:3px;
+}
+#middle_dectration{
+	background-image:url(../images/middle_line.png);
+	background-repeat:repeat-y;
+	width:488px;
+	height:304px;
+
+}
+#bottom_dectration{
+	background-image:url(../images/bottom_line.png);
+	width:488px;
+	height:3px;
+
+}
+#blank2{
+background:blank;
+	height:36px;
+	width:488px;
+}
+
+#center{
+	background-image:url(../images/user-login-center.png);
+	background-repeat:no-repeat;
+	width:488px;
+	height:67px;
+}
+#User_Info{
+	width:355px;
+	height:300px;
+	margin-left:42px;
+	padding-top:8px;
+}
+label{
+	color:#6c6c6c;
+	font-weight:bolder;
+}
+#username_style{
+	height:35px;
+	width:355px;
+	margin-top:15px;
+}
+input{
+	width:263px;
+	float:right;
+	color:#666666;
+	padding-top:3px;
+	padding-left:5px;
+	background:none;
+	border:0px;
+}
+#username_style input{
+	background-image:url(../images/input_bkg.png);
+	height:21px;
+}
+#username_style input:hover{
+	background-image: url(../images/input_dec.png);
+	}
+#password_style{
+	height:39px;
+	width:355px;
+}
+#password_style input{
+	background-image:url(../images/input_bkg.png);
+	height:21px;
+}
+#password_style input:hover{
+	background-image: url(../images/input_dec.png);
+	}
+#check{
+	width:17px;
+	height:17px;
+	display:inline;
+	float:left;
+	margin-left:85px;
+	padding-top:0px;
+}
+
+.remember{
+	font-size:12px;
+}
+#Forgot{
+	font-size:10px; 
+	float:right;
+	text-decoration: underline;
+}	
+#btn_area{
+	height:39px;
+	width:430px;
+	margin-top:23px;
+}
+#login{
+	height:39px;
+	width:110px;
+	border:0px;
+	background:none;
+	background-image:url(../images/Login_button.png) ;
+	margin-left:87px;
+}
+#login:hover{
+	background-image: url(../images/Login_button_hover.png);
+	}
+#reset{
+	height:39px;
+	width:110px;
+	border:0px;
+	background:none;
+	background-image:url(../images/Reset_button.png) ;
+	margin-left:10px;
+}
+#reset:hover{
+	background-image: url(../images/Reset_botton_hover.png);
+	}
+
+/***********login error info**********/
+#error_info {
+	width:488px;
+	height:55px;
+	margin:0 auto;
+	font-size:15px;
+	color:#EFE73D;
+	text-align: center;
+	padding-top: 20px;
+	}
+
+#lbl_error_info{
+	color: #CC0000;
+    font-weight: bolder;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

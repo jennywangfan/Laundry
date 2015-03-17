@@ -22,20 +22,26 @@ public class DepartmentDataCreateModel implements Serializable {
 
 	/** long   serialVersionUID */
 	private static final long serialVersionUID = 1L;
+	private String departmentId;
+	private String departmentName;
+	private String departmentDesc;
+	public String getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
+	}
+	public String getDepartmentName() {
+		return departmentName;
+	}
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+	public String getDepartmentDesc() {
+		return departmentDesc;
+	}
+	public void setDepartmentDesc(String departmentDesc) {
+		this.departmentDesc = departmentDesc;
+	}
 	
-	private String depName;
-	private String depDesc;
-	public String getDepName() {
-		return depName;
-	}
-	public void setDepName(String depName) {
-		this.depName = depName;
-	}
-	public String getDepDesc() {
-		return depDesc;
-	}
-	public void setDepDesc(String depDesc) {
-		this.depDesc = depDesc;
-	}
-
 }

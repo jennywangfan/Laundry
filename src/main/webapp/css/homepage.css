@@ -1,0 +1,127 @@
+@CHARSET "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+body {
+	font: 12px/1.2em arial;
+}
+
+a {
+	color: #000;
+}
+
+a:visited {
+	color: #000;
+}
+
+a:link {
+	color: #000;
+}
+
+.pg-bd,.pg-ft {
+	margin: 0 auto;
+	width: 980px;
+	position: relative;
+}
+
+.pg-hd {
+	background-image: url(../images/banner_bkg_mid.png); 
+	background-repeat:repeat-x;
+	position:relative;
+	height: 93px;
+	margin:0;
+	padding:0;
+}
+.pg-hd-left{
+	background-image: url(../images/banner_bkg_left.png); 
+	background-repeat:no-repeat;
+	padding: 0px;
+	height: 93px;
+	width : 490px;
+	float:left;
+	
+}
+.pg-hd-right{
+	background-image: url(../images/banner_bkg_right.png); 
+	background-repeat:no-repeat;
+	padding: 0px;
+	height: 93px;
+	width : 490px;
+	float:right;
+}
+
+.brand {
+	display: block;
+	padding: 13px 0 10px 55px;
+	width: 176px;
+	height: 70px;
+}
+
+.pg-bd {
+	background: url(../images/login_page_brow.png) no-repeat;
+}
+
+.userinfo {
+	position: absolute;
+	right: 10px;
+	top: 0;
+	height: 93px;
+	font-size: 14px;
+}
+
+
+.userinfo .top {
+	margin-top: 65px;
+}
+
+.userinfo .top div{
+	margin-right: 15px;
+}
+.userinfo  a{
+	color: blue;
+}
+
+.userinfo .setting{
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.userinfo .logout{
+	margin-right: 45px;
+	margin-left: 10px;
+}
+.userinfo .home{
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.pg-ft{
+	text-align: center;
+}
+/*function*/
+.fn-inline {
+	display: inline;
+}
+
+.centerPanel {
+	width: 100%;
+	height: 100%
+}
+
+.pieName {
+	text-align: center;
+	font:16px Arial,Helvetica,sans-serif;
+	font-weight: bold;
+	color: #363232;
+}
+.pieChartName .x-panel-body-default{
+	border:none;
+}
+.x-grid-row-summary  .totalRow{
+	font-weight: bold;
+	color: #363232;
+}
