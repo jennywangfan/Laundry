@@ -9,6 +9,9 @@
 */
 package com.triplexilaundry.controller;
 
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +25,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class AbstractControllerService {
 	
+	
+	// get the current login user name for showing on the page
 	   public String getCurrentUserId() {
 	        String username = null;
 	        UserDetails user = null;
@@ -36,6 +41,21 @@ public class AbstractControllerService {
 	        }
 
 	        return username;
+	    }
+	   
+	    @SuppressWarnings("unchecked")
+		public String getCurrentRole() {
+	        String role = null;
+	        List<GrantedAuthority> authorities = null;
+	        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+	        if ((securityContext != null) && (securityContext.getAuthentication() != null)) {
+	            authorities = (List<GrantedAuthority>) securityContext.getAuthentication()
+	                                                     .getAuthorities();
+	            role = authorities.get(0).getAuthority();
+	        }
+
+	        return role;
 	    }
 
 }

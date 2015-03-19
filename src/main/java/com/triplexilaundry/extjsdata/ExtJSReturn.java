@@ -104,6 +104,22 @@ public class ExtJSReturn {
 		modelMap.put("message", msg);
 		modelMap.put("success", true);
 		return modelMap;
+	}
+
+
+	/**
+	* <p>Title: mapOrderListOK</p>
+	* <p>Description: </p>
+	* @param extOrderList
+	* @return
+	*/
+	public static Map<String, ? extends Object> mapOrderListOK(
+			List<LaundryOrderModel> extOrderList) {
+		Map<String,Object> modelMap = new HashMap<String,Object>(3);
+		modelMap.put("results", extOrderList);
+		modelMap.put("success", true);
+		modelMap.put("message", "成功获取");
+		return modelMap;
 	} 
 
 

@@ -7,7 +7,7 @@
 * @date Feb 19, 2015
 * @version 1.0
 */
-package com.triplexilaundry.domain.company;
+package com.triplexilaundry.domain;
 
 import java.io.Serializable;
 
@@ -25,6 +25,8 @@ public class Address implements Serializable{
 	private long addressId;
 	private String fullName;
 	private String phoneNumber;
+	private String district;
+	private String streetNum;
 	private String street;
 	private String city;
 	private String state;
@@ -51,6 +53,20 @@ public class Address implements Serializable{
 	}
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+	@Column(name ="district",length = 10)
+	public String getDistrict() {
+		return district;
+	}
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+	@Column(name ="streetnumber",length = 15)
+	public String getStreetNum() {
+		return streetNum;
+	}
+	public void setStreetNum(String streetNum) {
+		this.streetNum = streetNum;
 	}
 	@Column (name = "street", length = 50)
 	public String getStreet() {

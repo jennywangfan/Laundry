@@ -1,0 +1,101 @@
+/*fieldtitle*/
+.fieldsettitle{
+    font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	color: #4F718B;
+	font-weight: bold;
+    height:25px;
+    padding-top:5px;
+}
+/*policyamountplan*/
+.policyamountplan{
+    height:40px;
+    padding-left:10px;
+    margin-top:10px;
+    padding-top:15px;
+    border-bottom: 3px solid #AAAAAA;
+    background-color:#eeeeee;
+
+}
+.policyamountplantitle{
+    margin-left:50px;
+    font-weight: bold;
+	font-family: Verdana, Geneva, sans-serif;
+	color: #444444;
+	font-size: 12px;
+    margin-right:20px;
+}
+.policyamountplandata{
+    
+}
+
+/*infotitle*/
+.infotitle{
+    font-weight: bold;
+	font-family: Verdana, Geneva, sans-serif;
+	color: #444444;
+	font-size: 12px;
+    margin-right:20px;
+}
+
+/*datastyle*/
+.datastyle{
+      position: absolute;
+      left: 180px;
+
+}
+.datastyleRecordCount{
+      position: absolute;
+      left: 100px;
+}
+.databaseDataStyle{
+      color:green;
+      position: absolute;
+      left: 400px;
+}
+/*infopanelbackground*/
+.panelbackground{
+     background-color:#efefef;
+}
+/*infocontainerbottomborder*/
+.containerborder{
+     border-bottom: 1px dashed #bbbbbb;
+}
+
+/*active cases list render*/
+
+.img_report_color{
+    width:20px;
+    height:20px;
+}
+
+/*uploadlist status column render*/
+.row-class{
+    color:red;
+}
+/*analytics section*/
+.analyticsTitle{
+    font-weight: bold;
+	font-family: tahoma,arial,verdana,sans-serif;
+	color: #4F718B;
+	font-size: 12px;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.analyticsDataTitle{  
+    font-weight: bold;
+	font-family: tahoma,arial,verdana,sans-serif;
+	color: #444444;
+	font-size: 12px;
+    margin-left:10px;
+    
+}
+.analyticsData{
+    font-family: tahoma,arial,verdana,sans-serif;
+    font-size: 12px;
+}
+.analyticsSectionView tr{
+    height:20px;
+}
+
+    

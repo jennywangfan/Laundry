@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.triplexilaundry.domain.Address;
+
 @Entity
 @Table(name = "CUSTOMER")
 public class Customer implements Serializable {

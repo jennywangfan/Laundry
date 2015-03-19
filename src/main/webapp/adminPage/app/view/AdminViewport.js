@@ -240,7 +240,7 @@ Ext.define('Xixixi.view.AdminViewport', {
                             items: [
                                 {
                                     xtype: 'container',
-                                    html: '<div><span><img src="adminPage/images/add.gif" alt="add icon" height=15 width=15></span><span class="list_menu_text">添加</span></div>',
+                                    html: '<div><span><img src="adminPage/images/departmentadd.gif" alt="add icon" height=15 width=15></span><span class="list_menu_text">添加</span></div>',
                                     id: 'menu_adddepartment',
                                     margin: '0 10 0 10',
                                     listeners: {
@@ -249,7 +249,7 @@ Ext.define('Xixixi.view.AdminViewport', {
                                 },
                                 {
                                     xtype: 'container',
-                                    html: '<div><span><img src="adminPage/images/delete.gif" alt="delete icon" height=15 width=15></span><span class="list_menu_text">删除</span></div>',
+                                    html: '<div><span><img src="adminPage/images/departmentdelete.gif" alt="delete icon" height=15 width=15></span><span class="list_menu_text">删除</span></div>',
                                     id: 'menu_deletedepartment',
                                     margin: '0 10 0 10'
                                 },

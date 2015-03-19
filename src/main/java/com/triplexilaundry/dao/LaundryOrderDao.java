@@ -100,9 +100,33 @@ public class LaundryOrderDao {
 	* @return
 	*/
 	public Employee assignOrderTo() {
-		String sql = "select order.ceRep from LaundryOrder order group by order.csRep";
+		//String sql = "select order.ceRep from LaundryOrder order group by order.csRep";
 		return null;
 		
+	}
+
+	/**
+	* <p>Title: getAllOrders</p>
+	* <p>Description: </p>
+	* @param userName
+	* @return
+	*/
+	public List<LaundryOrder> getAllOrders(String userName) {
+		log.info("get all orders for "+userName);
+		try{
+		    String sql = "select order from LaundryOrder order where order.csRep.username = :name";
+		    Query query = entityManger.createQuery(sql);
+		    query.setParameter("name", userName);
+		    @SuppressWarnings("unchecked")
+			List<LaundryOrder> orderList = query.getResultList();
+		    for(LaundryOrder o : orderList)
+		    	o.getAddress();
+		    log.info("success to get all orders for "+userName);
+		    return orderList;
+		}catch(RuntimeException re){
+			log.error("fail to get all orders for "+userName,re);
+			throw re;
+		}
 	}
 	
 }

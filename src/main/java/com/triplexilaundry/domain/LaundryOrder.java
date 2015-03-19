@@ -35,6 +35,9 @@ public class LaundryOrder implements Serializable{
 	private String phoneNum;
 	private double price;
 	private double actualIncome;
+	private Address address;
+	private Date preferedPickupStime;
+	private Date preferedPickupEtime;
 	private OrderStatus orderStatus;
 	private Date lastUpdateTime;
 	private String comments;
@@ -103,6 +106,30 @@ public class LaundryOrder implements Serializable{
 	public void setActualIncome(double actualIncome) {
 		this.actualIncome = actualIncome;
 	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="address_id")
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "prefer_start_ptime")
+	public Date getPreferedPickupStime() {
+		return preferedPickupStime;
+	}
+	public void setPreferedPickupStime(Date preferedPickupStime) {
+		this.preferedPickupStime = preferedPickupStime;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "perfer_end_ptime")
+	public Date getPreferedPickupEtime() {
+		return preferedPickupEtime;
+	}
+	public void setPreferedPickupEtime(Date preferedPickupEtime) {
+		this.preferedPickupEtime = preferedPickupEtime;
+	}
 	@Enumerated(EnumType.STRING)
 	@Column(name = "order_status")
 	public OrderStatus getOrderStatus() {
@@ -111,7 +138,7 @@ public class LaundryOrder implements Serializable{
 	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus;
 	}
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "lastupdated_date")
 	public Date getLastUpdateTime() {
 		return lastUpdateTime;

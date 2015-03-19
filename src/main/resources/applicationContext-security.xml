@@ -24,7 +24,8 @@
     <http pattern="/data/*.json" security="none"/>
 	<http pattern="/resources/**" security="none"/>
 	<http pattern="/adminPage/**" security="none"/>
-	
+	<http pattern="/orderPage/**" security="none"/>
+	<http pattern="/ext5/**" security="none"/>
 
     <http  auto-config="true" access-denied-page="/accessDenied">
 
@@ -32,11 +33,11 @@
         <intercept-url pattern="/loginfailed" access="IS_AUTHENTICATED_ANONYMOUSLY" /> 
         <intercept-url pattern="/success*" access="ROLE_USER,ROLE_ADMIN,ROLE_MANAGER,ROLE_ANALYST,ROLE_SUPERMANAGER" />  
         <intercept-url pattern="/admin*" access="ROLE_ADMIN,ROLE_SUPERMANAGER" />
-        <intercept-url pattern="/main*" access="ROLE_USER,ROLE_ADMIN,ROLE_MANAGER,ROLE_ANALYST,ROLE_SUPERMANAGER"/>
-        <intercept-url pattern="/**" access="ROLE_USER,ROLE_ADMIN,ROLE_MANAGER,ROLE_ANALYST,ROLE_SUPERMANAGER" />
+        <intercept-url pattern="/main*" access="ROLE_USER,ROLE_CS,ROLE_ADMIN,ROLE_MANAGER,ROLE_ANALYST,ROLE_SUPERMANAGER"/>
+        <intercept-url pattern="/**" access="ROLE_USER,ROLE_CS,ROLE_ADMIN,ROLE_MANAGER,ROLE_ANALYST,ROLE_SUPERMANAGER" />
 
   
-        <form-login login-page="/login"  default-target-url="/admin"
+        <form-login login-page="/login"  default-target-url="/main"
 			authentication-failure-url="/loginfailed" always-use-default-target = "true"/>
 		<logout invalidate-session="true" logout-success-url="/login" delete-cookies="JSESSIONID"/>
 		

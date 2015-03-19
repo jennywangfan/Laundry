@@ -16,7 +16,7 @@
 
   <div id="header">
   	<!-- <img id="blueowl_logo" alt="logo" src="images/logo1.png"/> -->
-   	<div id="title_line"><div id="title">汐汐洗</div></div>
+   <!--  	<div id="title_line"><div id="title">汐汐洗</div></div>-->
   </div>
   
   <div id="BODY">
