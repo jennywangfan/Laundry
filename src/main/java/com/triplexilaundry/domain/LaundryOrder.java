@@ -153,7 +153,7 @@ public class LaundryOrder implements Serializable{
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "orderItemId")
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "belongto")
 	
 	public List<OrderItem> getLaundryDetail() {
 		return laundryDetail;

@@ -48,6 +48,7 @@ public class OrderListController extends AbstractControllerService{
 		List<LaundryOrderModel> extOrderList = orderService.getAllOrdersForCS(userName);
 		return ExtJSReturn.mapOrderListOK(extOrderList);
 		}catch(Exception e){
+			log.error("fail to return orders",e);
 			return ExtJSReturn.mapError("获取订单列表失败");
 		}
 		

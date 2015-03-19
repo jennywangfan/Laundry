@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,6 +29,7 @@ public class OrderItem implements Serializable {
 	private long orderItemId;
 	private LaundryItem item;
 	private int count;
+	private LaundryOrder belongto;
  
 	@Id
 	@GeneratedValue
@@ -37,8 +40,9 @@ public class OrderItem implements Serializable {
 	public void setOrderItemId(long orderItemId) {
 		this.orderItemId = orderItemId;
 	}
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "laundry_item_id")
+	
+    @Enumerated(EnumType.STRING)
+    @Column(name = "laundry_item",length = 20)
 	public LaundryItem getItem() {
 		return item;
 	}
@@ -52,6 +56,14 @@ public class OrderItem implements Serializable {
 	}
 	public void setCount(int count) {
 		this.count = count;
+	}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "landry_order_id")
+	public LaundryOrder getBelongto() {
+		return belongto;
+	}
+	public void setBelongto(LaundryOrder belongto) {
+		this.belongto = belongto;
 	}
 	
 	

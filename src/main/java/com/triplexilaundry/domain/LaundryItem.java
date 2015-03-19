@@ -1,61 +1,58 @@
 package com.triplexilaundry.domain;
 
-import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "LAUNDRYCATEGORY")
-public class LaundryItem implements Serializable {
+public enum LaundryItem{
+	TOP("TOP",3),SUITS("SUITS",15),DRESS("DRESS",10),
+	OUTDOOR("OUTDOOR",20),TROUSERS("TROUSERS",8),KNITWEAR("KNITWEAR",15),
+	ACCESSORIES("ACCESSORIES",5);
 	
-	/** long   serialVersionUID */
-	private static final long serialVersionUID = 1L;
-	private int laundryItemId;
-	private String itemName;
-	private String itemCategory;
+	private String category;
 	private double price;
 	
-
-    @Id
-    @GeneratedValue
-    @Column(name = "laundry_item_id")
-	public int getLaundryItemId() {
-		return laundryItemId;
+	LaundryItem(String category,double price){
+		this.category = category;
+		this.price = price;
 	}
 
-	public void setLaundryItemId(int laundryItemId) {
-		this.laundryItemId = laundryItemId;
+	public String getCategory() {
+		return category;
 	}
 
-	@Column(name = "item_name", length = 10)
-	public String getItemName() {
-		return itemName;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
-    @Column(name = "category",length = 10)
-	public String getItemCategory() {
-		return itemCategory;
-	}
-
-	public void setItemCategory(String itemCategory) {
-		this.itemCategory = itemCategory;
-	}
-
-	@Column(name = "price",precision= 10, scale = 2)
-	public Double getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
+	
+
+    public String getChineseCategory(LaundryItem li){
+    	switch(li){
+    	case TOP:
+    		return "上衣";
+    	case SUITS:
+    		return "套装";
+    	case DRESS:
+    		return "裙子";
+    	case OUTDOOR:
+    		return "户外";
+    	case TROUSERS:
+    		return "裤子";
+    	case KNITWEAR:
+    		return "毛衣";
+    	case ACCESSORIES:
+    		return "小配件";
+		default:
+    		return "";
+    	}
+    }
+
 
 
 

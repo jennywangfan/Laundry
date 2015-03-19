@@ -97,12 +97,13 @@ public class LaundryOrderModel implements Serializable{
 			List<LaundryItemModel> itemList = new ArrayList<>();
 			for(OrderItem oi : laundryDetail){
 				LaundryItemModel lim = new LaundryItemModel();
-				lim.setItemName(oi.getItem().getItemName());
+				lim.setItemName(oi.getItem().getCategory());
 				lim.setAmount(oi.getCount());
 				lim.setPricePerItem(oi.getItem().getPrice());
 				//lim.setTotalPrice();
 				itemList.add(lim);
 			}
+			this.orderItems = itemList;
 		}
 	}
 	public long getOrderId() {

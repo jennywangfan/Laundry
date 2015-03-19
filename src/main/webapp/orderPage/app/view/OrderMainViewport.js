@@ -23,7 +23,8 @@ Ext.define('Xixixi.view.OrderMainViewport', {
         'Ext.XTemplate',
         'Ext.grid.Panel',
         'Ext.view.Table',
-        'Ext.grid.column.Column'
+        'Ext.grid.column.Column',
+        'Ext.grid.plugin.RowExpander'
     ],
 
     viewModel: {
@@ -129,6 +130,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                     xtype: 'gridpanel',
                     padding: 5,
                     bodyStyle: 'background-color: #EFEFEF;',
+                    collapsible: false,
                     title: '',
                     store: 'OrderListStore',
                     columns: [
@@ -181,6 +183,17 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                             xtype: 'gridcolumn',
                             dataIndex: 'comments',
                             text: '备注'
+                        }
+                    ],
+                    plugins: [
+                        {
+                            ptype: 'rowexpander',
+                            rowBodyTpl: [
+                                '<div>地址: {address.state} {address.city} {address.district} {address.street} {address.streetNum} {address.zipcode}</div><div>联系方式: {address.fullName} {address.phoneNumber}</div>',
+                                '<div>类别: <tpl for="orderItems"> {itemName} {amount} {pricePerItem}</tpl></div>'
+                                
+                               
+                            ]
                         }
                     ]
                 }

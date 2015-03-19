@@ -1,8 +1,8 @@
 package com.triplexilaundry.domain;
 
 public enum OrderStatus {
-	PENDINGPROCESS("等待处理"),
-	INPROCESSING("处理中"),
+	PENDINGPROCESS("PENDINGPROCESS"),
+	INPROCESSING("INPROCESS"),
 	ONTHEWAY(""),
 	CLEANING(""),
 	ONROUTE(""),
