@@ -62,7 +62,7 @@ Ext.define('Xixixi.model.LaundryOrder', {
     hasMany: {
         model: 'Xixixi.model.OrderItem',
         name: 'orderItems',
-        associationKey: 'orderITems'
+        associationKey: 'order_Items'
     },
 
     hasOne: {

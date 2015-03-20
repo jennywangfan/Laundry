@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.triplexilaundry.domain.LaundryOrder;
+import com.triplexilaundry.domain.OrderStatus;
 import com.triplexilaundry.domain.company.Employee;
 
 /**
@@ -117,6 +118,32 @@ public class LaundryOrderDao {
 		    String sql = "select order from LaundryOrder order where order.csRep.username = :name";
 		    Query query = entityManger.createQuery(sql);
 		    query.setParameter("name", userName);
+		    @SuppressWarnings("unchecked")
+			List<LaundryOrder> orderList = query.getResultList();
+		    for(LaundryOrder o : orderList)
+		    	o.getAddress();
+		    log.info("success to get all orders for "+userName);
+		    return orderList;
+		}catch(RuntimeException re){
+			log.error("fail to get all orders for "+userName,re);
+			throw re;
+		}
+	}
+
+	/**
+	* <p>Title: getAllOrders</p>
+	* <p>Description: </p>
+	* @param userName
+	* @param orderS
+	* @return
+	*/
+	public List<LaundryOrder> getAllOrders(String userName, OrderStatus orderS) {
+		log.info("get all orders for "+userName + " with order status "+orderS.getStatusDes());
+		try{
+		    String sql = "select order from LaundryOrder order where order.csRep.username = :name and order.orderStatus = :orderstatus";
+		    Query query = entityManger.createQuery(sql);
+		    query.setParameter("name", userName);
+		    query.setParameter("orderstatus", orderS);
 		    @SuppressWarnings("unchecked")
 			List<LaundryOrder> orderList = query.getResultList();
 		    for(LaundryOrder o : orderList)

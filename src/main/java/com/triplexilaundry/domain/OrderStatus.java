@@ -2,7 +2,8 @@ package com.triplexilaundry.domain;
 
 public enum OrderStatus {
 	PENDINGPROCESS("PENDINGPROCESS"),
-	INPROCESSING("INPROCESS"),
+	WAITINGFORPICKUP("INPROCESS"),
+	CANCELED("CANCELED"),
 	ONTHEWAY(""),
 	CLEANING(""),
 	ONROUTE(""),

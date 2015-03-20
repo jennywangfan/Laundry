@@ -19,7 +19,8 @@ Ext.define('Xixixi.store.OrderListStore', {
     requires: [
         'Xixixi.model.LaundryOrder',
         'Ext.data.proxy.Ajax',
-        'Ext.data.reader.Json'
+        'Ext.data.reader.Json',
+        'Ext.data.writer.Json'
     ],
 
     constructor: function(cfg) {
@@ -31,6 +32,9 @@ Ext.define('Xixixi.store.OrderListStore', {
             model: 'Xixixi.model.LaundryOrder',
             proxy: {
                 type: 'ajax',
+                extraParams: {
+                    orderStatus: 1
+                },
                 url: 'getAllOrdersForCS.action',
                 reader: {
                     type: 'json',

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.triplexilaundry.domain.OrderStatus;
 import com.triplexilaundry.extjsdata.ExtJSReturn;
 import com.triplexilaundry.extjsdata.LaundryOrderModel;
 import com.triplexilaundry.services.LaundryOrderService;
@@ -41,12 +42,37 @@ public class OrderListController extends AbstractControllerService{
 	private static final Logger log = LoggerFactory.getLogger(OrderListController.class);
 	
 	@RequestMapping(method= RequestMethod.GET,value = "/getAllOrdersForCS.action")
-	public @ResponseBody Map<String, ? extends Object> getAllOrders(){
+	public @ResponseBody Map<String, ? extends Object> getAllOrders(@RequestParam int orderStatus){
 		log.info("handle getAllOrdersForCS request");
 		try{
+			//int iStatus = Integer.valueOf(orderStatus);
+			OrderStatus orderS = null;
+			switch(orderStatus){
+			case 1:
+				orderS = OrderStatus.PENDINGPROCESS;
+				break;
+			case 2:
+				orderS = OrderStatus.WAITINGFORPICKUP;
+				break;
+			case 3:
+				orderS = OrderStatus.CANCELED;
+				break;
+			default:
+				break;
+			}
+			
 		String userName = this.getCurrentUserId();
-		List<LaundryOrderModel> extOrderList = orderService.getAllOrdersForCS(userName);
-		return ExtJSReturn.mapOrderListOK(extOrderList);
+		if(orderS != null){
+			
+			log.info("return orders with status " + orderS.getStatusDes());
+			List<LaundryOrderModel> extOrderList = orderService.getAllOrdersForCS(userName,orderS);
+			return ExtJSReturn.mapOrderListOK(extOrderList);
+		}
+		else{
+			log.error("return all orders with all status");
+			List<LaundryOrderModel> extOrderList = orderService.getAllOrdersForCS(userName);
+			return ExtJSReturn.mapOrderListOK(extOrderList);
+		}
 		}catch(Exception e){
 			log.error("fail to return orders",e);
 			return ExtJSReturn.mapError("获取订单列表失败");

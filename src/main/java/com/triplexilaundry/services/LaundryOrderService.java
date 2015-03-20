@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.triplexilaundry.dao.CustomerDao;
 import com.triplexilaundry.dao.LaundryOrderDao;
 import com.triplexilaundry.domain.LaundryOrder;
+import com.triplexilaundry.domain.OrderStatus;
 import com.triplexilaundry.domain.company.Customer;
 import com.triplexilaundry.extjsdata.LaundryOrderModel;
 
@@ -70,6 +71,32 @@ public class LaundryOrderService {
        }
        return extOrderList;
     }
+
+	/**
+	* <p>Title: getAllOrdersForCS</p>
+	* <p>Description: </p>
+	* @param userName
+	* @param orderS
+	* @return
+	*/
+    @Transactional
+	public List<LaundryOrderModel> getAllOrdersForCS(String userName,
+			OrderStatus orderS) {
+    	 List<LaundryOrder> orderList = laundryOrderDao.getAllOrders(userName,orderS);
+         List<LaundryOrderModel> extOrderList = null;
+         if(orderList != null)
+      	   extOrderList = new ArrayList<>();
+         for(LaundryOrder order : orderList){
+      	   LaundryOrderModel lom = new LaundryOrderModel
+      			   (order.getOrderId(), order.getCustomer().getUserName(),
+      			    order.getCsRep().getFullName(),order.getPickedUpBy().getUsername(), 
+      			    order.getDeliveredBy().getFullName(), order.getPrice(), order.getActualIncome(),
+      			    order.getAddress(), order.getPreferedPickupStime(), order.getPreferedPickupEtime(),
+      			    order.getOrderStatus(), order.getLastUpdateTime(), order.getComments(),order.getLaundryDetail());
+      	   extOrderList.add(lom);
+         }
+         return extOrderList;
+	}
     
 	
 }

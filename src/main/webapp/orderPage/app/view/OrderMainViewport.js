@@ -19,14 +19,16 @@ Ext.define('Xixixi.view.OrderMainViewport', {
 
     requires: [
         'Xixixi.view.OrderMainViewportViewModel',
+        'Xixixi.view.OrderMainViewportViewController',
         'Ext.toolbar.Toolbar',
         'Ext.XTemplate',
         'Ext.grid.Panel',
         'Ext.view.Table',
-        'Ext.grid.column.Column',
+        'Ext.grid.column.Action',
         'Ext.grid.plugin.RowExpander'
     ],
 
+    controller: 'ordermainviewport',
     viewModel: {
         type: 'ordermainviewport'
     },
@@ -111,91 +113,374 @@ Ext.define('Xixixi.view.OrderMainViewport', {
             ]
         },
         {
-            xtype: 'panel',
-            flex: 1,
+            xtype: 'container',
             region: 'center',
-            title: '',
             items: [
                 {
                     xtype: 'panel',
-                    height: 150,
-                    padding: 5,
-                    collapsed: true,
-                    collapsible: true,
-                    title: '查找订单',
-                    titleAlign: 'right',
-                    titleCollapse: true
-                },
-                {
-                    xtype: 'gridpanel',
-                    padding: 5,
-                    bodyStyle: 'background-color: #EFEFEF;',
-                    collapsible: false,
-                    title: '',
-                    store: 'OrderListStore',
-                    columns: [
+                    items: [
                         {
-                            xtype: 'gridcolumn',
-                            dataIndex: 'orderId',
-                            text: '订单号'
-                        },
-                        {
-                            xtype: 'gridcolumn',
-                            dataIndex: 'orderBy',
-                            text: '下单客户'
-                        },
-                        {
-                            xtype: 'gridcolumn',
-                            dataIndex: 'csRep',
-                            text: '联系客服'
-                        },
-                        {
-                            xtype: 'gridcolumn',
-                            dataIndex: 'pickedUpBy',
-                            text: '取单快递'
-                        },
-                        {
-                            xtype: 'gridcolumn',
-                            dataIndex: 'deliveredBy',
-                            text: '送单快递'
-                        },
-                        {
-                            xtype: 'gridcolumn',
-                            dataIndex: 'price',
-                            text: '总价'
-                        },
-                        {
-                            xtype: 'gridcolumn',
-                            dataIndex: 'actualIncome',
-                            text: '实收'
-                        },
-                        {
-                            xtype: 'gridcolumn',
-                            dataIndex: 'orderStatus',
-                            text: '订单状态'
-                        },
-                        {
-                            xtype: 'gridcolumn',
-                            dataIndex: 'lastUpdateTime',
-                            text: '最后更新'
-                        },
-                        {
-                            xtype: 'gridcolumn',
-                            dataIndex: 'comments',
-                            text: '备注'
-                        }
-                    ],
-                    plugins: [
-                        {
-                            ptype: 'rowexpander',
-                            rowBodyTpl: [
-                                '<div>地址: {address.state} {address.city} {address.district} {address.street} {address.streetNum} {address.zipcode}</div><div>联系方式: {address.fullName} {address.phoneNumber}</div>',
-                                '<div>类别: <tpl for="orderItems"> {itemName} {amount} {pricePerItem}</tpl></div>'
-                                
-                               
-                            ]
+                            xtype: 'panel',
+                            height: 150,
+                            padding: 5,
+                            collapsed: true,
+                            collapsible: true,
+                            title: '查找订单',
+                            titleAlign: 'right',
+                            titleCollapse: true
                         }
                     ]
+                },
+                {
+                    xtype: 'container',
+                    id: 'orderCenterContainer',
+                    itemId: 'orderCenterContainer',
+                    layout: 'card',
+                    items: [
+                        {
+                            xtype: 'gridpanel',
+                            id: 'waitingOrderGrid',
+                            padding: 5,
+                            collapsible: false,
+                            title: '',
+                            store: 'OrderListStore',
+                            columns: [
+                                {
+                                    xtype: 'actioncolumn',
+                                    align: 'center',
+                                    text: '联系客户',
+                                    items: [
+                                        {
+                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                console.log(view);
+                                                console.log(rowIndex);
+                                                console.log(item);
+                                                console.log(e);
+                                                console.log(record);
+                                                console.log(row);
+                                            },
+                                            icon: '/orderPage/images/customer.png',
+                                            tooltip: '联系客户'
+                                        }
+                                    ]
+                                },
+                                {
+                                    xtype: 'actioncolumn',
+                                    width: '',
+                                    align: 'center',
+                                    text: '取消订单',
+                                    items: [
+                                        {
+                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                console.log(view);
+                                                console.log(rowIndex);
+                                                console.log(item);
+                                                console.log(e);
+                                                console.log(record);
+                                                console.log(row);
+                                            },
+                                            icon: '/orderPage/images/error.png',
+                                            tooltip: '取消订单'
+                                        }
+                                    ]
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'orderId',
+                                    text: '订单号'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'orderBy',
+                                    text: '下单客户'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'csRep',
+                                    text: '联系客服'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'pickedUpBy',
+                                    text: '取单快递'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'deliveredBy',
+                                    text: '送单快递'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'price',
+                                    text: '总价'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'actualIncome',
+                                    text: '实收'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'orderStatus',
+                                    text: '订单状态'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'lastUpdateTime',
+                                    text: '最后更新'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'comments',
+                                    text: '备注'
+                                }
+                            ],
+                            plugins: [
+                                {
+                                    ptype: 'rowexpander',
+                                    rowBodyTpl: [
+                                       
+                                        '<div>地址: {address.state} {address.city} {address.district} {address.street} {address.streetNum} {address.zipcode}</div>',
+                                        '<div>联系方式: {address.fullName} {address.phoneNumber}</div>',
+                                        '<div>类别: <tpl for="orderItems"> {itemName} {amount} {pricePerItem}</tpl></div>'
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'gridpanel',
+                            id: 'processedOrderGrid',
+                            padding: 5,
+                            collapsible: false,
+                            title: '',
+                            store: 'OrderListStore',
+                            columns: [
+                                {
+                                    xtype: 'actioncolumn',
+                                    align: 'center',
+                                    text: '联系客户',
+                                    items: [
+                                        {
+                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                console.log(view);
+                                                console.log(rowIndex);
+                                                console.log(item);
+                                                console.log(e);
+                                                console.log(record);
+                                                console.log(row);
+                                            },
+                                            icon: '/orderPage/images/customer.png',
+                                            tooltip: '联系客户'
+                                        }
+                                    ]
+                                },
+                                {
+                                    xtype: 'actioncolumn',
+                                    width: '',
+                                    align: 'center',
+                                    text: '取消订单',
+                                    items: [
+                                        {
+                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                console.log(view);
+                                                console.log(rowIndex);
+                                                console.log(item);
+                                                console.log(e);
+                                                console.log(record);
+                                                console.log(row);
+                                            },
+                                            icon: '/orderPage/images/error.png',
+                                            tooltip: '取消订单'
+                                        }
+                                    ]
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'orderId',
+                                    text: '订单号'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'orderBy',
+                                    text: '下单客户'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'csRep',
+                                    text: '联系客服'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'pickedUpBy',
+                                    text: '取单快递'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'deliveredBy',
+                                    text: '送单快递'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'price',
+                                    text: '总价'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'actualIncome',
+                                    text: '实收'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'orderStatus',
+                                    text: '订单状态'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'lastUpdateTime',
+                                    text: '最后更新'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'comments',
+                                    text: '备注'
+                                }
+                            ],
+                            plugins: [
+                                {
+                                    ptype: 'rowexpander',
+                                    rowBodyTpl: [
+                                        '<div>地址: {address.state} {address.city} {address.district} {address.street} {address.streetNum} {address.zipcode}</div>',
+                                        '<div>联系方式: {address.fullName} {address.phoneNumber}</div>',
+                                        '<div>类别: <tpl for="orderItems"> {itemName} {amount} {pricePerItem}</tpl></div>'
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'gridpanel',
+                            id: 'canceledOrderGrid',
+                            padding: 5,
+                            collapsible: false,
+                            title: '',
+                            store: 'OrderListStore',
+                            columns: [
+                                {
+                                    xtype: 'actioncolumn',
+                                    align: 'center',
+                                    text: '联系客户',
+                                    items: [
+                                        {
+                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                console.log(view);
+                                                console.log(rowIndex);
+                                                console.log(item);
+                                                console.log(e);
+                                                console.log(record);
+                                                console.log(row);
+                                            },
+                                            icon: '/orderPage/images/customer.png',
+                                            tooltip: '联系客户'
+                                        }
+                                    ]
+                                },
+                                {
+                                    xtype: 'actioncolumn',
+                                    width: '',
+                                    align: 'center',
+                                    text: '取消订单',
+                                    items: [
+                                        {
+                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                                console.log(view);
+                                                console.log(rowIndex);
+                                                console.log(item);
+                                                console.log(e);
+                                                console.log(record);
+                                                console.log(row);
+                                            },
+                                            icon: '/orderPage/images/error.png',
+                                            tooltip: '取消订单'
+                                        }
+                                    ]
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'orderId',
+                                    text: '订单号'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'orderBy',
+                                    text: '下单客户'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'csRep',
+                                    text: '联系客服'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'pickedUpBy',
+                                    text: '取单快递'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'deliveredBy',
+                                    text: '送单快递'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'price',
+                                    text: '总价'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'actualIncome',
+                                    text: '实收'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'orderStatus',
+                                    text: '订单状态'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'lastUpdateTime',
+                                    text: '最后更新'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'comments',
+                                    text: '备注'
+                                }
+                            ],
+                            plugins: [
+                                {
+                                    ptype: 'rowexpander',
+                                    rowBodyTpl: [
+                                        '<div>地址: {address.state} {address.city} {address.district} {address.street} {address.streetNum} {address.zipcode}</div>',
+                                        '<div>联系方式: {address.fullName} {address.phoneNumber}</div>',
+                                        '<div>类别: <tpl for="orderItems"> {itemName} {amount} {pricePerItem}</tpl></div>'
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    listeners: {
+                        _afterrender0: 'onOrderCenterContainerAfterRender',
+                        _afterrender1: 'onOrderCenterContainerAfterRender1',
+                        _afterrender2: 'onOrderCenterContainerAfterRender2',
+                        afterrender: function() {
+                            var me = this,
+                                args = Ext.toArray(arguments, 0, -1);
+                            args.unshift('_afterrender0');
+                            me.fireEvent.apply(me, args);
+                            args[0] = '_afterrender1';
+                            me.fireEvent.apply(me, args);
+                            args[0] = '_afterrender2';
+                            me.fireEvent.apply(me, args);
+                        }
+                    }
                 }
             ]
         }

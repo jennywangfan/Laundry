@@ -15,5 +15,42 @@
 
 Ext.define('Xixixi.view.OrderMainViewportViewController', {
     extend: 'Ext.app.ViewController',
-    alias: 'controller.ordermainviewport'
+    alias: 'controller.ordermainviewport',
+
+    onOrderCenterContainerAfterRender: function(component, eOpts) {
+        Ext.get('menu_orderwaiting').on('click',function(){
+        	
+        	Ext.getCmp('orderCenterContainer').getLayout().setActiveItem(0);
+            var store = Ext.data.StoreManager.lookup('OrderListStore');
+            store.removeAll();
+            store.getProxy().extraParams = {orderStatus : 1};
+            store.load();
+
+        },this);
+    },
+
+    onOrderCenterContainerAfterRender1: function(component, eOpts) {
+        Ext.get('menu_processed').on('click',function(){
+        	Ext.getCmp('orderCenterContainer').getLayout().setActiveItem(1);
+            var store = Ext.data.StoreManager.lookup('OrderListStore');
+            store.removeAll();
+            store.getProxy().extraParams = {orderStatus : 2};
+            store.load();
+
+        },this);
+    },
+
+    onOrderCenterContainerAfterRender2: function(component, eOpts) {
+        Ext.get('menu_canceled').on('click',function(){
+        	Ext.getCmp('orderCenterContainer').getLayout().setActiveItem(2);
+            var store = Ext.data.StoreManager.lookup('OrderListStore');
+            store.removeAll();
+            store.getProxy().extraParams = {orderStatus : 3};
+            store.load();
+
+        },this);
+    }
+
 });
+
+
