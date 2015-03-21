@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -40,6 +39,7 @@ public class LaundryOrder implements Serializable{
 	private Date preferedPickupEtime;
 	private OrderStatus orderStatus;
 	private Date lastUpdateTime;
+	private Employee lastUpdatedBy;
 	private String comments;
 	private List<OrderItem> laundryDetail;
 	
@@ -106,7 +106,7 @@ public class LaundryOrder implements Serializable{
 	public void setActualIncome(double actualIncome) {
 		this.actualIncome = actualIncome;
 	}
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="address_id")
 	public Address getAddress() {
 		return address;
@@ -153,13 +153,21 @@ public class LaundryOrder implements Serializable{
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "belongto")
+	@OneToMany(mappedBy = "belongto")
 	
 	public List<OrderItem> getLaundryDetail() {
 		return laundryDetail;
 	}
 	public void setLaundryDetail(List<OrderItem> laundryDetail) {
 		this.laundryDetail = laundryDetail;
+	}
+	@ManyToOne
+	@JoinColumn(name = "lastupdatedby")
+	public Employee getLastUpdatedBy() {
+		return lastUpdatedBy;
+	}
+	public void setLastUpdatedBy(Employee lastUpdatedBy) {
+		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
 }

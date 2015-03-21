@@ -40,12 +40,14 @@ public class LaundryOrderModel implements Serializable{
 	private Address address;
 	private Date preferedPickupStime;
 	private Date preferedPickupEtime;
-	private OrderStatus orderStatus;
+	private String orderStatus;
 	private Date lastUpdateTime;
+	private String lastUpdatedBy;
 	private String comments;
 	private List<LaundryItemModel> orderItems;
 	
-	
+	public LaundryOrderModel(){
+	}
 	
 	/**
 	* <p>Title: </p>
@@ -70,7 +72,7 @@ public class LaundryOrderModel implements Serializable{
 			String pickedUpBy, String deliveredBy, double price,
 			double actualIncome, Address address, Date preferedPickupStime,
 			Date preferedPickupEtime, OrderStatus orderStatus,
-			Date lastUpdateTime, String comments, List<OrderItem> laundryDetail) {
+			Date lastUpdateTime,String lastUpdatedBy, String comments, List<OrderItem> laundryDetail) {
 		super();
 		this.orderId = orderId;
 		this.orderBy = customer;
@@ -81,17 +83,12 @@ public class LaundryOrderModel implements Serializable{
 		this.actualIncome = actualIncome;
 		//debug to set null
 		
-		Address add = new Address();
-		add.setAddressId(1);
-		add.setCity("上海");
-		add.setDistrict("南汇");
-		add.setFullName("刘先生");
-		add.setPhoneNumber("1345678905");
-		this.address = add;
+		this.address = address;
 		this.preferedPickupStime = preferedPickupStime;
 		this.preferedPickupEtime = preferedPickupEtime;
-		this.orderStatus = orderStatus;
+		this.orderStatus = OrderStatus.getChineseOrderStatus(orderStatus);
 		this.lastUpdateTime = lastUpdateTime;
+		this.lastUpdatedBy = lastUpdatedBy;
 		this.comments = comments;
 		if(laundryDetail != null){
 			List<LaundryItemModel> itemList = new ArrayList<>();
@@ -161,10 +158,10 @@ public class LaundryOrderModel implements Serializable{
 	public void setPreferedPickupEtime(Date preferedPickupEtime) {
 		this.preferedPickupEtime = preferedPickupEtime;
 	}
-	public OrderStatus getOrderStatus() {
+	public String getOrderStatus() {
 		return orderStatus;
 	}
-	public void setOrderStatus(OrderStatus orderStatus) {
+	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 	public Date getLastUpdateTime() {
@@ -172,6 +169,12 @@ public class LaundryOrderModel implements Serializable{
 	}
 	public void setLastUpdateTime(Date lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
+	}
+	public String getLastUpdatedBy() {
+		return lastUpdatedBy;
+	}
+	public void setLastUpdatedBy(String lastUpdatedBy) {
+		this.lastUpdatedBy = lastUpdatedBy;
 	}
 	public String getComments() {
 		return comments;

@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -57,7 +56,7 @@ public class OrderItem implements Serializable {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "landry_order_id")
 	public LaundryOrder getBelongto() {
 		return belongto;

@@ -17,7 +17,7 @@ Ext.define('Xixixi.model.LaundryOrder', {
     extend: 'Ext.data.Model',
 
     requires: [
-        'Ext.data.field.Field'
+        'Ext.data.field.Date'
     ],
 
     fields: [
@@ -46,15 +46,22 @@ Ext.define('Xixixi.model.LaundryOrder', {
             name: 'orderStatus'
         },
         {
-            name: 'lastUpdateTime'
+            type: 'date',
+            name: 'lastUpdateTime',
+            dateFormat: 'time'
+        },
+        {
+            name: 'lastUpdatedBy'
         },
         {
             name: 'comments'
         },
         {
+            type: 'date',
             name: 'preferedPickupStime'
         },
         {
+            type: 'date',
             name: 'preferedPickupEtime'
         }
     ],

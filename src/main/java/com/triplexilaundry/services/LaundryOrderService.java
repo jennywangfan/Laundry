@@ -1,4 +1,3 @@
-
 package com.triplexilaundry.services;
 
 import java.util.ArrayList;
@@ -13,90 +12,176 @@ import org.springframework.transaction.annotation.Transactional;
 import com.triplexilaundry.dao.CustomerDao;
 import com.triplexilaundry.dao.LaundryOrderDao;
 import com.triplexilaundry.domain.LaundryOrder;
+import com.triplexilaundry.domain.OrderItem;
 import com.triplexilaundry.domain.OrderStatus;
 import com.triplexilaundry.domain.company.Customer;
+import com.triplexilaundry.domain.company.Employee;
+import com.triplexilaundry.extjsdata.LaundryItemModel;
 import com.triplexilaundry.extjsdata.LaundryOrderModel;
 
 /**
- * <p>Title: OrderService</p>
- * <p>Description: </p>
- * <p>All Right Reserved</p> 
+ * <p>
+ * Title: OrderService
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * All Right Reserved
+ * </p>
+ * 
  * @author Fan Wang
  * @date Feb 26, 2015
  */
-@Service
+@Service("laundryOrderService")
 public class LaundryOrderService {
-    @Autowired
+	@Autowired
 	private LaundryOrderDao laundryOrderDao;
-    @Autowired
-    private CustomerDao customerDao;
-    
-    private static final Logger log = LoggerFactory.getLogger(LaundryOrderDao.class);
-    @Transactional
-    public void createNewOrder(LaundryOrder order){
-    	
-    	//Employee e = laundryOrderDao.assignOrderTo();
-    	laundryOrderDao.persist(order);
-    	Customer customer = order.getCustomer();
-    	customerDao.merge(customer);
-	
-    }
-    
-    @Transactional
-    public void modifyOrder(LaundryOrder order){
-    	log.info("modify an order");
-    	laundryOrderDao.merge(order);
-    }
-    
-    @Transactional
-    public void cancelOrder(LaundryOrder order){
-    	
-    }
-    
-    // get all orders belongs to a customer service rep
-    @Transactional 
-    public List<LaundryOrderModel> getAllOrdersForCS(String userName){
-       List<LaundryOrder> orderList = laundryOrderDao.getAllOrders(userName);
-       List<LaundryOrderModel> extOrderList = null;
-       if(orderList != null)
-    	   extOrderList = new ArrayList<>();
-       for(LaundryOrder order : orderList){
-    	   LaundryOrderModel lom = new LaundryOrderModel
-    			   (order.getOrderId(), order.getCustomer().getUserName(),
-    			    order.getCsRep().getFullName(),order.getPickedUpBy().getUsername(), 
-    			    order.getDeliveredBy().getFullName(), order.getPrice(), order.getActualIncome(),
-    			    order.getAddress(), order.getPreferedPickupStime(), order.getPreferedPickupEtime(),
-    			    order.getOrderStatus(), order.getLastUpdateTime(), order.getComments(),order.getLaundryDetail());
-    	   extOrderList.add(lom);
-       }
-       return extOrderList;
-    }
+	@Autowired
+	private CustomerDao customerDao;
+
+	private static final Logger log = LoggerFactory
+			.getLogger(LaundryOrderDao.class);
+
+	@Transactional
+	public void createNewOrder(LaundryOrder order) {
+
+		// Employee e = laundryOrderDao.assignOrderTo();
+		laundryOrderDao.persist(order);
+		Customer customer = order.getCustomer();
+		customerDao.merge(customer);
+
+	}
+
+	@Transactional
+	public void modifyOrder(LaundryOrder order) {
+		log.info("modify an order");
+		laundryOrderDao.merge(order);
+	}
+
+	@Transactional
+	public void cancelOrder(LaundryOrder order) {
+
+	}
+
+	// get all orders belongs to a customer service rep
+	@Transactional
+	public List<LaundryOrderModel> getAllOrdersForCS(String userName, int pageNum, int recordNumLimit) {
+		List<LaundryOrder> orderList = laundryOrderDao.getAllOrders(userName,pageNum,recordNumLimit);
+		List<LaundryOrderModel> extOrderList = null;
+		if (orderList != null)
+			extOrderList = new ArrayList<>();
+		for (LaundryOrder order : orderList) {
+			LaundryOrderModel lom = new LaundryOrderModel();
+			lom.setOrderId(order.getOrderId());
+			Customer cus = order.getCustomer();
+			if (cus != null)
+				lom.setOrderBy(cus.getUserName());
+			Employee temp = order.getCsRep();
+			if (temp != null)
+				lom.setCsRep(temp.getFullName());
+			temp = order.getPickedUpBy();
+			if (temp != null)
+				lom.setPickedUpBy(temp.getFullName());
+			temp = order.getDeliveredBy();
+			if (temp != null)
+				lom.setDeliveredBy(temp.getFullName());
+			lom.setPrice(order.getPrice());
+			lom.setActualIncome(order.getActualIncome());
+			lom.setAddress(order.getAddress());
+			lom.setPreferedPickupStime(order.getPreferedPickupStime());
+			lom.setPreferedPickupEtime(order.getPreferedPickupEtime());
+			lom.setOrderStatus(OrderStatus.getChineseOrderStatus(order
+					.getOrderStatus()));
+			lom.setLastUpdateTime(order.getLastUpdateTime());
+			temp = order.getLastUpdatedBy();
+			if (temp != null)
+				lom.setLastUpdatedBy(temp.getFullName());
+			lom.setComments(order.getComments());
+			List<OrderItem> laundryDetail = order.getLaundryDetail();
+			if (laundryDetail != null) {
+				List<LaundryItemModel> itemList = new ArrayList<>();
+				for (OrderItem oi : laundryDetail) {
+					LaundryItemModel lim = new LaundryItemModel();
+					lim.setItemName(oi.getItem().getCategory());
+					lim.setAmount(oi.getCount());
+					lim.setPricePerItem(oi.getItem().getPrice());
+					// lim.setTotalPrice();
+					itemList.add(lim);
+				}
+				lom.setOrderItems(itemList);
+			}
+			extOrderList.add(lom);
+		}
+		return extOrderList;
+	}
 
 	/**
-	* <p>Title: getAllOrdersForCS</p>
-	* <p>Description: </p>
-	* @param userName
-	* @param orderS
-	* @return
-	*/
-    @Transactional
+	 * <p>
+	 * Title: getAllOrdersForCS
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
+	 * @param userName
+	 * @param orderS
+	 * @param recordNumLimit 
+	 * @param pageNum 
+	 * @return
+	 */
+	@Transactional
 	public List<LaundryOrderModel> getAllOrdersForCS(String userName,
-			OrderStatus orderS) {
-    	 List<LaundryOrder> orderList = laundryOrderDao.getAllOrders(userName,orderS);
-         List<LaundryOrderModel> extOrderList = null;
-         if(orderList != null)
-      	   extOrderList = new ArrayList<>();
-         for(LaundryOrder order : orderList){
-      	   LaundryOrderModel lom = new LaundryOrderModel
-      			   (order.getOrderId(), order.getCustomer().getUserName(),
-      			    order.getCsRep().getFullName(),order.getPickedUpBy().getUsername(), 
-      			    order.getDeliveredBy().getFullName(), order.getPrice(), order.getActualIncome(),
-      			    order.getAddress(), order.getPreferedPickupStime(), order.getPreferedPickupEtime(),
-      			    order.getOrderStatus(), order.getLastUpdateTime(), order.getComments(),order.getLaundryDetail());
-      	   extOrderList.add(lom);
-         }
-         return extOrderList;
+			OrderStatus orderS, int pageNum, int recordNumLimit) {
+		List<LaundryOrder> orderList = laundryOrderDao.getAllOrders(userName,
+				orderS,pageNum,recordNumLimit);
+		List<LaundryOrderModel> extOrderList = null;
+		if (orderList != null)
+			extOrderList = new ArrayList<>();
+		for (LaundryOrder order : orderList) {
+			LaundryOrderModel lom = new LaundryOrderModel();
+			lom.setOrderId(order.getOrderId());
+			Customer cus = order.getCustomer();
+			if (cus != null)
+				lom.setOrderBy(cus.getUserName());
+			Employee temp = order.getCsRep();
+			if (temp != null)
+				lom.setCsRep(temp.getFullName());
+			temp = order.getPickedUpBy();
+			if (temp != null)
+				lom.setPickedUpBy(temp.getFullName());
+			temp = order.getDeliveredBy();
+			if (temp != null)
+				lom.setDeliveredBy(temp.getFullName());
+			lom.setPrice(order.getPrice());
+			lom.setActualIncome(order.getActualIncome());
+			lom.setAddress(order.getAddress());
+			lom.setPreferedPickupStime(order.getPreferedPickupStime());
+			lom.setPreferedPickupEtime(order.getPreferedPickupEtime());
+			lom.setOrderStatus(OrderStatus.getChineseOrderStatus(order
+					.getOrderStatus()));
+			lom.setLastUpdateTime(order.getLastUpdateTime());
+			temp = order.getLastUpdatedBy();
+
+			if (temp != null)
+				lom.setLastUpdatedBy(temp.getFullName());
+			lom.setComments(order.getComments());
+			List<OrderItem> laundryDetail = order.getLaundryDetail();
+			if (laundryDetail != null) {
+				List<LaundryItemModel> itemList = new ArrayList<>();
+				for (OrderItem oi : laundryDetail) {
+					LaundryItemModel lim = new LaundryItemModel();
+					lim.setItemName(oi.getItem().getCategory());
+					lim.setAmount(oi.getCount());
+					lim.setPricePerItem(oi.getItem().getPrice());
+					// lim.setTotalPrice();
+					itemList.add(lim);
+				}
+				lom.setOrderItems(itemList);
+			}
+			extOrderList.add(lom);
+		}
+		return extOrderList;
 	}
-    
-	
+
 }

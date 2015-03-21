@@ -82,7 +82,7 @@ public class Address implements Serializable{
 	public void setCity(String city) {
 		this.city = city;
 	}
-	@Column (name = "state", length = 3)
+	@Column (name = "state", length = 5)
 	public String getState() {
 		return state;
 	}

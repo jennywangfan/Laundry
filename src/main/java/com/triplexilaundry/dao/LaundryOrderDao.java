@@ -110,18 +110,21 @@ public class LaundryOrderDao {
 	* <p>Title: getAllOrders</p>
 	* <p>Description: </p>
 	* @param userName
+	 * @param recordNumLimit 
+	 * @param pageNum 
 	* @return
 	*/
-	public List<LaundryOrder> getAllOrders(String userName) {
+	public List<LaundryOrder> getAllOrders(String userName, int pageNum, int recordNumLimit) {
 		log.info("get all orders for "+userName);
 		try{
 		    String sql = "select order from LaundryOrder order where order.csRep.username = :name";
 		    Query query = entityManger.createQuery(sql);
 		    query.setParameter("name", userName);
+		    query.setMaxResults(recordNumLimit);
+		    query.setFirstResult((pageNum-1)*recordNumLimit);
 		    @SuppressWarnings("unchecked")
 			List<LaundryOrder> orderList = query.getResultList();
-		    for(LaundryOrder o : orderList)
-		    	o.getAddress();
+		    
 		    log.info("success to get all orders for "+userName);
 		    return orderList;
 		}catch(RuntimeException re){
@@ -135,19 +138,22 @@ public class LaundryOrderDao {
 	* <p>Description: </p>
 	* @param userName
 	* @param orderS
+	 * @param recordNumLimit 
+	 * @param pageNum 
 	* @return
 	*/
-	public List<LaundryOrder> getAllOrders(String userName, OrderStatus orderS) {
+	public List<LaundryOrder> getAllOrders(String userName, OrderStatus orderS, int pageNum, int recordNumLimit) {
 		log.info("get all orders for "+userName + " with order status "+orderS.getStatusDes());
 		try{
 		    String sql = "select order from LaundryOrder order where order.csRep.username = :name and order.orderStatus = :orderstatus";
 		    Query query = entityManger.createQuery(sql);
 		    query.setParameter("name", userName);
 		    query.setParameter("orderstatus", orderS);
+//		    query.setMaxResults(recordNumLimit);
+//		    query.setFirstResult((pageNum-1)*recordNumLimit);
 		    @SuppressWarnings("unchecked")
 			List<LaundryOrder> orderList = query.getResultList();
-		    for(LaundryOrder o : orderList)
-		    	o.getAddress();
+		   
 		    log.info("success to get all orders for "+userName);
 		    return orderList;
 		}catch(RuntimeException re){

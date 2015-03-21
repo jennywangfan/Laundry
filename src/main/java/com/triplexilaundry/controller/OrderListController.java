@@ -42,7 +42,9 @@ public class OrderListController extends AbstractControllerService{
 	private static final Logger log = LoggerFactory.getLogger(OrderListController.class);
 	
 	@RequestMapping(method= RequestMethod.GET,value = "/getAllOrdersForCS.action")
-	public @ResponseBody Map<String, ? extends Object> getAllOrders(@RequestParam int orderStatus){
+	public @ResponseBody Map<String, ? extends Object> getOrdersForPage(@RequestParam int orderStatus,
+			@RequestParam int page,
+			@RequestParam int limit){
 		log.info("handle getAllOrdersForCS request");
 		try{
 			//int iStatus = Integer.valueOf(orderStatus);
@@ -65,12 +67,12 @@ public class OrderListController extends AbstractControllerService{
 		if(orderS != null){
 			
 			log.info("return orders with status " + orderS.getStatusDes());
-			List<LaundryOrderModel> extOrderList = orderService.getAllOrdersForCS(userName,orderS);
+			List<LaundryOrderModel> extOrderList = orderService.getAllOrdersForCS(userName,orderS,page,limit);
 			return ExtJSReturn.mapOrderListOK(extOrderList);
 		}
 		else{
 			log.error("return all orders with all status");
-			List<LaundryOrderModel> extOrderList = orderService.getAllOrdersForCS(userName);
+			List<LaundryOrderModel> extOrderList = orderService.getAllOrdersForCS(userName,page,limit);
 			return ExtJSReturn.mapOrderListOK(extOrderList);
 		}
 		}catch(Exception e){

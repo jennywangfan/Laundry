@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -53,7 +52,7 @@ public class Employee implements UserDetails, Serializable{
 		this.password = password;
 	}
 	
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "department_id")
 	public CompanyDepartment getDepartment() {
 		return department;
@@ -64,7 +63,7 @@ public class Employee implements UserDetails, Serializable{
 	}
     
 	
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "manager_id")
 	public Employee getReportTo() {
 		return reportTo;
@@ -73,7 +72,7 @@ public class Employee implements UserDetails, Serializable{
 	public void setReportTo(Employee reportTo) {
 		this.reportTo = reportTo;
 	}
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "access_role_id")
 	public AccessRole getAccessRole() {
 		return accessRole;
@@ -82,7 +81,7 @@ public class Employee implements UserDetails, Serializable{
 	public void setAccessRole(AccessRole accessRole) {
 		this.accessRole = accessRole;
 	}
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "employee_role_id")
 	public EmployeeRole getEmployeeRole() {
 		return employeeRole;

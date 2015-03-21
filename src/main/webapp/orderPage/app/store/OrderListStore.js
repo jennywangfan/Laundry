@@ -27,13 +27,16 @@ Ext.define('Xixixi.store.OrderListStore', {
         var me = this;
         cfg = cfg || {};
         me.callParent([Ext.apply({
+        	pageSize: 15,
             storeId: 'OrderListStore',
             autoLoad: true,
             model: 'Xixixi.model.LaundryOrder',
             proxy: {
                 type: 'ajax',
                 extraParams: {
-                    orderStatus: 1
+                    orderStatus: 1,
+                    page: 1,
+                    limit: 20
                 },
                 url: 'getAllOrdersForCS.action',
                 reader: {

@@ -20,12 +20,13 @@ Ext.define('Xixixi.view.OrderMainViewport', {
     requires: [
         'Xixixi.view.OrderMainViewportViewModel',
         'Xixixi.view.OrderMainViewportViewController',
-        'Ext.toolbar.Toolbar',
         'Ext.XTemplate',
+        'Ext.form.field.Text',
         'Ext.grid.Panel',
         'Ext.view.Table',
         'Ext.grid.column.Action',
-        'Ext.grid.plugin.RowExpander'
+        'Ext.grid.plugin.RowExpander',
+        'Ext.toolbar.Paging'
     ],
 
     controller: 'ordermainviewport',
@@ -118,16 +119,39 @@ Ext.define('Xixixi.view.OrderMainViewport', {
             items: [
                 {
                     xtype: 'panel',
+                    height: 90,
+                    padding: 5,
+                    collapsed: false,
+                    collapsible: true,
+                    title: '查找订单',
+                    titleAlign: 'right',
+                    titleCollapse: true,
+                    layout: {
+                        type: 'vbox',
+                        align: 'stretch'
+                    },
                     items: [
                         {
-                            xtype: 'panel',
-                            height: 150,
-                            padding: 5,
-                            collapsed: true,
-                            collapsible: true,
-                            title: '查找订单',
-                            titleAlign: 'right',
-                            titleCollapse: true
+                            xtype: 'container',
+                            flex: 1,
+                            layout: {
+                                type: 'hbox',
+                                align: 'stretch'
+                            },
+                            items: [
+                                {
+                                    xtype: 'textfield',
+                                    padding: '10 10 10 10',
+                                    fieldLabel: '下单手机/座机号'
+                                },
+                                {
+                                    xtype: 'textfield',
+                                    padding: '10 10 10 10',
+                                    width: 300,
+                                    fieldLabel: '订单号',
+                                    labelWidth: 45
+                                }
+                            ]
                         }
                     ]
                 },
@@ -139,8 +163,10 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                     items: [
                         {
                             xtype: 'gridpanel',
+                            reference: 'waitingOrderGridRef',
                             id: 'waitingOrderGrid',
                             padding: 5,
+                            scrollable: true,
                             collapsible: false,
                             title: '',
                             store: 'OrderListStore',
@@ -152,14 +178,9 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     items: [
                                         {
                                             handler: function(view, rowIndex, colIndex, item, e, record, row) {
-                                                console.log(view);
-                                                console.log(rowIndex);
-                                                console.log(item);
-                                                console.log(e);
-                                                console.log(record);
-                                                console.log(row);
+                                                var orderId = record.data.orderId;
                                             },
-                                            icon: '/orderPage/images/customer.png',
+                                            icon: 'orderPage/images/customer.png',
                                             tooltip: '联系客户'
                                         }
                                     ]
@@ -179,7 +200,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                                 console.log(record);
                                                 console.log(row);
                                             },
-                                            icon: '/orderPage/images/error.png',
+                                            icon: 'orderPage/images/error.png',
                                             tooltip: '取消订单'
                                         }
                                     ]
@@ -226,8 +247,13 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                 },
                                 {
                                     xtype: 'gridcolumn',
-                                    dataIndex: 'lastUpdateTime',
+                                    dataIndex: 'lastUpdatedBy',
                                     text: '最后更新'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'lastUpdateTime',
+                                    text: '最后更新时间'
                                 },
                                 {
                                     xtype: 'gridcolumn',
@@ -239,16 +265,34 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                 {
                                     ptype: 'rowexpander',
                                     rowBodyTpl: [
-                                       
                                         '<div>地址: {address.state} {address.city} {address.district} {address.street} {address.streetNum} {address.zipcode}</div>',
                                         '<div>联系方式: {address.fullName} {address.phoneNumber}</div>',
                                         '<div>类别: <tpl for="orderItems"> {itemName} {amount} {pricePerItem}</tpl></div>'
                                     ]
                                 }
+                            ],
+                            dockedItems: [
+                                {
+                                    xtype: 'pagingtoolbar',
+                                    dock: 'bottom',
+                                    width: 360,
+                                    afterPageText: '页，共 {0}页',
+                                    beforePageText: '第',
+                                    displayInfo: true,
+                                    displayMsg: '展示 {2}条中的{0} - {1} ',
+                                    emptyMsg: '没有记录',
+                                    firstText: '第一页',
+                                    lastText: '最后一页',
+                                    nextText: '下一页',
+                                    prevText: '上一页',
+                                    refreshText: '刷新',
+                                    store: 'OrderListStore'
+                                }
                             ]
                         },
                         {
                             xtype: 'gridpanel',
+                            reference: 'processedOrderGridRef',
                             id: 'processedOrderGrid',
                             padding: 5,
                             collapsible: false,
@@ -269,7 +313,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                                 console.log(record);
                                                 console.log(row);
                                             },
-                                            icon: '/orderPage/images/customer.png',
+                                            icon: 'orderPage/images/customer.png',
                                             tooltip: '联系客户'
                                         }
                                     ]
@@ -289,7 +333,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                                 console.log(record);
                                                 console.log(row);
                                             },
-                                            icon: '/orderPage/images/error.png',
+                                            icon: 'orderPage/images/error.png',
                                             tooltip: '取消订单'
                                         }
                                     ]
@@ -336,8 +380,13 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                 },
                                 {
                                     xtype: 'gridcolumn',
-                                    dataIndex: 'lastUpdateTime',
+                                    dataIndex: 'lastUpdatedBy',
                                     text: '最后更新'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'lastUpdateTime',
+                                    text: '最后更新时间'
                                 },
                                 {
                                     xtype: 'gridcolumn',
@@ -354,10 +403,21 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                         '<div>类别: <tpl for="orderItems"> {itemName} {amount} {pricePerItem}</tpl></div>'
                                     ]
                                 }
+                            ],
+                            dockedItems: [
+                                {
+                                    xtype: 'pagingtoolbar',
+                                    dock: 'bottom',
+                                    width: 360,
+                                    displayInfo: true,
+                                    displayMsg: '展示 {2}条中的{0} - {1} ',
+                                    store: 'OrderListStore'
+                                }
                             ]
                         },
                         {
                             xtype: 'gridpanel',
+                            reference: 'canceledOrderGridRef',
                             id: 'canceledOrderGrid',
                             padding: 5,
                             collapsible: false,
@@ -378,7 +438,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                                 console.log(record);
                                                 console.log(row);
                                             },
-                                            icon: '/orderPage/images/customer.png',
+                                            icon: 'orderPage/images/customer.png',
                                             tooltip: '联系客户'
                                         }
                                     ]
@@ -398,7 +458,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                                 console.log(record);
                                                 console.log(row);
                                             },
-                                            icon: '/orderPage/images/error.png',
+                                            icon: 'orderPage/images/error.png',
                                             tooltip: '取消订单'
                                         }
                                     ]
@@ -445,8 +505,13 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                 },
                                 {
                                     xtype: 'gridcolumn',
-                                    dataIndex: 'lastUpdateTime',
+                                    dataIndex: 'lastUpdatedBy',
                                     text: '最后更新'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'lastUpdateTime',
+                                    text: '最后更新时间'
                                 },
                                 {
                                     xtype: 'gridcolumn',
@@ -462,6 +527,16 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                         '<div>联系方式: {address.fullName} {address.phoneNumber}</div>',
                                         '<div>类别: <tpl for="orderItems"> {itemName} {amount} {pricePerItem}</tpl></div>'
                                     ]
+                                }
+                            ],
+                            dockedItems: [
+                                {
+                                    xtype: 'pagingtoolbar',
+                                    dock: 'bottom',
+                                    width: 360,
+                                    displayInfo: true,
+                                    displayMsg: '展示 {2}条中的{0} - {1} ',
+                                    store: 'OrderListStore'
                                 }
                             ]
                         }

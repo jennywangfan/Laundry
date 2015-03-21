@@ -18,12 +18,13 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
     alias: 'controller.ordermainviewport',
 
     onOrderCenterContainerAfterRender: function(component, eOpts) {
+
         Ext.get('menu_orderwaiting').on('click',function(){
-        	
-        	Ext.getCmp('orderCenterContainer').getLayout().setActiveItem(0);
-            var store = Ext.data.StoreManager.lookup('OrderListStore');
+            var grid = this.lookupReference('waitingOrderGridRef');
+            var store = grid.store;
             store.removeAll();
-            store.getProxy().extraParams = {orderStatus : 1};
+            store.getProxy().extraParams = {orderStatus : 1,page : 1,
+            limit : 25};
             store.load();
 
         },this);
@@ -31,10 +32,11 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
 
     onOrderCenterContainerAfterRender1: function(component, eOpts) {
         Ext.get('menu_processed').on('click',function(){
-        	Ext.getCmp('orderCenterContainer').getLayout().setActiveItem(1);
-            var store = Ext.data.StoreManager.lookup('OrderListStore');
+            var grid = this.lookupReference('processedOrderGridRef');
+            var store = grid.store;
             store.removeAll();
-            store.getProxy().extraParams = {orderStatus : 2};
+            store.getProxy().extraParams = {orderStatus : 2,page : 1,
+            limit : 25};
             store.load();
 
         },this);
@@ -42,15 +44,14 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
 
     onOrderCenterContainerAfterRender2: function(component, eOpts) {
         Ext.get('menu_canceled').on('click',function(){
-        	Ext.getCmp('orderCenterContainer').getLayout().setActiveItem(2);
-            var store = Ext.data.StoreManager.lookup('OrderListStore');
+            var grid = this.lookupReference('canceledOrderGridRef');
+            var store = grid.store;
             store.removeAll();
-            store.getProxy().extraParams = {orderStatus : 3};
+            store.getProxy().extraParams = {orderStatus : 3,page : 1,
+            limit : 25};
             store.load();
 
         },this);
     }
 
 });
-
-
