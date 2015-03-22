@@ -20,11 +20,12 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
     onOrderCenterContainerAfterRender: function(component, eOpts) {
 
         Ext.get('menu_orderwaiting').on('click',function(){
+        	var container = this.lookupReference('orderCenterContainerRef');
+        	container.getLayout().setActiveItem(0);
             var grid = this.lookupReference('waitingOrderGridRef');
             var store = grid.store;
             store.removeAll();
-            store.getProxy().extraParams = {orderStatus : 1,page : 1,
-            limit : 25};
+            store.getProxy().extraParams = {orderStatus : 1};
             store.load();
 
         },this);
@@ -32,11 +33,12 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
 
     onOrderCenterContainerAfterRender1: function(component, eOpts) {
         Ext.get('menu_processed').on('click',function(){
+        	var container = this.lookupReference('orderCenterContainerRef');
+        	container.getLayout().setActiveItem(1);
             var grid = this.lookupReference('processedOrderGridRef');
             var store = grid.store;
             store.removeAll();
-            store.getProxy().extraParams = {orderStatus : 2,page : 1,
-            limit : 25};
+            store.getProxy().extraParams = {orderStatus : 2};
             store.load();
 
         },this);
@@ -44,11 +46,12 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
 
     onOrderCenterContainerAfterRender2: function(component, eOpts) {
         Ext.get('menu_canceled').on('click',function(){
+        	var container = this.lookupReference('orderCenterContainerRef');
+        	container.getLayout().setActiveItem(2);
             var grid = this.lookupReference('canceledOrderGridRef');
             var store = grid.store;
             store.removeAll();
-            store.getProxy().extraParams = {orderStatus : 3,page : 1,
-            limit : 25};
+            store.getProxy().extraParams = {orderStatus : 3};
             store.load();
 
         },this);

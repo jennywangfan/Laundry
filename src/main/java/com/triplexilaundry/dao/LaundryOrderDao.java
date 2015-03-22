@@ -1,7 +1,9 @@
 
 package com.triplexilaundry.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -114,19 +116,28 @@ public class LaundryOrderDao {
 	 * @param pageNum 
 	* @return
 	*/
-	public List<LaundryOrder> getAllOrders(String userName, int pageNum, int recordNumLimit) {
+	public Map<String, Object> getAllOrders(String userName, int page, int recordNumLimit) {
 		log.info("get all orders for "+userName);
 		try{
-		    String sql = "select order from LaundryOrder order where order.csRep.username = :name";
-		    Query query = entityManger.createQuery(sql);
-		    query.setParameter("name", userName);
-		    query.setMaxResults(recordNumLimit);
-		    query.setFirstResult((pageNum-1)*recordNumLimit);
-		    @SuppressWarnings("unchecked")
-			List<LaundryOrder> orderList = query.getResultList();
-		    
-		    log.info("success to get all orders for "+userName);
-		    return orderList;
+			 String sql = "select o from LaundryOrder o where o.csRep.username = :name ";
+			    String sqlcount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name";
+			  	Query querycount = entityManger.createQuery(sqlcount);
+			  	querycount.setParameter("name", userName);
+			  
+			  	long totalCount = (long) querycount.getSingleResult();
+			    Query query = entityManger.createQuery(sql);
+			    query.setParameter("name", userName);
+			  
+			    query.setMaxResults(recordNumLimit);
+			    query.setFirstResult((page-1)*recordNumLimit);
+			    
+			    @SuppressWarnings("unchecked")
+				List<LaundryOrder> orderList = query.getResultList();
+			    Map<String, Object> result = new HashMap<>(2);
+			    result.put("totalCount", totalCount);
+			    result.put("results", orderList);
+			     log.info("success to get all orders for "+userName);
+			    return result;
 		}catch(RuntimeException re){
 			log.error("fail to get all orders for "+userName,re);
 			throw re;
@@ -142,20 +153,28 @@ public class LaundryOrderDao {
 	 * @param pageNum 
 	* @return
 	*/
-	public List<LaundryOrder> getAllOrders(String userName, OrderStatus orderS, int pageNum, int recordNumLimit) {
+	public Map<String, Object> getAllOrders(String userName, OrderStatus orderS, int page, int recordNumLimit) {
 		log.info("get all orders for "+userName + " with order status "+orderS.getStatusDes());
 		try{
-		    String sql = "select order from LaundryOrder order where order.csRep.username = :name and order.orderStatus = :orderstatus";
+		    String sql = "select o from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus";
+		    String sqlcount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus";
+		  	Query querycount = entityManger.createQuery(sqlcount);
+		  	querycount.setParameter("name", userName);
+		  	querycount.setParameter("orderstatus", orderS);
+		  	long totalCount = (long) querycount.getSingleResult();
 		    Query query = entityManger.createQuery(sql);
 		    query.setParameter("name", userName);
 		    query.setParameter("orderstatus", orderS);
-//		    query.setMaxResults(recordNumLimit);
-//		    query.setFirstResult((pageNum-1)*recordNumLimit);
+		    query.setMaxResults(recordNumLimit);
+		    query.setFirstResult((page-1)*recordNumLimit);
+		    
 		    @SuppressWarnings("unchecked")
 			List<LaundryOrder> orderList = query.getResultList();
-		   
-		    log.info("success to get all orders for "+userName);
-		    return orderList;
+		    Map<String, Object> result = new HashMap<>(2);
+		    result.put("totalCount", totalCount);
+		    result.put("results", orderList);
+		     log.info("success to get all orders for "+userName);
+		    return result;
 		}catch(RuntimeException re){
 			log.error("fail to get all orders for "+userName,re);
 			throw re;

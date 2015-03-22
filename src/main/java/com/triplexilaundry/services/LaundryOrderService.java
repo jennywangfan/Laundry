@@ -2,6 +2,7 @@ package com.triplexilaundry.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,8 +67,10 @@ public class LaundryOrderService {
 
 	// get all orders belongs to a customer service rep
 	@Transactional
-	public List<LaundryOrderModel> getAllOrdersForCS(String userName, int pageNum, int recordNumLimit) {
-		List<LaundryOrder> orderList = laundryOrderDao.getAllOrders(userName,pageNum,recordNumLimit);
+	public Map<String, Object> getAllOrdersForCS(String userName, int page, int recordNumLimit) {
+		Map<String, Object> orderMap = laundryOrderDao.getAllOrders(userName,page,recordNumLimit);
+		@SuppressWarnings("unchecked")
+		List<LaundryOrder> orderList = (List<LaundryOrder>) orderMap.get("results");
 		List<LaundryOrderModel> extOrderList = null;
 		if (orderList != null)
 			extOrderList = new ArrayList<>();
@@ -113,7 +116,9 @@ public class LaundryOrderService {
 			}
 			extOrderList.add(lom);
 		}
-		return extOrderList;
+        orderMap.put("results",extOrderList);
+		
+		return orderMap;
 	}
 
 	/**
@@ -131,10 +136,12 @@ public class LaundryOrderService {
 	 * @return
 	 */
 	@Transactional
-	public List<LaundryOrderModel> getAllOrdersForCS(String userName,
-			OrderStatus orderS, int pageNum, int recordNumLimit) {
-		List<LaundryOrder> orderList = laundryOrderDao.getAllOrders(userName,
-				orderS,pageNum,recordNumLimit);
+	public Map<String, Object> getAllOrdersForCS(String userName,
+			OrderStatus orderS, int page, int recordNumLimit) {
+		Map<String, Object> orderMap = laundryOrderDao.getAllOrders(userName,
+				orderS,page,recordNumLimit);
+		@SuppressWarnings("unchecked")
+		List<LaundryOrder> orderList = (List<LaundryOrder>) orderMap.get("results");
 		List<LaundryOrderModel> extOrderList = null;
 		if (orderList != null)
 			extOrderList = new ArrayList<>();
@@ -181,7 +188,10 @@ public class LaundryOrderService {
 			}
 			extOrderList.add(lom);
 		}
-		return extOrderList;
+		
+		orderMap.put("results",extOrderList);
+		
+		return orderMap;
 	}
 
 }

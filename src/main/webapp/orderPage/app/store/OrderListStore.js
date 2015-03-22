@@ -27,21 +27,21 @@ Ext.define('Xixixi.store.OrderListStore', {
         var me = this;
         cfg = cfg || {};
         me.callParent([Ext.apply({
-        	pageSize: 15,
+        	pageSize: 20,
             storeId: 'OrderListStore',
             autoLoad: true,
             model: 'Xixixi.model.LaundryOrder',
             proxy: {
                 type: 'ajax',
                 extraParams: {
-                    orderStatus: 1,
-                    page: 1,
-                    limit: 20
+                    orderStatus: 1
+               
                 },
                 url: 'getAllOrdersForCS.action',
                 reader: {
                     type: 'json',
-                    rootProperty: 'results'
+                    rootProperty: 'results',
+                    totalProperty: 'totalCount'
                 },
                 writer: {
                     type: 'json',

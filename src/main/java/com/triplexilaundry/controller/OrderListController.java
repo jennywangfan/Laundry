@@ -67,12 +67,12 @@ public class OrderListController extends AbstractControllerService{
 		if(orderS != null){
 			
 			log.info("return orders with status " + orderS.getStatusDes());
-			List<LaundryOrderModel> extOrderList = orderService.getAllOrdersForCS(userName,orderS,page,limit);
+			Map<String, Object> extOrderList = orderService.getAllOrdersForCS(userName,orderS,page,limit);
 			return ExtJSReturn.mapOrderListOK(extOrderList);
 		}
 		else{
 			log.error("return all orders with all status");
-			List<LaundryOrderModel> extOrderList = orderService.getAllOrdersForCS(userName,page,limit);
+			Map<String, Object> extOrderList = orderService.getAllOrdersForCS(userName,page,limit);
 			return ExtJSReturn.mapOrderListOK(extOrderList);
 		}
 		}catch(Exception e){

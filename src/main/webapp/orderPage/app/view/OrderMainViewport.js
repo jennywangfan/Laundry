@@ -116,6 +116,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
         {
             xtype: 'container',
             region: 'center',
+            scrollable: true,
             items: [
                 {
                     xtype: 'panel',
@@ -157,6 +158,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                 },
                 {
                     xtype: 'container',
+                    reference: 'orderCenterContainerRef',
                     id: 'orderCenterContainer',
                     itemId: 'orderCenterContainer',
                     layout: 'card',
@@ -164,11 +166,12 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                         {
                             xtype: 'gridpanel',
                             reference: 'waitingOrderGridRef',
+                            height: 600,
                             id: 'waitingOrderGrid',
                             padding: 5,
-                            scrollable: true,
+                            width: 300,
                             collapsible: false,
-                            title: '',
+                            reserveScrollbar: true,
                             store: 'OrderListStore',
                             columns: [
                                 {
@@ -293,10 +296,12 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                         {
                             xtype: 'gridpanel',
                             reference: 'processedOrderGridRef',
+                            height: 600,
                             id: 'processedOrderGrid',
                             padding: 5,
+                            scrollable: true,
+                            width: 300,
                             collapsible: false,
-                            title: '',
                             store: 'OrderListStore',
                             columns: [
                                 {
@@ -409,8 +414,16 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     xtype: 'pagingtoolbar',
                                     dock: 'bottom',
                                     width: 360,
+                                    afterPageText: '页，共 {0}页',
+                                    beforePageText: '第',
                                     displayInfo: true,
                                     displayMsg: '展示 {2}条中的{0} - {1} ',
+                                    emptyMsg: '没有记录',
+                                    firstText: '第一页',
+                                    lastText: '最后一页',
+                                    nextText: '下一页',
+                                    prevText: '上一页',
+                                    refreshText: '刷新',
                                     store: 'OrderListStore'
                                 }
                             ]
@@ -418,10 +431,12 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                         {
                             xtype: 'gridpanel',
                             reference: 'canceledOrderGridRef',
+                            height: 600,
                             id: 'canceledOrderGrid',
                             padding: 5,
+                            scrollable: true,
+                            width: 300,
                             collapsible: false,
-                            title: '',
                             store: 'OrderListStore',
                             columns: [
                                 {
@@ -534,8 +549,16 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     xtype: 'pagingtoolbar',
                                     dock: 'bottom',
                                     width: 360,
+                                    afterPageText: '页，共 {0}页',
+                                    beforePageText: '第',
                                     displayInfo: true,
                                     displayMsg: '展示 {2}条中的{0} - {1} ',
+                                    emptyMsg: '没有记录',
+                                    firstText: '第一页',
+                                    lastText: '最后一页',
+                                    nextText: '下一页',
+                                    prevText: '上一页',
+                                    refreshText: '刷新',
                                     store: 'OrderListStore'
                                 }
                             ]
