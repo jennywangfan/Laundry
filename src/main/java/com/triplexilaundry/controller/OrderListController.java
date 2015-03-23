@@ -9,7 +9,6 @@
 */
 package com.triplexilaundry.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -22,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.triplexilaundry.domain.OrderStatus;
+import com.triplexilaundry.exception.NotAllowToOperationException;
 import com.triplexilaundry.extjsdata.ExtJSReturn;
-import com.triplexilaundry.extjsdata.LaundryOrderModel;
 import com.triplexilaundry.services.LaundryOrderService;
 
 /**
@@ -81,6 +80,21 @@ public class OrderListController extends AbstractControllerService{
 		}
 		
 		
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/cancelOrder.action")
+	public @ResponseBody Map<String, ? extends Object> cancelOrder(@RequestParam long orderId){
+		log.info("cancel order "+orderId);
+		try{
+			String userName = this.getCurrentUserId();
+			orderService.cancelOrderById(orderId,userName);
+			log.info("success to cancel order " + orderId +"by " +userName);
+			return ExtJSReturn.simpleMapResult(true, "取消订单成功");
+		}catch(NotAllowToOperationException ne){
+			return ExtJSReturn.simpleMapResult(false, ne.getMessage());
+		}catch(RuntimeException re){
+			return ExtJSReturn.simpleMapResult(false, "取消订单失败");
+		}
 	}
 
 }

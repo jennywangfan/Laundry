@@ -57,7 +57,13 @@ public class ExtJSReturn {
 	public static String simpleResult(boolean success,String message){
 		return "{success:"+success+",message:\'"+message+"\'}";
 	}
-
+    
+	public static Map<String, ? extends Object> simpleMapResult(boolean success, String message){
+		Map<String,Object> modelMap = new HashMap<String,Object>(2);
+		modelMap.put("message", message);
+		modelMap.put("success", true);
+		return modelMap;
+	}
 
 	/**
 	* <p>Title: mapDepartmentListOK</p>

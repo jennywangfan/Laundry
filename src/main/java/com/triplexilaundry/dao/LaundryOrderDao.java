@@ -1,6 +1,7 @@
 
 package com.triplexilaundry.dao;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.triplexilaundry.domain.LaundryOrder;
 import com.triplexilaundry.domain.OrderStatus;
 import com.triplexilaundry.domain.company.Employee;
+import com.triplexilaundry.exception.NotAllowToOperationException;
 
 /**
  * <p>Title: LaundryOrderDao</p>
@@ -179,6 +181,46 @@ public class LaundryOrderDao {
 			log.error("fail to get all orders for "+userName,re);
 			throw re;
 		}
+	}
+
+	/**
+	* <p>Title: cancelOrderById</p>
+	* <p>Description: </p>
+	* @param orderId
+	 * @throws NotAllowToOperationException 
+	*/
+	public void cancelOrderById(long orderId,String userName) throws NotAllowToOperationException {
+		// TODO Auto-generated method stub
+		log.info("cancel order with id and userName " + orderId + "  " + userName);
+		try{
+			LaundryOrder order = entityManger.find(LaundryOrder.class, orderId);
+			if(userName.equals(order.getCsRep().getUsername())){
+				order.setOrderStatus(OrderStatus.CANCELED);
+				order.setLastUpdatedBy(order.getCsRep());
+				order.setLastUpdateTime(new Date());
+			}
+			else{
+				Employee manager = order.getCsRep().getReportTo();
+				if(userName.equals(manager.getUsername()))
+				{
+					order.setOrderStatus(OrderStatus.CANCELED);
+					order.setLastUpdatedBy(manager);
+					order.setLastUpdateTime(new Date());
+				}
+				else{
+					throw new NotAllowToOperationException("没有权限取消该订单");
+				}
+			}
+			
+		}catch(RuntimeException re){
+			log.error("fail to cancel order with id and userName " + orderId + " "+userName,re);
+			throw re;
+			
+		} catch (NotAllowToOperationException e) {
+			log.error("fail to cancel order with id and userName " + orderId + " "+userName,e);
+			throw e;
+		}
+		
 	}
 	
 }

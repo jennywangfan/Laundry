@@ -180,9 +180,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     text: '联系客户',
                                     items: [
                                         {
-                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
-                                                var orderId = record.data.orderId;
-                                            },
+                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {},
                                             icon: 'orderPage/images/customer.png',
                                             tooltip: '联系客户'
                                         }
@@ -196,12 +194,32 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     items: [
                                         {
                                             handler: function(view, rowIndex, colIndex, item, e, record, row) {
-                                                console.log(view);
-                                                console.log(rowIndex);
-                                                console.log(item);
-                                                console.log(e);
-                                                console.log(record);
-                                                console.log(row);
+
+                                           	 var oId = record.data.orderId;
+                                           	 Ext.Ajax.request({
+                                           	     url : 'cancelOrder.action',
+                                           	         method : 'POST',
+                                           	             params :{
+                                           	                 orderId : oId
+                                           	             },
+                                           	                 success: function(response){
+                                           	                     var respText = Ext.JSON.decode(response.responseText);
+                                           	                     if(respText.success){
+                                           	                         Ext.Msg.alert('成功',respText.message);
+                                           	                         console.log(respText.message);
+                                           	         	var store = Ext.data.StoreManager.lookup('OrderListStore');
+                                           	             store.removeAll();
+                                           	             store.getProxy().extraParams = {orderStatus : 1};
+                                           	             store.load();
+                                           	                     }else{
+                                           	                         Ext.Msg.alert('失败',respText.message);
+                                           	                     }
+                                           	                 },
+                                           	     failure : function(response){
+                                           	         Ext.Msg.alert('失败','网络可能有问题');
+                                           	     }
+                                           	 });
+                                           
                                             },
                                             icon: 'orderPage/images/error.png',
                                             tooltip: '取消订单'

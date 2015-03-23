@@ -17,6 +17,7 @@ import com.triplexilaundry.domain.OrderItem;
 import com.triplexilaundry.domain.OrderStatus;
 import com.triplexilaundry.domain.company.Customer;
 import com.triplexilaundry.domain.company.Employee;
+import com.triplexilaundry.exception.NotAllowToOperationException;
 import com.triplexilaundry.extjsdata.LaundryItemModel;
 import com.triplexilaundry.extjsdata.LaundryOrderModel;
 
@@ -61,7 +62,8 @@ public class LaundryOrderService {
 	}
 
 	@Transactional
-	public void cancelOrder(LaundryOrder order) {
+	public void cancelOrderById(long orderId,String userName) throws NotAllowToOperationException {
+		laundryOrderDao.cancelOrderById(orderId,userName);
 
 	}
 
