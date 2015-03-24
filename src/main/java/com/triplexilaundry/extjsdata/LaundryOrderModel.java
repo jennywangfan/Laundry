@@ -43,6 +43,7 @@ public class LaundryOrderModel implements Serializable{
 	private String orderStatus;
 	private Date lastUpdateTime;
 	private String lastUpdatedBy;
+	private Date createDate;
 	private String comments;
 	private List<LaundryItemModel> orderItems;
 	
@@ -176,6 +177,14 @@ public class LaundryOrderModel implements Serializable{
 	public void setLastUpdatedBy(String lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
 	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
 	public String getComments() {
 		return comments;
 	}

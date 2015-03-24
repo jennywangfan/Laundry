@@ -55,6 +55,67 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
             store.load();
 
         },this);
-    }
+    },
+    onOrderCenterContainerAfterRender3: function(component, eOpts) {
+    	Ext.get('searchIcon').on('click',function(){
+    		var currentGrid = this.lookupReference('orderCenterContainerRef').getLayout().getActiveItem().getReference();
+    	    console.log(currentGrid);
+    	    var orderStatus;
+    	    if(currentGrid == "waitingOrderGridRef")
+    	        orderStatus = 1;
+    	    else if(currentGrid == "processedOrderGridRef")
+    	        orderStatus = 2;
+    	    else 
+    	        orderStatus = 3;
+    	    var searchContainer = this.lookupReference('searchContainerRef');
+    	    console.log(searchContainer);
+    	    var cellPhone = searchContainer.down('#cellPhoneField').getValue();
+    	    var orderId = searchContainer.down('#orderIdField').getValue();
+    	    if(cellPhone || orderId){
+    	    	Ext.Ajax.timeout = 40000;
+    	    	Ext.Ajax.request({
+    	    		url : 'searchOrder.action',
+	    			method : 'POST',
+	    			params : {
+	    				orderStatus : orderStatus,
+	    				cellPhone : cellPhone,
+	    				orderId : orderId,
+	    				page : 0,
+	    				limit: 20
+	    				
+	    			},
+	    			success: function(response){
+	    				
+	    					var respText = Ext.JSON.decode(response.responseText);
+	    					console.log(respText);
+	    		
+	    					
+	    					if(respText.success){
+	    						var results = respText.results;
+	    						console.log(results);
+	    						var store = Ext.data.StoreManager.lookup('OrderListStore');
+	    						console.log(store);
+	    						store.removeAll();
+	    						store.loadData(results);
+	    					}
+	    				else{
+	    					
+	    				}
+	    			},
+	    			failure: function(response){
+	    				
+	    			}
+    	    	});
+    	    	
+// var store = Ext.data.StoreManager.lookup('OrderListStore');
+// store.removeAll();
+// store.setProxy(proxy);
+// store.load();
+    	    	
+    	    }
+    	
 
+    	},this);
+    }
+    	
 });

@@ -196,4 +196,74 @@ public class LaundryOrderService {
 		return orderMap;
 	}
 
+	/**
+	* <p>Title: findOrder</p>
+	* <p>Description: </p>
+	 * @param orderS 
+	* @param userName
+	* @param cellPhone
+	* @param orderId
+	 * @param limit 
+	 * @param page 
+	* @return
+	*/
+	@Transactional
+	public Map<String,Object> findOrder(OrderStatus orderS, String userName,
+			String cellPhone, String orderId, int page, int limit) {
+		// TODO Auto-generated method stub
+		Map<String,Object> orderMap = laundryOrderDao.searchOrder(orderS,userName,cellPhone,orderId,page,limit);
+		@SuppressWarnings("unchecked")
+		List<LaundryOrder> orderList = (List<LaundryOrder>) orderMap.get("results");
+		List<LaundryOrderModel> extOrderList = null;
+		if (orderList != null)
+			extOrderList = new ArrayList<>();
+		for (LaundryOrder order : orderList) {
+			LaundryOrderModel lom = new LaundryOrderModel();
+			lom.setOrderId(order.getOrderId());
+			Customer cus = order.getCustomer();
+			if (cus != null)
+				lom.setOrderBy(cus.getUserName());
+			Employee temp = order.getCsRep();
+			if (temp != null)
+				lom.setCsRep(temp.getFullName());
+			temp = order.getPickedUpBy();
+			if (temp != null)
+				lom.setPickedUpBy(temp.getFullName());
+			temp = order.getDeliveredBy();
+			if (temp != null)
+				lom.setDeliveredBy(temp.getFullName());
+			lom.setPrice(order.getPrice());
+			lom.setActualIncome(order.getActualIncome());
+			lom.setAddress(order.getAddress());
+			lom.setPreferedPickupStime(order.getPreferedPickupStime());
+			lom.setPreferedPickupEtime(order.getPreferedPickupEtime());
+			lom.setOrderStatus(OrderStatus.getChineseOrderStatus(order
+					.getOrderStatus()));
+			lom.setLastUpdateTime(order.getLastUpdateTime());
+			temp = order.getLastUpdatedBy();
+
+			if (temp != null)
+				lom.setLastUpdatedBy(temp.getFullName());
+			lom.setComments(order.getComments());
+			List<OrderItem> laundryDetail = order.getLaundryDetail();
+			if (laundryDetail != null) {
+				List<LaundryItemModel> itemList = new ArrayList<>();
+				for (OrderItem oi : laundryDetail) {
+					LaundryItemModel lim = new LaundryItemModel();
+					lim.setItemName(oi.getItem().getCategory());
+					lim.setAmount(oi.getCount());
+					lim.setPricePerItem(oi.getItem().getPrice());
+					// lim.setTotalPrice();
+					itemList.add(lim);
+				}
+				lom.setOrderItems(itemList);
+			}
+			extOrderList.add(lom);
+		}
+		
+		orderMap.put("results",extOrderList);
+		
+		return orderMap;
+	}
+
 }

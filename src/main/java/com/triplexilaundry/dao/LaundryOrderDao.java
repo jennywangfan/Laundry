@@ -1,6 +1,7 @@
 
 package com.triplexilaundry.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -222,5 +223,84 @@ public class LaundryOrderDao {
 		}
 		
 	}
+
+	/**
+	* <p>Title: searchOrder</p>
+	* <p>Description: </p>
+	 * @param orderS 
+	* @param userName
+	* @param cellPhone
+	* @param orderId
+	 * @param limit 
+	 * @param page 
+	* @return
+	*/
+	public Map<String, Object> searchOrder(OrderStatus orderS, String userName,
+			String cellPhone, String orderId, int page, int limit) {
+		String sqlCount = null;
+		String sql = null;
+		Map<String,Object> result = new HashMap<>(2);
+		if(cellPhone == null || cellPhone.length() == 0){
+			 LaundryOrder order = entityManger.find(LaundryOrder.class, Long.valueOf(orderId));
+			 if(order == null){
+				 //result.put("totalCount", 0);
+				 result.put("results", null);
+				 result.put("totalCount", 0);
+			 }
+			 else{
+				 List<LaundryOrder> resultList = new ArrayList<>();
+				 resultList.add(order);
+				 result.put("results", resultList);
+				 result.put("totalCount", 1);
+			 }
+			 return result;
+		}
+		else if(orderId == null || orderId.length() == 0){
+			  sql = "select o from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.username = :cellPhone";
+			  sqlCount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.username = :cellPhone";
+				Query querycount = entityManger.createQuery(sqlCount);
+			  	querycount.setParameter("name", userName);
+			  	querycount.setParameter("orderstatus", orderS);
+			  	querycount.setParameter("cellPhone", cellPhone);
+			  	long totalCount = (long) querycount.getSingleResult();
+			    Query query = entityManger.createQuery(sql);
+			    query.setParameter("name", userName);
+			    query.setParameter("orderstatus", orderS);
+			    query.setParameter("cellPhone", cellPhone);
+			    query.setMaxResults(limit);
+			    query.setFirstResult((page-1)*limit);
+			    
+			    @SuppressWarnings("unchecked")
+				List<LaundryOrder> orderList = query.getResultList();
+			    result.put("totalCount", totalCount);
+			    result.put("results", orderList);
+			    return result;
+		}else{
+			  sql = "select o from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.username = :cellPhone and o.orderId = :orderId";
+			  sqlCount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.username = :cellPhone and o.orderId = :orderId";
+				Query querycount = entityManger.createQuery(sqlCount);
+			  	querycount.setParameter("name", userName);
+			  	querycount.setParameter("orderstatus", orderS);
+			  	querycount.setParameter("cellPhone", cellPhone);
+			  	querycount.setParameter("orderId", orderId);
+			  	long totalCount = (long) querycount.getSingleResult();
+			    Query query = entityManger.createQuery(sql);
+			    query.setParameter("name", userName);
+			    query.setParameter("orderstatus", orderS);
+			    query.setParameter("cellPhone", cellPhone);
+			    query.setParameter("orderId", orderId);
+			    query.setMaxResults(limit);
+			    query.setFirstResult((page-1)*limit);
+			    
+			    @SuppressWarnings("unchecked")
+				List<LaundryOrder> orderList = query.getResultList();
+			    result.put("totalCount", totalCount);
+			    result.put("results", orderList);
+			    return result;
+		}
+		
+	}
+		
+	
 	
 }

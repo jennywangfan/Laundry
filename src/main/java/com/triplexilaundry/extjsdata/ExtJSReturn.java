@@ -61,7 +61,7 @@ public class ExtJSReturn {
 	public static Map<String, ? extends Object> simpleMapResult(boolean success, String message){
 		Map<String,Object> modelMap = new HashMap<String,Object>(2);
 		modelMap.put("message", message);
-		modelMap.put("success", true);
+		modelMap.put("success", success);
 		return modelMap;
 	}
 

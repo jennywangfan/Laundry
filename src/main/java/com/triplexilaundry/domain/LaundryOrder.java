@@ -40,6 +40,7 @@ public class LaundryOrder implements Serializable{
 	private OrderStatus orderStatus;
 	private Date lastUpdateTime;
 	private Employee lastUpdatedBy;
+	private Date createDate;
 	private String comments;
 	private List<OrderItem> laundryDetail;
 	
@@ -168,6 +169,14 @@ public class LaundryOrder implements Serializable{
 	}
 	public void setLastUpdatedBy(Employee lastUpdatedBy) {
 		this.lastUpdatedBy = lastUpdatedBy;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date")
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 }

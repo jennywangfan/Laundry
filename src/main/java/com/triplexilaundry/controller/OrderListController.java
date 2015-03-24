@@ -70,7 +70,7 @@ public class OrderListController extends AbstractControllerService{
 			return ExtJSReturn.mapOrderListOK(extOrderList);
 		}
 		else{
-			log.error("return all orders with all status");
+			log.info("return all orders with all status");
 			Map<String, Object> extOrderList = orderService.getAllOrdersForCS(userName,page,limit);
 			return ExtJSReturn.mapOrderListOK(extOrderList);
 		}
@@ -86,6 +86,7 @@ public class OrderListController extends AbstractControllerService{
 	public @ResponseBody Map<String, ? extends Object> cancelOrder(@RequestParam long orderId){
 		log.info("cancel order "+orderId);
 		try{
+			
 			String userName = this.getCurrentUserId();
 			orderService.cancelOrderById(orderId,userName);
 			log.info("success to cancel order " + orderId +"by " +userName);
@@ -94,6 +95,41 @@ public class OrderListController extends AbstractControllerService{
 			return ExtJSReturn.simpleMapResult(false, ne.getMessage());
 		}catch(RuntimeException re){
 			return ExtJSReturn.simpleMapResult(false, "取消订单失败");
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.POST,value = "/searchOrder.action")
+	public @ResponseBody Map<String, ? extends Object> searchOrder(@RequestParam int orderStatus,
+			@RequestParam String cellPhone, @RequestParam String orderId,@RequestParam int page,@RequestParam int limit){
+		log.info("search order with cellPhone or orderId " + cellPhone +" "+orderId);
+		try{
+			OrderStatus orderS = null;
+			switch(orderStatus){
+			case 1:
+				orderS = OrderStatus.PENDINGPROCESS;
+				break;
+			case 2:
+				orderS = OrderStatus.WAITINGFORPICKUP;
+				break;
+			case 3:
+				orderS = OrderStatus.CANCELED;
+				break;
+			default:
+				break;
+			}
+			if(orderS != null){
+			String userName = this.getCurrentUserId();
+			Map<String,Object> extOrderList = orderService.findOrder(orderS,userName,cellPhone,orderId,page,limit);
+			return ExtJSReturn.mapOrderListOK(extOrderList);
+			
+			}else{
+				//add codes for other purpose of searching
+				log.info("no orderstatus is found,will do nothing for search");
+				return ExtJSReturn.mapError("没有指定搜索订单的状态");
+			}
+		}catch(Exception e){
+			log.error("fail to find order",e);
+			return ExtJSReturn.simpleMapResult(false, "搜索订单失败");
 		}
 	}
 
