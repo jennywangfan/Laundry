@@ -98,7 +98,7 @@ public class OrderListController extends AbstractControllerService{
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.POST,value = "/searchOrder.action")
+	@RequestMapping(method = RequestMethod.GET,value = "/searchOrder.action")
 	public @ResponseBody Map<String, ? extends Object> searchOrder(@RequestParam int orderStatus,
 			@RequestParam String cellPhone, @RequestParam String orderId,@RequestParam int page,@RequestParam int limit){
 		log.info("search order with cellPhone or orderId " + cellPhone +" "+orderId);

@@ -25,6 +25,7 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
             var grid = this.lookupReference('waitingOrderGridRef');
             var store = grid.store;
             store.removeAll();
+            store.getProxy().url = 'getAllOrdersForCS.action';
             store.getProxy().extraParams = {orderStatus : 1};
             store.load();
 
@@ -38,6 +39,7 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
             var grid = this.lookupReference('processedOrderGridRef');
             var store = grid.store;
             store.removeAll();
+            store.getProxy().url = 'getAllOrdersForCS.action';
             store.getProxy().extraParams = {orderStatus : 2};
             store.load();
 
@@ -51,6 +53,7 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
             var grid = this.lookupReference('canceledOrderGridRef');
             var store = grid.store;
             store.removeAll();
+            store.getProxy().url = 'getAllOrdersForCS.action';
             store.getProxy().extraParams = {orderStatus : 3};
             store.load();
 
@@ -58,8 +61,9 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
     },
     onOrderCenterContainerAfterRender3: function(component, eOpts) {
     	Ext.get('searchIcon').on('click',function(){
+    		console.log(this);
     		var currentGrid = this.lookupReference('orderCenterContainerRef').getLayout().getActiveItem().getReference();
-    	    console.log(currentGrid);
+    	    //console.log(currentGrid);
     	    var orderStatus;
     	    if(currentGrid == "waitingOrderGridRef")
     	        orderStatus = 1;
@@ -68,50 +72,19 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
     	    else 
     	        orderStatus = 3;
     	    var searchContainer = this.lookupReference('searchContainerRef');
-    	    console.log(searchContainer);
+    	    //console.log(searchContainer);
     	    var cellPhone = searchContainer.down('#cellPhoneField').getValue();
     	    var orderId = searchContainer.down('#orderIdField').getValue();
     	    if(cellPhone || orderId){
-    	    	Ext.Ajax.timeout = 40000;
-    	    	Ext.Ajax.request({
-    	    		url : 'searchOrder.action',
-	    			method : 'POST',
-	    			params : {
-	    				orderStatus : orderStatus,
-	    				cellPhone : cellPhone,
-	    				orderId : orderId,
-	    				page : 0,
-	    				limit: 20
-	    				
-	    			},
-	    			success: function(response){
-	    				
-	    					var respText = Ext.JSON.decode(response.responseText);
-	    					console.log(respText);
-	    		
-	    					
-	    					if(respText.success){
-	    						var results = respText.results;
-	    						console.log(results);
-	    						var store = Ext.data.StoreManager.lookup('OrderListStore');
-	    						console.log(store);
-	    						store.removeAll();
-	    						store.loadData(results);
-	    					}
-	    				else{
-	    					
-	    				}
-	    			},
-	    			failure: function(response){
-	    				
-	    			}
-    	    	});
     	    	
-// var store = Ext.data.StoreManager.lookup('OrderListStore');
-// store.removeAll();
-// store.setProxy(proxy);
-// store.load();
-    	    	
+    	    	var store = Ext.data.StoreManager.lookup('OrderListStore');
+    	    	store.getProxy().url= 'searchOrder.action';
+    	    	store.getProxy().extraParams = {orderStatus : orderStatus,
+    				cellPhone : cellPhone,
+    				orderId : orderId
+    				};
+    	    	store.removeAll();
+    	    	store.load();  	    	
     	    }
     	
 

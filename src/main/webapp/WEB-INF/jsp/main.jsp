@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="orderPage/css/header-footer.css" id="header-footer.css">
     <link rel="stylesheet" href="orderPage/css/westNavigator.css" id="westNavigator.css">
    	<script src="ext5/ext-all-debug.js"></script>
+   	<script type="ext5/ext-locale-zh_CN.js"></script>
     <script type="text/javascript" src="orderPage/app.js"></script>
 </head>
 <body>

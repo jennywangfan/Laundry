@@ -256,8 +256,8 @@ public class LaundryOrderDao {
 			 return result;
 		}
 		else if(orderId == null || orderId.length() == 0){
-			  sql = "select o from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.username = :cellPhone";
-			  sqlCount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.username = :cellPhone";
+			  sql = "select o from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.userName = :cellPhone";
+			  sqlCount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.userName = :cellPhone";
 				Query querycount = entityManger.createQuery(sqlCount);
 			  	querycount.setParameter("name", userName);
 			  	querycount.setParameter("orderstatus", orderS);
@@ -276,19 +276,19 @@ public class LaundryOrderDao {
 			    result.put("results", orderList);
 			    return result;
 		}else{
-			  sql = "select o from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.username = :cellPhone and o.orderId = :orderId";
-			  sqlCount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.username = :cellPhone and o.orderId = :orderId";
+			  sql = "select o from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.userName = :cellPhone and o.orderId = :orderId";
+			  sqlCount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.userName = :cellPhone and o.orderId = :orderId";
 				Query querycount = entityManger.createQuery(sqlCount);
 			  	querycount.setParameter("name", userName);
 			  	querycount.setParameter("orderstatus", orderS);
 			  	querycount.setParameter("cellPhone", cellPhone);
-			  	querycount.setParameter("orderId", orderId);
+			  	querycount.setParameter("orderId", Long.valueOf(orderId));
 			  	long totalCount = (long) querycount.getSingleResult();
 			    Query query = entityManger.createQuery(sql);
 			    query.setParameter("name", userName);
 			    query.setParameter("orderstatus", orderS);
 			    query.setParameter("cellPhone", cellPhone);
-			    query.setParameter("orderId", orderId);
+			    query.setParameter("orderId", Long.valueOf(orderId));
 			    query.setMaxResults(limit);
 			    query.setFirstResult((page-1)*limit);
 			    

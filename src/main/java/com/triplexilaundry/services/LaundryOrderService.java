@@ -170,6 +170,7 @@ public class LaundryOrderService {
 			lom.setOrderStatus(OrderStatus.getChineseOrderStatus(order
 					.getOrderStatus()));
 			lom.setLastUpdateTime(order.getLastUpdateTime());
+			lom.setCreateDate(order.getCreateDate());
 			temp = order.getLastUpdatedBy();
 
 			if (temp != null)
@@ -240,6 +241,7 @@ public class LaundryOrderService {
 			lom.setOrderStatus(OrderStatus.getChineseOrderStatus(order
 					.getOrderStatus()));
 			lom.setLastUpdateTime(order.getLastUpdateTime());
+			lom.setCreateDate(order.getCreateDate());
 			temp = order.getLastUpdatedBy();
 
 			if (temp != null)

@@ -47,6 +47,11 @@ Ext.define('Xixixi.model.LaundryOrder', {
         },
         {
             type: 'date',
+            name: 'createDate',
+            dateFormat: 'time'
+        },
+        {
+            type: 'date',
             name: 'lastUpdateTime',
             dateFormat: 'time'
         },
@@ -58,11 +63,16 @@ Ext.define('Xixixi.model.LaundryOrder', {
         },
         {
             type: 'date',
-            name: 'preferedPickupStime'
+            name: 'preferedPickupStime',
+            dateFormat: 'time'
         },
         {
             type: 'date',
-            name: 'preferedPickupEtime'
+            name: 'preferedPickupEtime',
+            dateFormat: 'time'
+        },
+        {
+            name: 'MyField22'
         }
     ],
 

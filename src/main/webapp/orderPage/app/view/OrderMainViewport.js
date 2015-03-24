@@ -181,31 +181,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     items: [
                                         {
                                             handler: function(view, rowIndex, colIndex, item, e, record, row) {
-                                                var oId = record.data.orderId;
-                                                Ext.Ajax.timeout = 40000;
-                                                Ext.Ajax.Request({
-                                                    url : 'cancelOrder.action',
-                                                    method : 'POST',
-                                                    params :{
-                                                        orderId : oId
-                                                    },
-                                                    success: function(response){
-                                                        var respText = Ext.JSON.decode(response.responseText);
-                                                        if(respText.success){
-                                                            Ext.Msg.alert('成功',respText.message);
 
-                                                            var store = Ext.data.StoreManager.lookup('OrderListStore');
-                                                            store.removeAll();
-                                                            store.getProxy().extraParams = {orderStatus : 1};
-                                                            store.load();
-                                                        }else{
-                                                            Ext.Msg.alert('失败',respText.message);
-                                                        }
-                                                    },
-                                                    failure : function(response){
-                                                        Ext.Msg.alert('失败','网络可能有问题');
-                                                    }
-                                                });
                                             },
                                             icon: 'orderPage/images/customer.png',
                                             tooltip: '联系客户'
@@ -220,12 +196,48 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     items: [
                                         {
                                             handler: function(view, rowIndex, colIndex, item, e, record, row) {
-                                                console.log(view);
-                                                console.log(rowIndex);
-                                                console.log(item);
-                                                console.log(e);
-                                                console.log(record);
-                                                console.log(row);
+                                                var oId = record.data.orderId;
+                                                if (Ext.MessageBox) {
+                                                	 Ext.MessageBox.buttonText = {
+                                                	  ok : "确定",
+                                                	  cancel : "取消",
+                                                	  yes : "是",
+                                                	  no : "否"
+                                                	 };
+                                                }
+                                                Ext.MessageBox.confirm('取消订单','确定取消订单号为'+oId+'的订单',
+                                                		function(e){
+                                                    if(e=='yes'){
+                                                    	Ext.Ajax.timeout = 40000;
+                                                        Ext.Ajax.request({
+                                                            url : 'cancelOrder.action',
+                                                            method : 'POST',
+                                                            params :{
+                                                                orderId : oId
+                                                            },
+                                                            success: function(response){
+                                                                var respText = Ext.JSON.decode(response.responseText);
+                                                                if(respText.success){
+                                                                    Ext.Msg.alert('成功',respText.message);
+
+                                                                    var store = Ext.data.StoreManager.lookup('OrderListStore');
+                                                                    store.removeAll();
+                                                                    store.getProxy().extraParams = {orderStatus : 1};
+                                                                    store.load();
+                                                                }else{
+                                                                    Ext.Msg.alert('失败',respText.message);
+                                                                }
+                                                            },
+                                                            failure : function(response){
+                                                                Ext.Msg.alert('失败','网络可能有问题');
+                                                            }
+                                                        });
+                                                    	
+                                                    	}
+                                                    }
+                                                    	
+                                                		);
+                                                
                                             },
                                             icon: 'orderPage/images/error.png',
                                             tooltip: '取消订单'
@@ -241,6 +253,12 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     xtype: 'gridcolumn',
                                     dataIndex: 'orderBy',
                                     text: '下单客户'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'createDate',
+                                    formatter: 'date("Y-m-d H:i:s")',
+                                    text: '下单时间'
                                 },
                                 {
                                     xtype: 'gridcolumn',
@@ -380,6 +398,12 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                 },
                                 {
                                     xtype: 'gridcolumn',
+                                    dataIndex: 'createDate',
+                                    formatter: 'date("Y-m-d H:i:s")',
+                                    text: '下单时间'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
                                     dataIndex: 'csRep',
                                     text: '联系客服'
                                 },
@@ -512,6 +536,12 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     xtype: 'gridcolumn',
                                     dataIndex: 'orderBy',
                                     text: '下单客户'
+                                },
+                                {
+                                    xtype: 'gridcolumn',
+                                    dataIndex: 'createDate',
+                                    formatter: 'date("Y-m-d H:i:s")',
+                                    text: '下单时间'
                                 },
                                 {
                                     xtype: 'gridcolumn',
