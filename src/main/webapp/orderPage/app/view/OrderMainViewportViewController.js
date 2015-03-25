@@ -27,7 +27,7 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
             store.removeAll();
             store.getProxy().url = 'getAllOrdersForCS.action';
             store.getProxy().extraParams = {orderStatus : 1};
-            store.load();
+            store.loadPage(1);
 
         },this);
     },
@@ -41,7 +41,7 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
             store.removeAll();
             store.getProxy().url = 'getAllOrdersForCS.action';
             store.getProxy().extraParams = {orderStatus : 2};
-            store.load();
+            store.loadPage(1);
 
         },this);
     },
@@ -55,7 +55,7 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
             store.removeAll();
             store.getProxy().url = 'getAllOrdersForCS.action';
             store.getProxy().extraParams = {orderStatus : 3};
-            store.load();
+            store.loadPage(1);
 
         },this);
     },
@@ -78,13 +78,14 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
     	    if(cellPhone || orderId){
     	    	
     	    	var store = Ext.data.StoreManager.lookup('OrderListStore');
+    	    	
     	    	store.getProxy().url= 'searchOrder.action';
     	    	store.getProxy().extraParams = {orderStatus : orderStatus,
     				cellPhone : cellPhone,
     				orderId : orderId
     				};
     	    	store.removeAll();
-    	    	store.load();  	    	
+    	    	store.loadPage(1);  	    	
     	    }
     	
 

@@ -90,7 +90,7 @@ Ext.define('Xixixi.view.AddDepartment', {
                 {
                     xtype: 'container',
                     height: 60,
-                    margin: '10 10 10 1 0',
+                    margin: '10 10 10 10',
                     layout: {
                         type: 'hbox',
                         align: 'stretch',
