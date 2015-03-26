@@ -25,13 +25,14 @@ Ext.define('Xixixi.view.ContactCustomer', {
         'Ext.view.Table',
         'Ext.form.field.Date',
         'Ext.form.field.Time',
+        'Ext.form.field.TextArea',
         'Ext.button.Button'
     ],
 
     viewModel: {
         type: 'contactcustomer'
     },
-    height: 600,
+    height: 640,
     hidden: false,
     width: 500,
     title: '联系客户',
@@ -166,7 +167,7 @@ Ext.define('Xixixi.view.ContactCustomer', {
                 },
                 {
                     xtype: 'container',
-                    height: 200,
+                    height: 180,
                     items: [
                         {
                             xtype: 'gridpanel',
@@ -216,7 +217,8 @@ Ext.define('Xixixi.view.ContactCustomer', {
                         {
                             xtype: 'datefield',
                             fieldLabel: '取单最早日期',
-                            name: 'preferedPickupSDate'
+                            name: 'preferedPickupSDate',
+                            allowBlank: false
                         },
                         {
                             xtype: 'timefield',
@@ -225,6 +227,7 @@ Ext.define('Xixixi.view.ContactCustomer', {
                             fieldLabel: '时间',
                             labelWidth: 50,
                             name: 'preferedPickupSTime',
+                            allowBlank: false,
                             maxValue: '8:00 PM',
                             minValue: '8:00 AM'
                         }
@@ -241,7 +244,8 @@ Ext.define('Xixixi.view.ContactCustomer', {
                         {
                             xtype: 'datefield',
                             fieldLabel: '取单最晚日期',
-                            name: 'preferedPickupEDate'
+                            name: 'preferedPickupEDate',
+                            allowBlank: false
                         },
                         {
                             xtype: 'timefield',
@@ -250,10 +254,17 @@ Ext.define('Xixixi.view.ContactCustomer', {
                             fieldLabel: '时间',
                             labelWidth: 50,
                             name: 'preferedPickupETime',
+                            allowBlank: false,
                             maxValue: '8:00 PM',
                             minValue: '8:00 AM'
                         }
                     ]
+                },
+                {
+                    xtype: 'textareafield',
+                    width: 470,
+                    fieldLabel: '备注',
+                    name: 'comments'
                 },
                 {
                     xtype: 'container',
@@ -288,21 +299,115 @@ Ext.define('Xixixi.view.ContactCustomer', {
     ],
 
     onButtonClick: function(button, e, eOpts) {
-    	
-    	var win = button.up('window');
-        var form = win.down('form').getForm();
-        if(form.isValid()){
-        var jsonData = Ext.JSON.encode(form.getValues());
-        console.log(jsonData);
-      }
-       
+
+
+        						var win = button.up('window');
+        						var form = win.down('form').getForm();
+        						if (form.isValid()) {
+
+        							var jsonData = Ext.JSON.encode(form.getValues());
+        							Ext.Ajax.setTimeout(40000);
+        							Ext.Ajax.request({
+        										url : 'contactCustomer.action',
+        										method : 'POST',
+        										headers : {
+        											'Content-Type' : 'application/json'
+        										},
+        										params : jsonData,
+        										success : function(response) {
+        											win.close();
+        											var responseText = Ext.JSON
+        													.decode(response.responseText);
+        											if (responseText.success) {
+        												var orderListStore = Ext.data.StoreManager
+        														.lookup('OrderListStore');
+        												orderListStore.removeAll();
+        												orderListStore.getProxy().extraParams = {
+        													orderStatus : 1
+        												};
+        												orderListStore.load();
+        											} else {
+        												if (Ext.MessageBox) {
+        													Ext.MessageBox.buttonText = {
+        														ok : "确定",
+        														cancel : "取消",
+        														yes : "是",
+        														no : "否"
+        													};
+        												}
+        												Ext.Msg.show({
+        													title : '服务器失败',
+        													msg : responseText.message,
+        													buttions : Ext.Msg.OK,
+        													icon : Ext.Msg.ERROR
+        												});
+        											}
+
+        										},
+        										failure : function(form, action) {
+        											win.close();
+        											if (Ext.MessageBox) {
+        												Ext.MessageBox.buttonText = {
+        													ok : "确定",
+        													cancel : "取消",
+        													yes : "是",
+        													no : "否"
+        												};
+        											}
+
+        											if (action.failureType === Ext.form.action.Action.CLIENT_INVALID) {
+
+        												Ext.Msg.show({
+        													title : '失败',
+        													msg : '填写的信息不合规范',
+        													buttons : Ext.Msg.OK,
+        													icon : Ext.Msg.ERROR
+        												});
+
+        											}
+
+        											if (action.failureType === Ext.form.action.Action.CONNECT_FAILURE) {
+
+        												Ext.Msg
+        														.show({
+        															title : '失败',
+        															msg : '状态:'
+        																	+ action.response.status
+        																	+ ': '
+        																	+ action.response.statusText,
+        															buttons : Ext.Msg.OK,
+        															icon : Ext.Msg.ERROR
+        														});
+
+        											}
+
+        											if (action.failureType === Ext.form.action.Action.SERVER_INVALID) {
+
+        												// server responded with success = false
+        												Ext.Msg
+        														.show({
+        															title : '失败',
+        															msg : action.result.errormsg,
+        															buttons : Ext.Msg.OK,
+        															icon : Ext.Msg.ERROR
+        														});
+
+        											}
+
+        										}
+
+        									});
+
+        						}
+
+
     },
 
     onButtonClick1: function(button, e, eOpts) {
-    	 var win = button.up('window');
-         var form = win.down('form').getForm();
-         form.reset();
-         win.close();
+        var win = button.up('window');
+        var form = win.down('form').getForm();
+        form.reset();
+        win.close();
     }
 
 });

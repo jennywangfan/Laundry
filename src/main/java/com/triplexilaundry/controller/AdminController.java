@@ -45,7 +45,7 @@ public class AdminController{
 			return ExtJSReturn.mapUserListOK(results);
 		} catch (Exception e) {
 			log.error("load user list controller exception");
-			return ExtJSReturn.mapError("获取所有员工信息失败");
+			return ExtJSReturn.mapError("获取所有员工信息失败!");
 		}
 	}
 	
@@ -59,7 +59,7 @@ public class AdminController{
 			
 		}catch(Exception e){
 			log.error("load department list controller exception");
-			return ExtJSReturn.mapError("获取所有部门信息失败");
+			return ExtJSReturn.mapError("获取所有部门信息失败!");
 		}
 	}
 	
@@ -70,16 +70,16 @@ public class AdminController{
 			Employee e = adminService.checkUserName(userName);
 			if(e == null){
 				log.info("no such userName in database");
-				return ExtJSReturn.simpleResult(true, userName + "可以使用");
+				return ExtJSReturn.simpleResult(true, userName + "可以使用!");
 			}
 			else{
 				log.info("userName already existed");
-				return ExtJSReturn.simpleResult(false,userName+ " 已经存在");
+				return ExtJSReturn.simpleResult(false,userName+ " 已经存在!");
 			}
 			
 		}catch(Exception e){
 		log.error("fail to check the username exists or not");
-		return ExtJSReturn.simpleResult(false, "验证用户名失败");
+		return ExtJSReturn.simpleResult(false, "验证用户名失败!");
 		}
 	}
 	
@@ -94,7 +94,7 @@ public class AdminController{
 			
 		}catch(Exception e){
 			log.error("fail to get department list for combobox ");
-			return ExtJSReturn.mapError("获取部门列表失败");
+			return ExtJSReturn.mapError("获取部门列表失败!");
 		}
 		
 	}
@@ -107,7 +107,7 @@ public class AdminController{
 			return ExtJSReturn.mapComboboxOK(employeeRoleCombo);
 		}catch(Exception e){
 			log.error("fail to get all employee role list for combobox");
-			return ExtJSReturn.mapError("获取员工身份列表失败");
+			return ExtJSReturn.mapError("获取员工身份列表失败!");
 		}
 	}
 
@@ -119,7 +119,7 @@ public class AdminController{
 			return ExtJSReturn.mapComboboxOK(accessRoleCombo);
 		}catch(Exception e){
 			log.error("fail to get all access role list for combobox");
-			return ExtJSReturn.mapError("获取权限列表失败");
+			return ExtJSReturn.mapError("获取权限列表失败!");
 		}
 	}
 	
@@ -131,7 +131,7 @@ public class AdminController{
 			return ExtJSReturn.mapComboboxOK(managerCombo);
 		}catch(Exception e){
 			log.error("fail to get all manager list for combobox");
-			return ExtJSReturn.mapError("获取经理列表失败");
+			return ExtJSReturn.mapError("获取经理列表失败!");
 		}
 	}
 	
@@ -141,10 +141,10 @@ public class AdminController{
 		try{
 			 employeeWrapperService.createUser(data);
 			 log.info("add user success");
-			return ExtJSReturn.mapOKMessage("添加成功");
+			return ExtJSReturn.mapOKMessage("添加成功!");
 		} catch (Exception e) {
 			log.error("add user controller exception");
-			return ExtJSReturn.mapError("添加用户过程出错");
+			return ExtJSReturn.mapError("添加用户过程出错!");
 		}
 	}
 	
@@ -155,10 +155,10 @@ public class AdminController{
 			adminService.destroyUser(userName);
 			
 				log.info("success to delete the user");
-				return ExtJSReturn.mapOKMessage("删除成功");
+				return ExtJSReturn.mapOKMessage("删除成功!");
 			}catch(Exception e){
 				log.error("fail to delete the user");
-				return ExtJSReturn.mapError("删除失败");
+				return ExtJSReturn.mapError("删除失败!");
 			}
 			
 		
@@ -171,15 +171,15 @@ public class AdminController{
 			boolean cd = adminService.checkDepName(depName);
 			if(cd){
 				log.info(depName + " exists");
-				return ExtJSReturn.simpleResult(false, depName +"已经存在");
+				return ExtJSReturn.simpleResult(false, depName +"已经存在!");
 			}
 			else{
 				log.info(depName +" not exists");
-				return ExtJSReturn.simpleResult(true, depName + "可以使用");
+				return ExtJSReturn.simpleResult(true, depName + "可以使用!");
 			}
 		}catch(Exception e){
 			log.error("fail to check dep name "+depName);
-			return ExtJSReturn.simpleResult(false, "验证部门名称出错");
+			return ExtJSReturn.simpleResult(false, "验证部门名称出错!");
 		}
 	}
 	
@@ -191,16 +191,16 @@ public class AdminController{
 			if(data.getDepartmentId() == null){
 			 depWrapperService.createDepartment(data);
 			 log.info("success to add department");
-			 return ExtJSReturn.mapOKMessage("添加成功");
+			 return ExtJSReturn.mapOKMessage("添加成功!");
 			}else{
 				depWrapperService.editDepartment(data);
 				log.info("success to edit department");
-				return ExtJSReturn.mapOKMessage("编辑成功");
+				return ExtJSReturn.mapOKMessage("编辑成功!");
 			}
 			
 		} catch (Exception e) {
 			log.error("add department controller exception");
-			return ExtJSReturn.mapError("操作部门过程出错");
+			return ExtJSReturn.mapError("操作部门过程出错!");
 		}
 	}
 	
@@ -210,10 +210,10 @@ public class AdminController{
 		try{
 			depWrapperService.createDepartment(data);
 			 log.info("add department success");
-			return ExtJSReturn.mapOKMessage("添加成功");
+			return ExtJSReturn.mapOKMessage("添加成功!");
 		} catch (Exception e) {
 			log.error("add department controller exception");
-			return ExtJSReturn.mapError("添加部门过程出错");
+			return ExtJSReturn.mapError("添加部门过程出错!");
 		}
 	}
 	
@@ -224,10 +224,10 @@ public class AdminController{
 			adminService.destroyDepartment(depId);
 			
 				log.info("success to delete the department");
-				return ExtJSReturn.mapOKMessage("删除成功");
+				return ExtJSReturn.mapOKMessage("删除成功!");
 			}catch(Exception e){
 				log.error("fail to delete the department");
-				return ExtJSReturn.mapError("删除失败");
+				return ExtJSReturn.mapError("删除失败!");
 			}
 			
 		

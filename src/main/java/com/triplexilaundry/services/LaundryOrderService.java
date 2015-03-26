@@ -1,5 +1,6 @@
 package com.triplexilaundry.services;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import com.triplexilaundry.domain.OrderStatus;
 import com.triplexilaundry.domain.company.Customer;
 import com.triplexilaundry.domain.company.Employee;
 import com.triplexilaundry.exception.NotAllowToOperationException;
+import com.triplexilaundry.extjsdata.ConfirmOrder;
 import com.triplexilaundry.extjsdata.LaundryItemModel;
 import com.triplexilaundry.extjsdata.LaundryOrderModel;
 
@@ -216,7 +218,7 @@ public class LaundryOrderService {
 		@SuppressWarnings("unchecked")
 		List<LaundryOrder> orderList = (List<LaundryOrder>) orderMap.get("results");
 		List<LaundryOrderModel> extOrderList = null;
-		if (orderList != null)
+		if (orderList != null){
 			extOrderList = new ArrayList<>();
 		for (LaundryOrder order : orderList) {
 			LaundryOrderModel lom = new LaundryOrderModel();
@@ -262,10 +264,23 @@ public class LaundryOrderService {
 			}
 			extOrderList.add(lom);
 		}
+		}
 		
 		orderMap.put("results",extOrderList);
 		
 		return orderMap;
+	}
+
+	/**
+	* <p>Title: contactOrder</p>
+	* <p>Description: </p>
+	* @param updatedOrder
+	 * @throws ParseException 
+	*/
+	@Transactional 
+	public void contactOrder(ConfirmOrder updatedOrder) throws ParseException {
+	   laundryOrderDao.updateOrderAContact(updatedOrder);  
+		
 	}
 
 }

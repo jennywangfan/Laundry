@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.triplexilaundry.domain.OrderStatus;
 import com.triplexilaundry.exception.NotAllowToOperationException;
+import com.triplexilaundry.extjsdata.ConfirmOrder;
 import com.triplexilaundry.extjsdata.ExtJSReturn;
 import com.triplexilaundry.services.LaundryOrderService;
 
@@ -76,7 +78,7 @@ public class OrderListController extends AbstractControllerService{
 		}
 		}catch(Exception e){
 			log.error("fail to return orders",e);
-			return ExtJSReturn.mapError("获取订单列表失败");
+			return ExtJSReturn.mapError("获取订单列表失败!");
 		}
 		
 		
@@ -90,11 +92,11 @@ public class OrderListController extends AbstractControllerService{
 			String userName = this.getCurrentUserId();
 			orderService.cancelOrderById(orderId,userName);
 			log.info("success to cancel order " + orderId +"by " +userName);
-			return ExtJSReturn.simpleMapResult(true, "取消订单成功");
+			return ExtJSReturn.simpleMapResult(true, "取消订单成功!");
 		}catch(NotAllowToOperationException ne){
 			return ExtJSReturn.simpleMapResult(false, ne.getMessage());
 		}catch(RuntimeException re){
-			return ExtJSReturn.simpleMapResult(false, "取消订单失败");
+			return ExtJSReturn.simpleMapResult(false, "取消订单失败!");
 		}
 	}
 	
@@ -125,12 +127,26 @@ public class OrderListController extends AbstractControllerService{
 			}else{
 				//add codes for other purpose of searching
 				log.info("no orderstatus is found,will do nothing for search");
-				return ExtJSReturn.mapError("没有指定搜索订单的状态");
+				return ExtJSReturn.mapError("没有指定搜索订单的状态!");
 			}
 		}catch(Exception e){
 			log.error("fail to find order",e);
-			return ExtJSReturn.simpleMapResult(false, "搜索订单失败");
+			return ExtJSReturn.simpleMapResult(false, "搜索订单失败!");
 		}
 	}
+	@RequestMapping(method = RequestMethod.POST,value = "/contactCustomer.action")
+	public @ResponseBody Map<String, ? extends Object> processOrder(@RequestBody ConfirmOrder updatedOrder){
+		log.info("contacted customer for order ");
+		try{
+			orderService.contactOrder(updatedOrder);
+			return ExtJSReturn.simpleMapResult(true, "联系客户确认订单成功！");
+		}catch(Exception e){
+			log.error("fail to update the order to processed");
+			return ExtJSReturn.simpleMapResult(false, "联系客户后更新订单失败！");
+		}
+		
+		
+	}
+	
 
 }

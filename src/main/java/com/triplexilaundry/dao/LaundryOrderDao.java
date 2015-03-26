@@ -1,6 +1,9 @@
 
 package com.triplexilaundry.dao;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,10 +18,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.triplexilaundry.domain.Address;
 import com.triplexilaundry.domain.LaundryOrder;
 import com.triplexilaundry.domain.OrderStatus;
 import com.triplexilaundry.domain.company.Employee;
 import com.triplexilaundry.exception.NotAllowToOperationException;
+import com.triplexilaundry.extjsdata.ConfirmOrder;
 
 /**
  * <p>Title: LaundryOrderDao</p>
@@ -256,16 +261,16 @@ public class LaundryOrderDao {
 			 return result;
 		}
 		else if(orderId == null || orderId.length() == 0){
-			  sql = "select o from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.userName = :cellPhone";
-			  sqlCount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.userName = :cellPhone";
+			  sql = "select o from LaundryOrder o where o.csRep.username = :name and o.customer.userName = :cellPhone";
+			  sqlCount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name and o.customer.userName = :cellPhone";
 				Query querycount = entityManger.createQuery(sqlCount);
 			  	querycount.setParameter("name", userName);
-			  	querycount.setParameter("orderstatus", orderS);
+			  	//querycount.setParameter("orderstatus", orderS);
 			  	querycount.setParameter("cellPhone", cellPhone);
 			  	long totalCount = (long) querycount.getSingleResult();
 			    Query query = entityManger.createQuery(sql);
 			    query.setParameter("name", userName);
-			    query.setParameter("orderstatus", orderS);
+			    //query.setParameter("orderstatus", orderS);
 			    query.setParameter("cellPhone", cellPhone);
 			    query.setMaxResults(limit);
 			    query.setFirstResult((page-1)*limit);
@@ -276,17 +281,17 @@ public class LaundryOrderDao {
 			    result.put("results", orderList);
 			    return result;
 		}else{
-			  sql = "select o from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.userName = :cellPhone and o.orderId = :orderId";
-			  sqlCount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name and o.orderStatus = :orderstatus and o.customer.userName = :cellPhone and o.orderId = :orderId";
+			  sql = "select o from LaundryOrder o where o.csRep.username = :name  and o.customer.userName = :cellPhone and o.orderId = :orderId";
+			  sqlCount = "select count(o.orderId) from LaundryOrder o where o.csRep.username = :name  and o.customer.userName = :cellPhone and o.orderId = :orderId";
 				Query querycount = entityManger.createQuery(sqlCount);
 			  	querycount.setParameter("name", userName);
-			  	querycount.setParameter("orderstatus", orderS);
+			  	//querycount.setParameter("orderstatus", orderS);
 			  	querycount.setParameter("cellPhone", cellPhone);
 			  	querycount.setParameter("orderId", Long.valueOf(orderId));
 			  	long totalCount = (long) querycount.getSingleResult();
 			    Query query = entityManger.createQuery(sql);
 			    query.setParameter("name", userName);
-			    query.setParameter("orderstatus", orderS);
+			    //query.setParameter("orderstatus", orderS);
 			    query.setParameter("cellPhone", cellPhone);
 			    query.setParameter("orderId", Long.valueOf(orderId));
 			    query.setMaxResults(limit);
@@ -298,6 +303,59 @@ public class LaundryOrderDao {
 			    result.put("results", orderList);
 			    return result;
 		}
+		
+	}
+
+	/**
+	* <p>Title: updateOrderAContact</p>
+	* <p>Description: </p>
+	* @param updatedOrder
+	 * @throws ParseException 
+	*/
+	public void updateOrderAContact(ConfirmOrder updatedOrder) throws ParseException {
+		
+		log.info("update infomation after confirm order with customer");
+		try{
+			long orderId = Long.valueOf(updatedOrder.getOrderId());
+			LaundryOrder order = entityManger.find(LaundryOrder.class, orderId);
+			Address address = order.getAddress();
+			address.setState(updatedOrder.getState());
+			address.setCity(updatedOrder.getCity());
+			address.setDistrict(updatedOrder.getDistrict());
+			address.setStreet(updatedOrder.getState());
+			address.setStreetNum(updatedOrder.getStreetNum());
+			address.setFullName(updatedOrder.getFullName());
+			address.setPhoneNumber(updatedOrder.getPhoneNumber());
+			SimpleDateFormat format1 = new SimpleDateFormat("mm/dd/yyyy h:mm a");
+			SimpleDateFormat format2 = new SimpleDateFormat("mm/dd/yyyy");
+			Date pSdate = null;
+			if(updatedOrder.getPreferedPickupETime() != null)
+			  pSdate = format1.parse(updatedOrder.getPreferedPickupSDate() +" " +updatedOrder.getPreferedPickupSTime());
+			else
+				pSdate = format2.parse(updatedOrder.getPreferedPickupSDate());
+			if(pSdate != null)
+				order.setPreferedPickupStime(pSdate);
+			Date pEdate = null;
+			if(updatedOrder.getPreferedPickupETime() != null)
+				pEdate = format1.parse(updatedOrder.getPreferedPickupEDate()+" "+updatedOrder.getPreferedPickupETime());
+			else
+				pEdate = format2.parse(updatedOrder.getPreferedPickupEDate());			
+			if(pEdate != null)
+				order.setPreferedPickupEtime(pEdate);
+			order.setOrderStatus(OrderStatus.WAITINGFORPICKUP);
+			entityManger.merge(order);
+			
+		}catch(RuntimeException re){
+			log.error("fail to update order after confirm with customer",re);
+			throw re;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			log.error("fail to parse date",e);
+			throw e;
+			
+		}
+		
+		
 		
 	}
 		
