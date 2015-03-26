@@ -42,7 +42,7 @@ Ext.define('Xixixi.view.AdminViewportViewController', {
     },
 
     onDepartmentlistgridItemDblClick: function(dataview, record, item, index, e, eOpts) {
-        var editDepWin = Ext.getCmp('eidtDepartmentWindow');
+        var editDepWin = Ext.getCmp('editDepartmentWindow');
         if(!editDepWin){
             editDepWin = Ext.create('Xixixi.view.EditDepartment').show();
             if(record){

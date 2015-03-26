@@ -31,7 +31,8 @@ Ext.application({
     ],
     stores: [
         'GetUserNameStore',
-        'OrderListStore'
+        'OrderListStore',
+        'RecordOrderItemStore'
     ],
     views: [
         'OrderMainViewport'

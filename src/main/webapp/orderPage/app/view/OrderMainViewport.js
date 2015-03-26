@@ -12,7 +12,8 @@ Ext.define('Xixixi.view.OrderMainViewport', {
         'Ext.view.Table',
         'Ext.grid.column.Action',
         'Ext.grid.plugin.RowExpander',
-        'Ext.toolbar.Paging'
+        'Ext.toolbar.Paging',
+        'Xixixi.view.ContactCustomer'
     ],
 
     controller: 'ordermainviewport',
@@ -181,7 +182,39 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     items: [
                                         {
                                             handler: function(view, rowIndex, colIndex, item, e, record, row) {
+                                            	
+                                            	var contactWindow = Ext.create('Xixixi.view.ContactCustomer');
+                                             	contactWindow.show();
+                                            	var form = contactWindow.down('form').getForm();
+                                              	var recorddata = record.data;
+                                            	var address = recorddata.address;
+                                            	var cd = Ext.Date.format(recorddata.createDate,'Y-m-d H:i:s');
+                                            	var pst = recorddata.preferedPickupStime;
+                                            	var pet = recorddata.preferedPickupEtime;
+                                            	var parsePst = Ext.Date.format(pst,'g:i A');
+                                            	var parsePet = Ext.Date.format(pet,'g:i A');
 
+                                            	form.setValues({
+                                            		orderBy : recorddata.orderBy,
+                                            		createDate  : cd,
+                                            		preferedPickupSDate: pst,
+                                            		preferedPickupEDate: pet,
+                                            		preferedPickupSTime: parsePst,
+                                            		preferedPickupETime : parsePet,
+                                           		    fullName : address.fullName,
+                                            		phoneNumber : address.phoneNum,
+                                            		state : address.state,
+                                            		city : address.city,
+                                            		district : address.district,
+                                            		street : address.street,
+                                            		streetNum : address.streetNum
+                                            		
+                                            	});
+                                            	var gridStore = Ext.data.StoreManager.lookup('RecordOrderItemStore');
+                                            	gridStore.removeAll();
+                                            	gridStore.loadData(recorddata.orderItems);
+                                            	
+                                            	
                                             },
                                             icon: 'orderPage/images/customer.png',
                                             tooltip: '联系客户'
