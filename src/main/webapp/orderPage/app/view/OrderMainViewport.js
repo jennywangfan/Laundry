@@ -21,13 +21,21 @@ Ext.define('Xixixi.view.OrderMainViewport', {
         'Xixixi.view.OrderMainViewportViewModel',
         'Xixixi.view.OrderMainViewportViewController',
         'Ext.XTemplate',
-        'Ext.form.field.Text',
         'Ext.Img',
         'Ext.grid.Panel',
-        'Ext.view.Table',
         'Ext.grid.column.Action',
         'Ext.grid.plugin.RowExpander',
         'Ext.toolbar.Paging',
+        'Ext.form.Panel',
+        'Ext.tree.Panel',
+        'Ext.tree.View',
+        'Ext.tree.Column',
+        'Ext.form.field.Number',
+        'Ext.grid.plugin.CellEditing',
+        'Ext.form.field.TextArea',
+        'Ext.form.field.Date',
+        'Ext.form.field.Time',
+        'Ext.button.Button',
         'Xixixi.view.ContactCustomer'
     ],
 
@@ -38,6 +46,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
     padding: '',
     style: 'background-color: #EFEFEF;',
     layout: 'border',
+    defaultListenerScope: true,
 
     items: [
         {
@@ -112,6 +121,11 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                     xtype: 'container',
                     html: '<div class="menu_operator">已取消订单</div>',
                     id: 'menu_canceled'
+                },
+                {
+                    xtype: 'container',
+                    html: '<div class="menu_operator">替客户下单</div>',
+                    id: 'menu_createorder'
                 }
             ]
         },
@@ -197,42 +211,43 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     items: [
                                         {
                                             handler: function(view, rowIndex, colIndex, item, e, record, row) {
-                                            	
-                                            	var contactWindow = Ext.create('Xixixi.view.ContactCustomer');
-                                             	contactWindow.show();
-                                            	var form = contactWindow.down('form').getForm();
-                                              	var recorddata = record.data;
-                                            	var address = recorddata.address;
-                                            	var cd = Ext.Date.format(recorddata.createDate,'Y-m-d H:i:s');
-                                            	var pst = recorddata.preferedPickupStime;
-                                            	var pet = recorddata.preferedPickupEtime;
-                                            	var parsePst = Ext.Date.format(pst,'g:i A');
-                                            	var parsePet = Ext.Date.format(pet,'g:i A');
 
-                                            	form.setValues({
-                                            		orderId : recorddata.orderId,
-                                            		orderBy : recorddata.orderBy,
-                                            		comments : recorddata.comments,
-                                            		createDate  : cd,                                   		
-                                            		preferedPickupSDate: pst,
-                                            		preferedPickupEDate: pet,
-                                            		preferedPickupSTime: parsePst,
-                                            		preferedPickupETime : parsePet,
-                                           		    fullName : address.fullName,
-                                            		phoneNumber : address.phoneNum,
-                                            		state : address.state,
-                                            		city : address.city,
-                                            		district : address.district,
-                                            		street : address.street,
-                                            		streetNum : address.streetNum
-                                            		
-                                            		
-                                            	});
-                                            	var gridStore = Ext.data.StoreManager.lookup('RecordOrderItemStore');
-                                            	gridStore.removeAll();
-                                            	gridStore.loadData(recorddata.orderItems);
-                                            	
-                                            	
+
+                                                var contactWindow = Ext.create('Xixixi.view.ContactCustomer');
+                                                contactWindow.show();
+                                                var form = contactWindow.down('form').getForm();
+                                                var recorddata = record.data;
+                                                var address = recorddata.address;
+                                                var cd = Ext.Date.format(recorddata.createDate,'Y-m-d H:i:s');
+                                                var pst = recorddata.preferedPickupStime;
+                                                var pet = recorddata.preferedPickupEtime;
+                                                var parsePst = Ext.Date.format(pst,'g:i A');
+                                                var parsePet = Ext.Date.format(pet,'g:i A');
+
+                                                form.setValues({
+                                                    orderId : recorddata.orderId,
+                                                    orderBy : recorddata.orderBy,
+                                                    comments : recorddata.comments,
+                                                    createDate  : cd,
+                                                    preferedPickupSDate: pst,
+                                                    preferedPickupEDate: pet,
+                                                    preferedPickupSTime: parsePst,
+                                                    preferedPickupETime : parsePet,
+                                                    fullName : address.fullName,
+                                                    phoneNumber : address.phoneNum,
+                                                    state : address.state,
+                                                    city : address.city,
+                                                    district : address.district,
+                                                    street : address.street,
+                                                    streetNum : address.streetNum
+
+                                                });
+                                                var gridStore = Ext.data.StoreManager.lookup('RecordOrderItemStore');
+                                                gridStore.removeAll();
+                                                gridStore.loadData(recorddata.orderItems);
+
+
+
                                             },
                                             icon: 'orderPage/images/customer.png',
                                             tooltip: '联系客户'
@@ -247,19 +262,20 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     items: [
                                         {
                                             handler: function(view, rowIndex, colIndex, item, e, record, row) {
+
                                                 var oId = record.data.orderId;
                                                 if (Ext.MessageBox) {
-                                                	 Ext.MessageBox.buttonText = {
-                                                	  ok : "确定",
-                                                	  cancel : "取消",
-                                                	  yes : "是",
-                                                	  no : "否"
-                                                	 };
+                                                    Ext.MessageBox.buttonText = {
+                                                        ok : "确定",
+                                                        cancel : "取消",
+                                                        yes : "是",
+                                                        no : "否"
+                                                    };
                                                 }
                                                 Ext.MessageBox.confirm('取消订单','确定取消订单号为'+oId+'的订单',
-                                                		function(e){
+                                                function(e){
                                                     if(e=='yes'){
-                                                    	Ext.Ajax.timeout = 40000;
+                                                        Ext.Ajax.timeout = 40000;
                                                         Ext.Ajax.request({
                                                             url : 'cancelOrder.action',
                                                             method : 'POST',
@@ -283,12 +299,13 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                                                 Ext.Msg.alert('失败','网络可能有问题');
                                                             }
                                                         });
-                                                    	
-                                                    	}
+
                                                     }
-                                                    	
-                                                		);
-                                                
+                                                }
+
+                                                );
+
+
                                             },
                                             icon: 'orderPage/images/error.png',
                                             tooltip: '取消订单'
@@ -670,13 +687,167 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     store: 'OrderListStore'
                                 }
                             ]
+                        },
+                        {
+                            xtype: 'form',
+                            height: 600,
+                            bodyPadding: 10,
+                            header: false,
+                            title: 'My Form',
+                            layout: {
+                                type: 'hbox',
+                                align: 'stretch'
+                            },
+                            items: [
+                                {
+                                    xtype: 'container',
+                                    height: 400,
+                                    width: '50%',
+                                    items: [
+                                        {
+                                            xtype: 'toolbar',
+                                            height: 35,
+                                            html: '<div>总价 :</div>'
+                                        },
+                                        {
+                                            xtype: 'treepanel',
+                                            height: 565,
+                                            padding: '0 20 0 20',
+                                            scrollable: true,
+                                            width: '',
+                                            title: '干洗项目 点击数量列编辑',
+                                            rootVisible: false,
+                                            bind: {
+                                                store: 'ClothesCategoryTreeStore'
+                                            },
+                                            viewConfig: {
+                                                loadingText: '加载中......',
+                                                rootVisible: false
+                                            },
+                                            columns: [
+                                                {
+                                                    xtype: 'treecolumn',
+                                                    dataIndex: 'category',
+                                                    text: '洗涤类别',
+                                                    flex: 1
+                                                },
+                                                {
+                                                    xtype: 'gridcolumn',
+                                                    dataIndex: 'unitPrice',
+                                                    text: '单价'
+                                                },
+                                                {
+                                                    xtype: 'gridcolumn',
+                                                    dataIndex: 'amount',
+                                                    text: '数量',
+                                                    editor: {
+                                                        xtype: 'numberfield',
+                                                        allowBlank: false,
+                                                        allowOnlyWhitespace: false,
+                                                        decimalPrecision: 0
+                                                    }
+                                                }
+                                            ],
+                                            plugins: [
+                                                {
+                                                    ptype: 'cellediting',
+                                                    clicksToEdit: 1
+                                                }
+                                            ],
+                                            listeners: {
+                                                itemdblclick: 'onTreepanelItemDblClick'
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    xtype: 'container',
+                                    padding: '0 50',
+                                    width: '50%',
+                                    items: [
+                                        {
+                                            xtype: 'textfield',
+                                            fieldLabel: '下单客户(手机)'
+                                        },
+                                        {
+                                            xtype: 'textfield',
+                                            fieldLabel: '姓名'
+                                        },
+                                        {
+                                            xtype: 'textfield',
+                                            fieldLabel: '联系方式'
+                                        },
+                                        {
+                                            xtype: 'textfield',
+                                            fieldLabel: '省份'
+                                        },
+                                        {
+                                            xtype: 'textfield',
+                                            fieldLabel: '城市'
+                                        },
+                                        {
+                                            xtype: 'textfield',
+                                            fieldLabel: '小区'
+                                        },
+                                        {
+                                            xtype: 'textfield',
+                                            fieldLabel: '街道'
+                                        },
+                                        {
+                                            xtype: 'textfield',
+                                            fieldLabel: '门牌号'
+                                        },
+                                        {
+                                            xtype: 'textareafield',
+                                            fieldLabel: '备注'
+                                        },
+                                        {
+                                            xtype: 'datefield',
+                                            fieldLabel: '最早取单日期'
+                                        },
+                                        {
+                                            xtype: 'timefield',
+                                            fieldLabel: '最早时间'
+                                        },
+                                        {
+                                            xtype: 'datefield',
+                                            fieldLabel: '最晚取单日期'
+                                        },
+                                        {
+                                            xtype: 'timefield',
+                                            fieldLabel: '最晚时间'
+                                        },
+                                        {
+                                            xtype: 'button',
+                                            margin: '20 120',
+                                            text: '提交'
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     ],
                     listeners: {
-                        _afterrender0: 'onOrderCenterContainerAfterRender',
-                        _afterrender1: 'onOrderCenterContainerAfterRender1',
-                        _afterrender2: 'onOrderCenterContainerAfterRender2',
-                        _afterrender3: 'onOrderCenterContainerAfterRender3',
+                        _afterrender0: {
+                            fn: 'onOrderCenterContainerAfterRender',
+                            scope: 'controller'
+                        },
+                        _afterrender1: {
+                            fn: 'onOrderCenterContainerAfterRender1',
+                            scope: 'controller'
+                        },
+                        _afterrender2: {
+                            fn: 'onOrderCenterContainerAfterRender2',
+                            scope: 'controller'
+                        },
+                        _afterrender3: {
+                            fn: 'onOrderCenterContainerAfterRender3',
+                            scope: 'controller'
+                        },
+                        _afterrender4: {
+                            fn: 'onOrderCenterContainerAfterRender4',
+                            scope: 'controller'
+                        },
                         afterrender: function() {
                             var me = this,
                                 args = Ext.toArray(arguments, 0, -1);
@@ -688,11 +859,19 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                             me.fireEvent.apply(me, args);
                             args[0] = '_afterrender3';
                             me.fireEvent.apply(me, args);
+                            args[0] = '_afterrender4';
+                            me.fireEvent.apply(me, args);
                         }
                     }
                 }
             ]
         }
-    ]
+    ],
+
+    onTreepanelItemDblClick: function(dataview, record, item, index, e, eOpts) {
+        console.log(record);
+        return false;
+
+    }
 
 });

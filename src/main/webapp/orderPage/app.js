@@ -27,12 +27,14 @@ Ext.Loader.setConfig({
 Ext.application({
     models: [
         'LaundryOrder',
-        'OrderItem'
+        'OrderItem',
+        'ClothesCategoryPrice'
     ],
     stores: [
         'GetUserNameStore',
         'OrderListStore',
-        'RecordOrderItemStore'
+        'RecordOrderItemStore',
+        'ClothesCategoryTreeStore'
     ],
     views: [
         'OrderMainViewport'
