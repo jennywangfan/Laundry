@@ -1,0 +1,60 @@
+ {
+    data: [
+                
+    
+    {
+        "category": "上装",
+        "amount": 0,
+        "unitPrice": 5,
+        "categoryId": 1,
+        "itemName": "马甲",
+        "itemId": 1,
+        "totalPrice": 0
+    },
+    {
+        "category": "上装",
+        "amount": 0,
+        "unitPrice": 9,
+        "categoryId": 1,
+        "itemName": "T恤",
+        "itemId": 2,
+        "totalPrice": 0
+    },
+    {
+        "category": "下装",
+        "amount": 0,
+        "unitPrice": 6,
+        "categoryId": 2,
+        "itemName": "短裤",
+        "itemId": 3,
+        "totalPrice": 0
+    },
+    {
+        "category": "下装",
+        "amount": 0,
+        "unitPrice": 7,
+        "categoryId": 2,
+        "itemName": "长裤",
+        "itemId": 4,
+        "totalPrice": 0
+    },
+    {
+        "category": "套装",
+        "amount": 0,
+        "unitPrice": 4,
+        "categoryId": 3,
+        "itemName": "西装",
+        "itemId": 5,
+        "totalPrice": 0
+    },
+    {
+        "category": "套装",
+        "amount": 0,
+        "unitPrice": 9,
+        "categoryId": 3,
+        "itemName": "登山套装",
+        "itemId": 5,
+        "totalPrice": 0
+    }
+            ]
+   }

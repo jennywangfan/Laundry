@@ -23,13 +23,13 @@ Ext.define('Xixixi.view.OrderMainViewport', {
         'Ext.XTemplate',
         'Ext.Img',
         'Ext.grid.Panel',
+        'Ext.view.Table',
         'Ext.grid.column.Action',
         'Ext.grid.plugin.RowExpander',
         'Ext.toolbar.Paging',
         'Ext.form.Panel',
-        'Ext.tree.Panel',
-        'Ext.tree.View',
-        'Ext.tree.Column',
+        'Ext.grid.feature.Summary',
+        'Ext.grid.column.Number',
         'Ext.form.field.Number',
         'Ext.grid.plugin.CellEditing',
         'Ext.form.field.TextArea',
@@ -46,7 +46,6 @@ Ext.define('Xixixi.view.OrderMainViewport', {
     padding: '',
     style: 'background-color: #EFEFEF;',
     layout: 'border',
-    defaultListenerScope: true,
 
     items: [
         {
@@ -705,47 +704,67 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     width: '50%',
                                     items: [
                                         {
-                                            xtype: 'toolbar',
-                                            height: 35,
-                                            html: '<div>总价 :</div>'
-                                        },
-                                        {
-                                            xtype: 'treepanel',
-                                            height: 565,
-                                            padding: '0 20 0 20',
-                                            scrollable: true,
-                                            width: '',
-                                            title: '干洗项目 点击数量列编辑',
-                                            rootVisible: false,
-                                            bind: {
-                                                store: 'ClothesCategoryTreeStore'
-                                            },
-                                            viewConfig: {
-                                                loadingText: '加载中......',
-                                                rootVisible: false
-                                            },
+                                            xtype: 'gridpanel',
+                                            title: 'My Grid Panel',
+                                            store: 'CategoryPriceStore',
+                                            features: [
+                                                {
+                                                    ftype: 'summary',
+                                                    dock: 'top'
+                                                }
+                                            ],
                                             columns: [
                                                 {
-                                                    xtype: 'treecolumn',
+                                                    xtype: 'gridcolumn',
                                                     dataIndex: 'category',
-                                                    text: '洗涤类别',
-                                                    flex: 1
+                                                    text: '类别'
+                                                },
+                                                {
+                                                    xtype: 'gridcolumn',
+                                                    dataIndex: 'itemName',
+                                                    text: '名称'
+                                                },
+                                                {
+                                                    xtype: 'numbercolumn',
+                                                    dataIndex: 'amount',
+                                                    text: '数量',
+                                                    format: '0,000',
+                                                    editor: {
+                                                        xtype: 'numberfield',
+                                                        maxValue: 500,
+                                                        minValue: 0
+                                                    }
                                                 },
                                                 {
                                                     xtype: 'gridcolumn',
                                                     dataIndex: 'unitPrice',
-                                                    text: '单价'
+                                                    text: '单项总价'
                                                 },
                                                 {
                                                     xtype: 'gridcolumn',
-                                                    dataIndex: 'amount',
-                                                    text: '数量',
-                                                    editor: {
-                                                        xtype: 'numberfield',
-                                                        allowBlank: false,
-                                                        allowOnlyWhitespace: false,
-                                                        decimalPrecision: 0
-                                                    }
+                                                    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+                                                        var amount = record.get('amount');
+                                                        var unitPrice = record.get('unitPrice');
+                                                        return amount*unitPrice;
+                                                    },
+                                                    summaryRenderer: function(val, params, data) {
+                                                        return '总计' +val+'元';
+                                                    },
+                                                    summaryType: 'sum',
+                                                    dataIndex: 'totalPrice',
+                                                    text: '总价'
+                                                },
+                                                {
+                                                    xtype: 'gridcolumn',
+                                                    hidden: true,
+                                                    dataIndex: 'categoryId',
+                                                    text: 'CategoryId'
+                                                },
+                                                {
+                                                    xtype: 'gridcolumn',
+                                                    hidden: true,
+                                                    dataIndex: 'itemId',
+                                                    text: 'ItemId'
                                                 }
                                             ],
                                             plugins: [
@@ -755,14 +774,14 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                                 }
                                             ],
                                             listeners: {
-                                                itemdblclick: 'onTreepanelItemDblClick'
+                                                edit: 'onGridpanelEdit'
                                             }
                                         }
                                     ]
                                 },
                                 {
                                     xtype: 'container',
-                                    padding: '0 50',
+                                    padding: '80 70',
                                     width: '50%',
                                     items: [
                                         {
@@ -828,26 +847,11 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                         }
                     ],
                     listeners: {
-                        _afterrender0: {
-                            fn: 'onOrderCenterContainerAfterRender',
-                            scope: 'controller'
-                        },
-                        _afterrender1: {
-                            fn: 'onOrderCenterContainerAfterRender1',
-                            scope: 'controller'
-                        },
-                        _afterrender2: {
-                            fn: 'onOrderCenterContainerAfterRender2',
-                            scope: 'controller'
-                        },
-                        _afterrender3: {
-                            fn: 'onOrderCenterContainerAfterRender3',
-                            scope: 'controller'
-                        },
-                        _afterrender4: {
-                            fn: 'onOrderCenterContainerAfterRender4',
-                            scope: 'controller'
-                        },
+                        _afterrender0: 'onOrderCenterContainerAfterRender',
+                        _afterrender1: 'onOrderCenterContainerAfterRender1',
+                        _afterrender2: 'onOrderCenterContainerAfterRender2',
+                        _afterrender3: 'onOrderCenterContainerAfterRender3',
+                        _afterrender4: 'onOrderCenterContainerAfterRender4',
                         afterrender: function() {
                             var me = this,
                                 args = Ext.toArray(arguments, 0, -1);
@@ -866,12 +870,6 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                 }
             ]
         }
-    ],
-
-    onTreepanelItemDblClick: function(dataview, record, item, index, e, eOpts) {
-        console.log(record);
-        return false;
-
-    }
+    ]
 
 });

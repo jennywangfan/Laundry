@@ -17,6 +17,16 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.ordermainviewport',
 
+    onGridpanelEdit: function(editor,e) {
+
+        var record = e.record;
+        var price = record.get('amount')*record.get('unitPrice');
+        record.set('totalPrice', price);
+        record.commit();
+
+
+    },
+
     onOrderCenterContainerAfterRender: function(component, eOpts) {
 
 

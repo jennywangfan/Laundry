@@ -34,7 +34,7 @@ Ext.application({
         'GetUserNameStore',
         'OrderListStore',
         'RecordOrderItemStore',
-        'ClothesCategoryTreeStore'
+        'CategoryPriceStore'
     ],
     views: [
         'OrderMainViewport'
