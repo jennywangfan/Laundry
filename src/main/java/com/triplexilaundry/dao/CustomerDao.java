@@ -45,16 +45,28 @@ public class CustomerDao {
 
 	
 	public void merge(Customer customer) {
-		log.debug("merge customer instance");
+		log.info("merge customer instance");
 		try {
 			entityManager.merge(customer);
 			entityManager.flush();
-			log.debug("merge successful");
+			log.info("merge successful");
 		} catch (RuntimeException re) {
 			log.error("merge failed", re);
 			throw re;
 		}
 		
+	}
+	
+	public Customer findByUserName(String userName){
+		log.info("find customer by id");
+		try{
+			Customer c = entityManager.find(Customer.class, userName);
+			return c;
+		}catch(RuntimeException re){
+			log.error("find customer by username failed"+userName,re);
+			throw re;
+			
+		}
 	}
 
 }

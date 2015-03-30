@@ -1,7 +1,9 @@
 package com.triplexilaundry.services;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,16 +14,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.triplexilaundry.dao.CustomerDao;
+import com.triplexilaundry.dao.EmployeeDao;
+import com.triplexilaundry.dao.LaundryItemDao;
 import com.triplexilaundry.dao.LaundryOrderDao;
+import com.triplexilaundry.domain.Address;
+import com.triplexilaundry.domain.LaundryItem;
 import com.triplexilaundry.domain.LaundryOrder;
 import com.triplexilaundry.domain.OrderItem;
 import com.triplexilaundry.domain.OrderStatus;
 import com.triplexilaundry.domain.company.Customer;
 import com.triplexilaundry.domain.company.Employee;
+import com.triplexilaundry.exception.ClientServerCategoryIdNotMatchException;
 import com.triplexilaundry.exception.NotAllowToOperationException;
 import com.triplexilaundry.extjsdata.ConfirmOrder;
+import com.triplexilaundry.extjsdata.LaundryDataCreateModel;
 import com.triplexilaundry.extjsdata.LaundryItemModel;
 import com.triplexilaundry.extjsdata.LaundryOrderModel;
+import com.triplexilaundry.extjsdata.OrderItemCreateModel;
 
 /**
  * <p>
@@ -43,6 +52,12 @@ public class LaundryOrderService {
 	private LaundryOrderDao laundryOrderDao;
 	@Autowired
 	private CustomerDao customerDao;
+	
+	@Autowired
+	private LaundryItemDao laundryItemDao;
+	
+	@Autowired
+	private EmployeeDao employeeDao;
 
 	private static final Logger log = LoggerFactory
 			.getLogger(LaundryOrderDao.class);
@@ -110,9 +125,9 @@ public class LaundryOrderService {
 				List<LaundryItemModel> itemList = new ArrayList<>();
 				for (OrderItem oi : laundryDetail) {
 					LaundryItemModel lim = new LaundryItemModel();
-					lim.setItemName(oi.getItem().getCategory());
+					lim.setItemName(oi.getItem().getItemName());
 					lim.setAmount(oi.getCount());
-					lim.setPricePerItem(oi.getItem().getPrice());
+					lim.setPricePerItem(oi.getItem().getUnitPrice());
 					// lim.setTotalPrice();
 					itemList.add(lim);
 				}
@@ -183,9 +198,9 @@ public class LaundryOrderService {
 				List<LaundryItemModel> itemList = new ArrayList<>();
 				for (OrderItem oi : laundryDetail) {
 					LaundryItemModel lim = new LaundryItemModel();
-					lim.setItemName(oi.getItem().getCategory());
+					lim.setItemName(oi.getItem().getItemName());
 					lim.setAmount(oi.getCount());
-					lim.setPricePerItem(oi.getItem().getPrice());
+					lim.setPricePerItem(oi.getItem().getUnitPrice());
 					// lim.setTotalPrice();
 					itemList.add(lim);
 				}
@@ -254,9 +269,9 @@ public class LaundryOrderService {
 				List<LaundryItemModel> itemList = new ArrayList<>();
 				for (OrderItem oi : laundryDetail) {
 					LaundryItemModel lim = new LaundryItemModel();
-					lim.setItemName(oi.getItem().getCategory());
+					lim.setItemName(oi.getItem().getItemName());
 					lim.setAmount(oi.getCount());
-					lim.setPricePerItem(oi.getItem().getPrice());
+					lim.setPricePerItem(oi.getItem().getUnitPrice());
 					// lim.setTotalPrice();
 					itemList.add(lim);
 				}
@@ -279,8 +294,118 @@ public class LaundryOrderService {
 	*/
 	@Transactional 
 	public void contactOrder(ConfirmOrder updatedOrder) throws ParseException {
-	   laundryOrderDao.updateOrderAContact(updatedOrder);  
+		long orderId = Long.valueOf(updatedOrder.getOrderId());
+		LaundryOrder order = laundryOrderDao.findById(orderId);
+		Address address = order.getAddress();
+		address.setState(updatedOrder.getState());
+		address.setCity(updatedOrder.getCity());
+		address.setDistrict(updatedOrder.getDistrict());
+		address.setStreet(updatedOrder.getState());
+		address.setStreetNum(updatedOrder.getStreetNum());
+		address.setFullName(updatedOrder.getFullName());
+		address.setPhoneNumber(updatedOrder.getPhoneNumber());
+		SimpleDateFormat format1 = new SimpleDateFormat("mm/dd/yyyy h:mm a");
+		SimpleDateFormat format2 = new SimpleDateFormat("mm/dd/yyyy");
+		Date pSdate = null;
+		if(updatedOrder.getPreferedPickupETime() != null)
+		  pSdate = format1.parse(updatedOrder.getPreferedPickupSDate() +" " +updatedOrder.getPreferedPickupSTime());
+		else
+			pSdate = format2.parse(updatedOrder.getPreferedPickupSDate());
+		if(pSdate != null)
+			order.setPreferedPickupStime(pSdate);
+		Date pEdate = null;
+		if(updatedOrder.getPreferedPickupETime() != null)
+			pEdate = format1.parse(updatedOrder.getPreferedPickupEDate()+" "+updatedOrder.getPreferedPickupETime());
+		else
+			pEdate = format2.parse(updatedOrder.getPreferedPickupEDate());			
+		if(pEdate != null)
+			order.setPreferedPickupEtime(pEdate);
+	    laundryOrderDao.updateOrderAContact(order);  
 		
+	}
+
+	/**
+	* <p>Title: createOrderForCustomer</p>
+	* <p>Description: </p>
+	* @param order
+	 * @throws ClientServerCategoryIdNotMatchException 
+	 * @throws ParseException 
+	*/
+	@Transactional
+	public void createOrderForCustomer(String currentUser,LaundryDataCreateModel order) throws ClientServerCategoryIdNotMatchException, ParseException {
+		String orderBy = order.getOrderBy();
+		Customer customer = customerDao.findByUserName(orderBy);
+		LaundryOrder lOrder = new LaundryOrder();
+		
+		Address address = new Address();
+		address.setCity(order.getCity());
+		address.setDistrict(order.getDistrict());
+		address.setFullName(order.getFullName());
+		address.setPhoneNumber(order.getPhoneNumber());
+		address.setState(order.getState());
+		address.setStreet(order.getStreet());
+		address.setStreetNum(order.getStreetNum());
+		lOrder.setAddress(address);
+		Date pSdate = null;
+		SimpleDateFormat format1 = new SimpleDateFormat("mm/dd/yyyy h:mm a");
+		SimpleDateFormat format2 = new SimpleDateFormat("mm/dd/yyyy");
+		if(order.getPreferedPickupETime() != null)
+		  pSdate = format1.parse(order.getPreferedPickupSDate() +" " +order.getPreferedPickupSTime());
+		else
+			pSdate = format2.parse(order.getPreferedPickupSDate());
+		if(pSdate != null)
+			lOrder.setPreferedPickupStime(pSdate);
+		Date pEdate = null;
+		if(order.getPreferedPickupETime() != null)
+			pEdate = format1.parse(order.getPreferedPickupEDate()+" "+order.getPreferedPickupETime());
+		else
+			pEdate = format2.parse(order.getPreferedPickupEDate());			
+		if(pEdate != null)
+			lOrder.setPreferedPickupEtime(pEdate);
+		List<OrderItemCreateModel> orderCreateItems = order.getOrderItems();
+		List<OrderItem> orderItems = new ArrayList<OrderItem>();
+		double price = 0;
+		for(OrderItemCreateModel item : orderCreateItems){
+			OrderItem oi = new OrderItem();
+			oi.setCount(item.getAmount());
+			double tPrice = item.getTotalPrice();
+			price += tPrice;
+			oi.setTotalPrice(tPrice);
+			oi.setBelongto(lOrder);
+			LaundryItem li = null;
+			try {
+			   li = laundryItemDao.findLaundryById(item.getItemId());
+			} catch (ClientServerCategoryIdNotMatchException e) {
+				throw e;
+			}
+			oi.setItem(li);
+			orderItems.add(oi);
+			
+		}
+		lOrder.setLaundryDetail(orderItems);
+		if(customer == null){
+			customer = new Customer();
+			if(orderBy.length() == 0)
+				orderBy = order.getPhoneNumber();
+			customer.setUserName(orderBy);
+			List<Address> addressList = new ArrayList<>();
+		    addressList.add(address);			    
+		    customer.setAddressList(addressList);
+			
+		}else{
+			customer.getAddressList().add(address);
+			
+		}
+		
+		lOrder.setCustomer(customer);
+		Employee csRep = employeeDao.findEmployeeByUserName(currentUser);
+		lOrder.setCsRep(csRep);
+		lOrder.setCreateDate(new Date());
+		lOrder.setLastUpdatedBy(csRep);
+		lOrder.setLastUpdateTime(new Date());
+		lOrder.setOrderStatus(OrderStatus.WAITINGFORPICKUP);
+		lOrder.setPrice(price);
+		laundryOrderDao.persist(lOrder);
 	}
 
 }

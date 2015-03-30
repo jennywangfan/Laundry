@@ -44,6 +44,7 @@ public class AbstractControllerService {
 	    }
 	   
 	    @SuppressWarnings("unchecked")
+	    //get current role information for current user
 		public String getCurrentRole() {
 	        String role = null;
 	        List<GrantedAuthority> authorities = null;

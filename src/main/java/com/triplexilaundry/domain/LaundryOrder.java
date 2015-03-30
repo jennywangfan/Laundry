@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -54,7 +55,7 @@ public class LaundryOrder implements Serializable{
 		this.orderId = orderId;
 	}
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "customer_id")
 	public Customer getCustomer() {
 		return customer;
@@ -107,7 +108,7 @@ public class LaundryOrder implements Serializable{
 	public void setActualIncome(double actualIncome) {
 		this.actualIncome = actualIncome;
 	}
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="address_id")
 	public Address getAddress() {
 		return address;
@@ -154,8 +155,7 @@ public class LaundryOrder implements Serializable{
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	@OneToMany(mappedBy = "belongto")
-	
+	@OneToMany(mappedBy = "belongto",cascade = {CascadeType.PERSIST,CascadeType.MERGE})	
 	public List<OrderItem> getLaundryDetail() {
 		return laundryDetail;
 	}

@@ -213,5 +213,106 @@ public class Employee implements UserDetails, Serializable{
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((accessRole == null) ? 0 : accessRole.hashCode());
+		result = prime * result
+				+ ((birthDay == null) ? 0 : birthDay.hashCode());
+		result = prime * result
+				+ ((createDate == null) ? 0 : createDate.hashCode());
+		result = prime * result
+				+ ((department == null) ? 0 : department.hashCode());
+		result = prime * result
+				+ ((employeeRole == null) ? 0 : employeeRole.hashCode());
+		result = prime * result + ((enable == null) ? 0 : enable.hashCode());
+		result = prime * result
+				+ ((expiredDate == null) ? 0 : expiredDate.hashCode());
+		result = prime * result
+				+ ((fullName == null) ? 0 : fullName.hashCode());
+		result = prime * result
+				+ ((password == null) ? 0 : password.hashCode());
+		result = prime * result
+				+ ((reportTo == null) ? 0 : reportTo.hashCode());
+		result = prime * result
+				+ ((startDate == null) ? 0 : startDate.hashCode());
+		result = prime * result
+				+ ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (accessRole == null) {
+			if (other.accessRole != null)
+				return false;
+		} else if (!accessRole.equals(other.accessRole))
+			return false;
+		if (birthDay == null) {
+			if (other.birthDay != null)
+				return false;
+		} else if (!birthDay.equals(other.birthDay))
+			return false;
+		if (createDate == null) {
+			if (other.createDate != null)
+				return false;
+		} else if (!createDate.equals(other.createDate))
+			return false;
+		if (department == null) {
+			if (other.department != null)
+				return false;
+		} else if (!department.equals(other.department))
+			return false;
+		if (employeeRole == null) {
+			if (other.employeeRole != null)
+				return false;
+		} else if (!employeeRole.equals(other.employeeRole))
+			return false;
+		if (enable == null) {
+			if (other.enable != null)
+				return false;
+		} else if (!enable.equals(other.enable))
+			return false;
+		if (expiredDate == null) {
+			if (other.expiredDate != null)
+				return false;
+		} else if (!expiredDate.equals(other.expiredDate))
+			return false;
+		if (fullName == null) {
+			if (other.fullName != null)
+				return false;
+		} else if (!fullName.equals(other.fullName))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (reportTo == null) {
+			if (other.reportTo != null)
+				return false;
+		} else if (!reportTo.equals(other.reportTo))
+			return false;
+		if (startDate == null) {
+			if (other.startDate != null)
+				return false;
+		} else if (!startDate.equals(other.startDate))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
 
+	
 }

@@ -18,7 +18,7 @@ public class LoginController extends AbstractControllerService {
 	private final Logger log = LoggerFactory.getLogger(LoginController.class);
 	
 	
-	
+	//get login page
 	  @RequestMapping(value = "/login",method = RequestMethod.GET)
 	    public String login(HttpServletRequest request, HttpServletResponse response)
 	        throws Exception {
@@ -26,13 +26,13 @@ public class LoginController extends AbstractControllerService {
 	        return "login";
 	    }
 	
-	  
+	  //return admin page
 	  @RequestMapping(value = "/admin",method = RequestMethod.GET)
 	    public String loginSuccessful(HttpServletRequest request, HttpServletResponse response)
 	        throws Exception {
 	        return "admin";
 	    }
-	  
+	  //main request after login, return different page according to different role
 	  @RequestMapping(value = "/main",method = RequestMethod.GET)
 	    public String mainSuccess(HttpServletRequest request, HttpServletResponse response)
 	        throws Exception {
@@ -45,6 +45,7 @@ public class LoginController extends AbstractControllerService {
 			return "login";
 	    }
 
+	  //get username for display in all page
 	  @RequestMapping(method = RequestMethod.GET, value = "/username")
 	    public @ResponseBody String usernameHandler() {
 	    	

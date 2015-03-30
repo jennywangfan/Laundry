@@ -56,6 +56,42 @@ public class EmployeeRole implements Serializable{
 	public void setRoleDesc(String roleDesc) {
 		this.roleDesc = roleDesc;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + employeeRoleId;
+		result = prime * result
+				+ ((roleDesc == null) ? 0 : roleDesc.hashCode());
+		result = prime * result
+				+ ((roleName == null) ? 0 : roleName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EmployeeRole other = (EmployeeRole) obj;
+		if (employeeRoleId != other.employeeRoleId)
+			return false;
+		if (roleDesc == null) {
+			if (other.roleDesc != null)
+				return false;
+		} else if (!roleDesc.equals(other.roleDesc))
+			return false;
+		if (roleName == null) {
+			if (other.roleName != null)
+				return false;
+		} else if (!roleName.equals(other.roleName))
+			return false;
+		return true;
+	}
 	
 	
 	

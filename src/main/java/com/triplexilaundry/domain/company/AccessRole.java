@@ -55,6 +55,40 @@ public class AccessRole implements Serializable{
 	public void setAuthorityDesc(String authorityDesc) {
 		this.authorityDesc = authorityDesc;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((authority == null) ? 0 : authority.hashCode());
+		result = prime * result
+				+ ((authorityDesc == null) ? 0 : authorityDesc.hashCode());
+		result = prime * result + roleId;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AccessRole other = (AccessRole) obj;
+		if (authority == null) {
+			if (other.authority != null)
+				return false;
+		} else if (!authority.equals(other.authority))
+			return false;
+		if (authorityDesc == null) {
+			if (other.authorityDesc != null)
+				return false;
+		} else if (!authorityDesc.equals(other.authorityDesc))
+			return false;
+		if (roleId != other.roleId)
+			return false;
+		return true;
+	}
 	
 
 }

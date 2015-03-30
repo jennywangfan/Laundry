@@ -42,7 +42,7 @@
 		<logout invalidate-session="true" logout-success-url="/login" delete-cookies="JSESSIONID"/>
 		
 		
-        <session-management invalid-session-url="/timeout">
+        <session-management invalid-session-url="/login">
             <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
         </session-management>
 		

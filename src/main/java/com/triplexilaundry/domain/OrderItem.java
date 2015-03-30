@@ -5,8 +5,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -28,6 +26,7 @@ public class OrderItem implements Serializable {
 	private long orderItemId;
 	private LaundryItem item;
 	private int count;
+	private double totalPrice;
 	private LaundryOrder belongto;
  
 	@Id
@@ -40,8 +39,8 @@ public class OrderItem implements Serializable {
 		this.orderItemId = orderItemId;
 	}
 	
-    @Enumerated(EnumType.STRING)
-    @Column(name = "laundry_item",length = 20)
+    @ManyToOne
+    @JoinColumn(name = "laundry_item_id")
 	public LaundryItem getItem() {
 		return item;
 	}
@@ -63,6 +62,12 @@ public class OrderItem implements Serializable {
 	}
 	public void setBelongto(LaundryOrder belongto) {
 		this.belongto = belongto;
+	}
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 	
 	

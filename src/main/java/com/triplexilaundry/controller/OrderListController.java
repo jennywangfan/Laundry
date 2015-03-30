@@ -25,6 +25,7 @@ import com.triplexilaundry.domain.OrderStatus;
 import com.triplexilaundry.exception.NotAllowToOperationException;
 import com.triplexilaundry.extjsdata.ConfirmOrder;
 import com.triplexilaundry.extjsdata.ExtJSReturn;
+import com.triplexilaundry.extjsdata.LaundryDataCreateModel;
 import com.triplexilaundry.services.LaundryOrderService;
 
 /**
@@ -42,6 +43,7 @@ public class OrderListController extends AbstractControllerService{
 	
 	private static final Logger log = LoggerFactory.getLogger(OrderListController.class);
 	
+	//get order list for different tab(order status)
 	@RequestMapping(method= RequestMethod.GET,value = "/getAllOrdersForCS.action")
 	public @ResponseBody Map<String, ? extends Object> getOrdersForPage(@RequestParam int orderStatus,
 			@RequestParam int page,
@@ -84,6 +86,7 @@ public class OrderListController extends AbstractControllerService{
 		
 	}
 	
+	//cancel an order by Customer service 
 	@RequestMapping(method = RequestMethod.POST, value = "/cancelOrder.action")
 	public @ResponseBody Map<String, ? extends Object> cancelOrder(@RequestParam long orderId){
 		log.info("cancel order "+orderId);
@@ -100,6 +103,7 @@ public class OrderListController extends AbstractControllerService{
 		}
 	}
 	
+	//search order
 	@RequestMapping(method = RequestMethod.GET,value = "/searchOrder.action")
 	public @ResponseBody Map<String, ? extends Object> searchOrder(@RequestParam int orderStatus,
 			@RequestParam String cellPhone, @RequestParam String orderId,@RequestParam int page,@RequestParam int limit){
@@ -134,6 +138,8 @@ public class OrderListController extends AbstractControllerService{
 			return ExtJSReturn.simpleMapResult(false, "搜索订单失败!");
 		}
 	}
+	
+	//customer service rep update the order after confirm with customer
 	@RequestMapping(method = RequestMethod.POST,value = "/contactCustomer.action")
 	public @ResponseBody Map<String, ? extends Object> processOrder(@RequestBody ConfirmOrder updatedOrder){
 		log.info("contacted customer for order ");
@@ -148,5 +154,20 @@ public class OrderListController extends AbstractControllerService{
 		
 	}
 	
+	
+	@RequestMapping(method = RequestMethod.POST,value = "/createOrderForCustomer.action")
+	public @ResponseBody Map<String, ? extends Object> CreateOrder(@RequestBody LaundryDataCreateModel newOrder){
+		log.info("create an order for customer ");
+		try{
+			String currentUser = this.getCurrentUserId();
+			orderService.createOrderForCustomer(currentUser,newOrder);
+			return ExtJSReturn.simpleMapResult(true, "帮客户创建订单成功！");
+		}catch(Exception e){
+			log.error("fail to update the order to processed");
+			return ExtJSReturn.simpleMapResult(false, "帮客户创建订单失败！");
+		}
+		
+		
+	}
 
 }

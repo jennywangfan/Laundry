@@ -32,6 +32,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
         'Ext.grid.column.Number',
         'Ext.form.field.Number',
         'Ext.grid.plugin.CellEditing',
+        'Ext.grid.feature.Grouping',
         'Ext.form.field.TextArea',
         'Ext.form.field.Date',
         'Ext.form.field.Time',
@@ -705,12 +706,16 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     items: [
                                         {
                                             xtype: 'gridpanel',
-                                            title: 'My Grid Panel',
+                                            padding: '80 20 0 0',
+                                            title: '订单',
                                             store: 'CategoryPriceStore',
                                             features: [
                                                 {
                                                     ftype: 'summary',
                                                     dock: 'top'
+                                                },
+                                                {
+                                                    ftype: 'grouping'
                                                 }
                                             ],
                                             columns: [
@@ -738,7 +743,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                                 {
                                                     xtype: 'gridcolumn',
                                                     dataIndex: 'unitPrice',
-                                                    text: '单项总价'
+                                                    text: '单价'
                                                 },
                                                 {
                                                     xtype: 'gridcolumn',
@@ -752,7 +757,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                                     },
                                                     summaryType: 'sum',
                                                     dataIndex: 'totalPrice',
-                                                    text: '总价'
+                                                    text: '单项总价'
                                                 },
                                                 {
                                                     xtype: 'gridcolumn',
@@ -786,60 +791,94 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     items: [
                                         {
                                             xtype: 'textfield',
-                                            fieldLabel: '下单客户(手机)'
+                                            fieldLabel: '下单客户(手机)',
+                                            name: 'orderBy'
                                         },
                                         {
                                             xtype: 'textfield',
-                                            fieldLabel: '姓名'
+                                            fieldLabel: '姓名',
+                                            name: 'fullName',
+                                            allowBlank: false,
+                                            allowOnlyWhitespace: false
                                         },
                                         {
                                             xtype: 'textfield',
-                                            fieldLabel: '联系方式'
+                                            fieldLabel: '联系方式',
+                                            name: 'phoneNumber',
+                                            allowBlank: false,
+                                            allowOnlyWhitespace: false
                                         },
                                         {
                                             xtype: 'textfield',
-                                            fieldLabel: '省份'
+                                            fieldLabel: '省份',
+                                            name: 'state'
                                         },
                                         {
                                             xtype: 'textfield',
-                                            fieldLabel: '城市'
+                                            fieldLabel: '城市',
+                                            name: 'city'
                                         },
                                         {
                                             xtype: 'textfield',
-                                            fieldLabel: '小区'
+                                            fieldLabel: '小区',
+                                            name: 'district',
+                                            allowBlank: false,
+                                            allowOnlyWhitespace: false
                                         },
                                         {
                                             xtype: 'textfield',
-                                            fieldLabel: '街道'
+                                            fieldLabel: '街道',
+                                            name: 'street',
+                                            allowBlank: false,
+                                            allowOnlyWhitespace: false
                                         },
                                         {
                                             xtype: 'textfield',
-                                            fieldLabel: '门牌号'
+                                            fieldLabel: '门牌号',
+                                            name: 'streetNum',
+                                            allowBlank: false,
+                                            allowOnlyWhitespace: false
                                         },
                                         {
                                             xtype: 'textareafield',
-                                            fieldLabel: '备注'
+                                            fieldLabel: '备注',
+                                            name: 'comments'
                                         },
                                         {
                                             xtype: 'datefield',
-                                            fieldLabel: '最早取单日期'
+                                            fieldLabel: '最早取单日期',
+                                            name: 'preferedPickupSDate',
+                                            allowBlank: false
                                         },
                                         {
                                             xtype: 'timefield',
-                                            fieldLabel: '最早时间'
+                                            fieldLabel: '最早时间',
+                                            name: 'preferedPickupSTime',
+                                            allowBlank: false,
+                                            maxValue: '9:00 PM',
+                                            minValue: '9:00 AM'
                                         },
                                         {
                                             xtype: 'datefield',
-                                            fieldLabel: '最晚取单日期'
+                                            fieldLabel: '最晚取单日期',
+                                            name: 'preferedPickupEDate',
+                                            allowBlank: false
                                         },
                                         {
                                             xtype: 'timefield',
-                                            fieldLabel: '最晚时间'
+                                            fieldLabel: '最晚时间',
+                                            name: 'preferedPickupETime',
+                                            allowBlank: false,
+                                            maxValue: '9:00 PM',
+                                            minValue: '9:00 AM'
                                         },
                                         {
                                             xtype: 'button',
                                             margin: '20 120',
-                                            text: '提交'
+                                            text: '提交',
+                                            listeners: {
+                                                click: 'onButtonClick'
+                                            }
                                         }
                                     ]
                                 }

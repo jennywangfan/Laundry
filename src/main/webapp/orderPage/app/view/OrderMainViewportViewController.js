@@ -18,12 +18,144 @@ Ext.define('Xixixi.view.OrderMainViewportViewController', {
     alias: 'controller.ordermainviewport',
 
     onGridpanelEdit: function(editor,e) {
-
         var record = e.record;
         var price = record.get('amount')*record.get('unitPrice');
         record.set('totalPrice', price);
         record.commit();
+    },
 
+    onButtonClick: function(button, e, eOpts) {
+        var form = button.up('form').getForm();
+        // var grid = form.down('gridpanel');
+        var store = Ext.data.StoreManager.lookup('CategoryPriceStore');
+
+        if (form.isValid()) {
+            var record = store.data.items;
+            
+            var orders = '\"orderItems\" : [';
+            var orderCount = 0;
+            for(var i = 0; i < store.getCount();++i){
+                var currentRecord = record[i].data;
+               
+                if(currentRecord.amount > 0){
+                	 ++orderCount;
+                	if(orderCount > 1)
+                	orders += ',';
+                	var currentOrder = '{\"itemId\" : \"' + currentRecord.itemId +'\", \"amount\" : \"' + currentRecord.amount +'\", \"totalPrice\" : \"' +currentRecord.totalPrice +'\" }';
+                	orders += currentOrder;
+                	
+                }
+                
+                var recordJson = Ext.JSON.encode(currentRecord);
+                //console.log(recordJson);
+            }
+            orders += '],';
+            var jsonData = Ext.JSON.encode(form.getValues());
+            var start = jsonData.indexOf('{');
+            jsonData = jsonData.substr(start+1);
+            jsonData = '{' + orders + jsonData;
+            console.log(jsonData);
+            Ext.Ajax.setTimeout(40000);
+            Ext.Ajax.request({
+                url : 'createOrderForCustomer.action',
+                method : 'POST',
+                headers : {
+                    'Content-Type' : 'application/json'
+                },
+                params : jsonData,
+                success : function(response) {
+
+                    var responseText = Ext.JSON
+                    .decode(response.responseText);
+                    if (responseText.success) {
+                        var store = Ext.data.StoreManager
+                        .lookup('CategoryPriceStore');
+                        store.reload();
+                        console.log(form);
+                        form.reset();
+                        if (Ext.MessageBox) {
+                            Ext.MessageBox.buttonText = {
+                                ok : "确定",
+                                cancel : "取消",
+                                yes : "是",
+                                no : "否"
+                            };
+                        }
+                        Ext.Msg.show({
+                            title : '创建订单成功！',
+                            msg : responseText.message,
+                            buttions : Ext.Msg.OK,
+                            icon : Ext.Msg.INFO
+                        });
+                    } else {
+                        if (Ext.MessageBox) {
+                            Ext.MessageBox.buttonText = {
+                                ok : "确定",
+                                cancel : "取消",
+                                yes : "是",
+                                no : "否"
+                            };
+                        }
+                        Ext.Msg.show({
+                            title : '服务器失败',
+                            msg : responseText.message,
+                            buttions : Ext.Msg.OK,
+                            icon : Ext.Msg.ERROR
+                        });
+                    }
+
+                },
+                failure : function(form, action) {
+                    if (Ext.MessageBox) {
+                        Ext.MessageBox.buttonText = {
+                            ok : "确定",
+                            cancel : "取消",
+                            yes : "是",
+                            no : "否"
+                        };
+                    }
+
+                    if (action.failureType === Ext.form.action.Action.CLIENT_INVALID) {
+
+                        Ext.Msg.show({
+                            title : '失败',
+                            msg : '填写的信息不合规范',
+                            buttons : Ext.Msg.OK,
+                            icon : Ext.Msg.ERROR
+                        });
+
+                    }
+
+                    if (action.failureType === Ext.form.action.Action.CONNECT_FAILURE) {
+
+                        Ext.Msg
+                        .show({
+                            title : '失败',
+                            msg : '状态:'+ action.response.status+ ': '+ action.response.statusText,
+                            buttons : Ext.Msg.OK,
+                            icon : Ext.Msg.ERROR
+                        });
+
+                    }
+
+                    if (action.failureType === Ext.form.action.Action.SERVER_INVALID) {
+
+                        // server responded with success = false
+                        Ext.Msg
+                        .show({
+                            title : '失败',
+                            msg : action.result.errormsg,
+                            buttons : Ext.Msg.OK,
+                            icon : Ext.Msg.ERROR
+                        });
+
+                    }
+
+                }
+
+            });
+
+        }
 
     },
 

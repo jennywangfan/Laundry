@@ -35,7 +35,7 @@ public class AdminController{
 	@Autowired
 	private DepartmentWrapperService depWrapperService;
 	
-	
+	//load all userlist for amdin page
 	@RequestMapping(method=RequestMethod.GET,value="/admin/userLoad.action")
 	public @ResponseBody Map<String,? extends Object> getUserList() {
 		log.info("load user list data");
@@ -49,6 +49,7 @@ public class AdminController{
 		}
 	}
 	
+	//load all deparment list for admin page
 	@RequestMapping(method=RequestMethod.GET,value="/admin/departmentLoad.action")
 	public @ResponseBody Map<String, ? extends Object> getDepartmentList(){
 		log.info("load department list data");
@@ -64,6 +65,7 @@ public class AdminController{
 	}
 	
 	@RequestMapping(method = RequestMethod.GET,value="/admin/userIdValidate.action")
+	//when create a new user, check weather the name is existed after focus leave the text field
 	public @ResponseBody String IdentifyUserByName(@RequestParam String userName){
 		log.info("check userName whether exists");
 		try{
@@ -82,7 +84,7 @@ public class AdminController{
 		return ExtJSReturn.simpleResult(false, "验证用户名失败!");
 		}
 	}
-	
+	//when create an user, get department list from server
 	@RequestMapping(method = RequestMethod.GET,value = "/getAllDepartment.action")
 	public @ResponseBody Map<String,? extends Object> getAllDepartmentForComboList(){
 		log.info("get all department list for showing in user window");
@@ -99,6 +101,7 @@ public class AdminController{
 		
 	}
 	
+	//when create an user, get employee role list from server
 	@RequestMapping(method= RequestMethod.GET,value = "/getAllEmployeeRole.action")
 	public @ResponseBody Map<String, ? extends Object> getAllEmployeeRoleForComboList(){
 		log.info("get all employee role list for showing in user window");
@@ -111,6 +114,7 @@ public class AdminController{
 		}
 	}
 
+	//get accessrole list from server when create an user
 	@RequestMapping(method= RequestMethod.GET,value = "/getAllAccessRole.action")
 	public @ResponseBody Map<String, ? extends Object> getAllAccessRoleForComboList(){
 		log.info("get all access role list for showing in user window");
@@ -123,6 +127,7 @@ public class AdminController{
 		}
 	}
 	
+	//get all manager names from server when create an user
 	@RequestMapping(method= RequestMethod.GET,value = "/getAllDepManagers.action")
 	public @ResponseBody Map<String, ? extends Object> getAllManagersForComboList(@RequestParam String departmentId){
 		log.info("get all managers for a department showing in user window");
@@ -135,6 +140,7 @@ public class AdminController{
 		}
 	}
 	
+	//create an new user
 	@RequestMapping(method=RequestMethod.POST,value="/admin/userCreate.action")
 	public @ResponseBody Map<String,? extends Object> createUser(@RequestBody EmployeeDataCreateModel data) {
 		log.info(" add a new user ");
@@ -148,6 +154,7 @@ public class AdminController{
 		}
 	}
 	
+	//delete an user
 	@RequestMapping(method=RequestMethod.POST,value="/admin/userDestory.action")
 	public @ResponseBody Map<String, ? extends Object> destroyUser(@RequestParam String userName){
 		log.info("delete user " +userName);
@@ -164,6 +171,7 @@ public class AdminController{
 		
 	}
 	
+	//check whether the new department name already exists
 	@RequestMapping(method=RequestMethod.GET,value="admin/depNameValidate.action")
 	public @ResponseBody String validateDepName(@RequestParam String depName){
 		log.info("validate whether dep name exists");
@@ -183,9 +191,10 @@ public class AdminController{
 		}
 	}
 	
+	//create or edit a department
 	@RequestMapping(method=RequestMethod.POST,value="/admin/depCreateOrEdit.action")
 	public @ResponseBody Map<String,? extends Object> createDepartment(@RequestBody DepartmentDataCreateModel data) {
-		log.info(" add a new user ");
+		log.info(" edit or create a department ");
 		try{
 			
 			if(data.getDepartmentId() == null){
@@ -206,7 +215,7 @@ public class AdminController{
 	
 	@RequestMapping(method=RequestMethod.POST,value="/admin/depEdit.action")
 	public @ResponseBody Map<String,? extends Object> EditDepartment(@RequestBody DepartmentDataCreateModel data) {
-		log.info(" add a new user ");
+		log.info(" add a new department ");
 		try{
 			depWrapperService.createDepartment(data);
 			 log.info("add department success");
@@ -217,6 +226,7 @@ public class AdminController{
 		}
 	}
 	
+	//delete a department
 	@RequestMapping(method=RequestMethod.POST,value="/admin/depDestory.action")
 	public @ResponseBody Map<String, ? extends Object> destroyDepartment(@RequestParam String depId){
 		log.info("delete department " +depId);
