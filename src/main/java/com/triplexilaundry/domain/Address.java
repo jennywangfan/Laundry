@@ -1,6 +1,7 @@
 /**
 * <p>Title: Address.java</p>
-* <p>Description: </p>
+* <p>Description: address for customers , every customer has many addresses
+* like amazon shipping address, the attributes include phone number , name and address for shipping</p>
 * <p>Copyright: Copyright (c) 2015</p>
 * <p>All Right Reserved</p>
 * @author Fan Wang

@@ -1,12 +1,4 @@
-/**
-* <p>Title: AccessRoleDao.java</p>
-* <p>Description: </p>
-* <p>Copyright: Copyright (c) 2015</p>
-* <p>All Right Reserved</p>
-* @author Fan Wang
-* @date Feb 21, 2015
-* @version 1.0
-*/
+
 package com.triplexilaundry.dao;
 
 import java.util.List;

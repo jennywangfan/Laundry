@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 /**
  * <p>Title: DepartmentDataCreateModel</p>
- * <p>Description: </p>
+ * <p>Description: data send to server after create or edit </p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Mar 14, 2015

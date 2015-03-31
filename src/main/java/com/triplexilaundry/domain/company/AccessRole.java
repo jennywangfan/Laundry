@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 /**
  * <p>Title: AccessRole</p>
- * <p>Description: </p>
+ * <p>Description: access role,according to spring security, must start with "ROLE_",  </p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Feb 19, 2015

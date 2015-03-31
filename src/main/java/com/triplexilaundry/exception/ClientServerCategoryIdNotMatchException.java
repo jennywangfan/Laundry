@@ -11,7 +11,7 @@ package com.triplexilaundry.exception;
 
 /**
  * <p>Title: ClientServerCategoryIdNotMatchException</p>
- * <p>Description: </p>
+ * <p>Description: exception threw out when data/category.json and LAUNDRYITEM doesnt match</p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Mar 29, 2015

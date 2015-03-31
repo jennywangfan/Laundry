@@ -1,12 +1,4 @@
-/**
-* <p>Title: ExtJSReturn.java</p>
-* <p>Description: </p>
-* <p>Copyright: Copyright (c) 2015</p>
-* <p>All Right Reserved</p>
-* @author Fan Wang
-* @date Mar 5, 2015
-* @version 1.0
-*/
+
 package com.triplexilaundry.extjsdata;
 
 /**

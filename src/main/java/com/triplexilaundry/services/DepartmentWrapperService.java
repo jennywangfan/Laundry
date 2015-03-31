@@ -18,15 +18,9 @@ import com.triplexilaundry.domain.company.CompanyDepartment;
 import com.triplexilaundry.extjsdata.DepartmentDataCreateModel;
 
 /**
- * <p>
- * Title: DepartmentWrapperService
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
- * All Right Reserved
- * </p>
+ * <p>Title: DepartmentWrapperService</p>
+ * <p>Description: service for handle operations on Department</p>
+ * <p>All Right Reserved </p>
  * 
  * @author Fan Wang
  * @date Mar 14, 2015

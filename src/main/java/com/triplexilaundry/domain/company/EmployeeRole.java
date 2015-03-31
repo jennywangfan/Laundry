@@ -7,7 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+/**
+ * 
+* <p>Title: EmployeeRole</p>
+* <p>Description: employee role , considering to refactor to  enum now</p>
+* <p>All Right Reserved</p> 
+* @author Fan Wang
+* @date Mar 30, 2015
+ */
 @Entity
 @Table(name = "EMPLOYEE_ROLE")
 

@@ -218,7 +218,8 @@ Ext.define('Xixixi.view.ContactCustomer', {
                             xtype: 'datefield',
                             fieldLabel: '取单最早日期',
                             name: 'preferedPickupSDate',
-                            allowBlank: false
+                            allowBlank: false,
+                            submitFormat: 'm/d/Y'
                         },
                         {
                             xtype: 'timefield',
@@ -228,8 +229,11 @@ Ext.define('Xixixi.view.ContactCustomer', {
                             labelWidth: 50,
                             name: 'preferedPickupSTime',
                             allowBlank: false,
+                            format: 'g:i a',
+                            increment: 60,
                             maxValue: '8:00 PM',
-                            minValue: '8:00 AM'
+                            minValue: '8:00 AM',
+                            submitFormat: 'H:i'
                         }
                     ]
                 },
@@ -245,7 +249,8 @@ Ext.define('Xixixi.view.ContactCustomer', {
                             xtype: 'datefield',
                             fieldLabel: '取单最晚日期',
                             name: 'preferedPickupEDate',
-                            allowBlank: false
+                            allowBlank: false,
+                            submitFormat: 'm/d/Y'
                         },
                         {
                             xtype: 'timefield',
@@ -255,13 +260,17 @@ Ext.define('Xixixi.view.ContactCustomer', {
                             labelWidth: 50,
                             name: 'preferedPickupETime',
                             allowBlank: false,
+                            increment: 60,
+                            format: 'g:i a',
                             maxValue: '8:00 PM',
-                            minValue: '8:00 AM'
+                            minValue: '8:00 AM',
+                            submitFormat: 'H:i'
                         }
                     ]
                 },
                 {
                     xtype: 'textareafield',
+                    scrollable: false,
                     width: 470,
                     fieldLabel: '备注',
                     name: 'comments'
@@ -345,7 +354,6 @@ Ext.define('Xixixi.view.ContactCustomer', {
 
         										},
         										failure : function(form, action) {
-        											win.close();
         											if (Ext.MessageBox) {
         												Ext.MessageBox.buttonText = {
         													ok : "确定",
@@ -371,10 +379,7 @@ Ext.define('Xixixi.view.ContactCustomer', {
         												Ext.Msg
         														.show({
         															title : '失败',
-        															msg : '状态:'
-        																	+ action.response.status
-        																	+ ': '
-        																	+ action.response.statusText,
+        															msg : '状态:'+ action.response.status+ ': '+ action.response.statusText,
         															buttons : Ext.Msg.OK,
         															icon : Ext.Msg.ERROR
         														});

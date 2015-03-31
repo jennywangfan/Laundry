@@ -29,7 +29,7 @@ import com.triplexilaundry.util.PasswordEcoder;
 
 /**
  * <p>Title: UserWrapperService</p>
- * <p>Description: </p>
+ * <p>Description: service for handle operations on employee</p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Mar 13, 2015
@@ -90,5 +90,8 @@ public class EmployeeWrapperService {
 		employeeDao.persist(em);
 		
 	}
+	
+	
+	
 
 }

@@ -114,7 +114,7 @@ public class LaundryOrderDao {
 
 	/**
 	* <p>Title: getAllOrders</p>
-	* <p>Description: </p>
+	* <p>Description: get all records belongs to userName</p>
 	* @param userName
 	 * @param recordNumLimit 
 	 * @param pageNum 
@@ -150,7 +150,7 @@ public class LaundryOrderDao {
 
 	/**
 	* <p>Title: getAllOrders</p>
-	* <p>Description: </p>
+	* <p>Description: get all orders belongs to userName with order status orderS</p>
 	* @param userName
 	* @param orderS
 	 * @param recordNumLimit 
@@ -187,7 +187,7 @@ public class LaundryOrderDao {
 
 	/**
 	* <p>Title: cancelOrderById</p>
-	* <p>Description: </p>
+	* <p>Description: cancel order with Id orderId</p>
 	* @param orderId
 	 * @throws NotAllowToOperationException 
 	*/

@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * <p>Title: PasswordEcoder</p>
- * <p>Description: </p>
+ * <p>Description: MD5 password encrypt</p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Mar 13, 2015

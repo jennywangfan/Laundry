@@ -11,7 +11,7 @@ package com.triplexilaundry.exception;
 
 /**
  * <p>Title: NotAllowToOperationException</p>
- * <p>Description: </p>
+ * <p>Description: exception threw out when no authorization to operate</p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Mar 22, 2015

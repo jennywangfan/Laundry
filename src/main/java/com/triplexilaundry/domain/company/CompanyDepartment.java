@@ -8,6 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 
+* <p>Title: CompanyDepartment</p>
+* <p>Description: department information </p>
+* <p>All Right Reserved</p> 
+* @author Fan Wang
+* @date Mar 30, 2015
+ */
 @Entity
 @Table(name = "DEPARTMENT")
 public class CompanyDepartment implements Serializable{

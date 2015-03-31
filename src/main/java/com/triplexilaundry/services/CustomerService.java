@@ -18,7 +18,7 @@ import com.triplexilaundry.domain.company.Customer;
 
 /**
  * <p>Title: CustomerService</p>
- * <p>Description: </p>
+ * <p>Description: service for customer to operate, will have more functions in future version</p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Feb 18, 2015

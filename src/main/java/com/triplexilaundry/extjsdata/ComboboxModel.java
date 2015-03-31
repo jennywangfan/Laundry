@@ -11,7 +11,8 @@ package com.triplexilaundry.extjsdata;
 
 /**
  * <p>Title: ComboboxModel</p>
- * <p>Description: </p>
+ * <p>Description: combox box show department ,accessrole ,employeerole, used for admin page
+ * attribute is id for those class, name is name for those class</p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Mar 11, 2015

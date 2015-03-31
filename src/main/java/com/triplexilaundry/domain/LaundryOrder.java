@@ -20,7 +20,14 @@ import javax.persistence.TemporalType;
 
 import com.triplexilaundry.domain.company.Customer;
 import com.triplexilaundry.domain.company.Employee;
-
+/**
+ * 
+* <p>Title: LaundryOrder</p>
+* <p>Description:a laundry order created by customer or customer service representatives  </p>
+* <p>All Right Reserved</p> 
+* @author Fan Wang
+* @date Mar 30, 2015
+ */
 @Entity
 @Table(name = "LAUNDRYORDER")
 
@@ -28,21 +35,37 @@ public class LaundryOrder implements Serializable{
 	/** long   serialVersionUID */
 	private static final long serialVersionUID = 1L;
 	private long orderId;
+	//customer who initiated the order
 	private Customer customer;
+	//customer service representative assigned to this order
 	private Employee csRep;
+	//carrier who get the order picked up
 	private Employee pickedUpBy;
+	//carrier who deliver this order
 	private Employee deliveredBy;
+	//not used right now 
 	private String phoneNum;
+	//the total price for the order
 	private double price;
+	//actual price charged
 	private double actualIncome;
+	//customer address
 	private Address address;
+	//collection start time
 	private Date preferedPickupStime;
+	//collection end time
 	private Date preferedPickupEtime;
+	//order status
 	private OrderStatus orderStatus;
+	//last update time
 	private Date lastUpdateTime;
+	//last update employee
 	private Employee lastUpdatedBy;
+	//date created the order
 	private Date createDate;
+	//comments about the order
 	private String comments;
+	//items in the order
 	private List<OrderItem> laundryDetail;
 	
 	@Id

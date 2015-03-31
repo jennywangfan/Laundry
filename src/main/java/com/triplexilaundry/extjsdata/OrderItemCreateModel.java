@@ -1,19 +1,11 @@
-/**
-* <p>Title: OrderItemCreateModel.java</p>
-* <p>Description: </p>
-* <p>Copyright: Copyright (c) 2015</p>
-* <p>All Right Reserved</p>
-* @author Fan Wang
-* @date Mar 29, 2015
-* @version 1.0
-*/
+
 package com.triplexilaundry.extjsdata;
 
 import java.io.Serializable;
 
 /**
  * <p>Title: OrderItemCreateModel</p>
- * <p>Description: </p>
+ * <p>Description: data included in LaundryDataCreateModel after a new order created</p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Mar 29, 2015

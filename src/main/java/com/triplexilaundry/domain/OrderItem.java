@@ -25,8 +25,11 @@ public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private long orderItemId;
 	private LaundryItem item;
+	//the amount of the item
 	private int count;
+	//price for this item
 	private double totalPrice;
+	//the order attached 
 	private LaundryOrder belongto;
  
 	@Id

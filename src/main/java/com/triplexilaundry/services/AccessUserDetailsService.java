@@ -1,12 +1,4 @@
-/**
-* <p>Title: AccessUserDetailsService.java</p>
-* <p>Description: </p>
-* <p>Copyright: Copyright (c) 2015</p>
-* <p>All Right Reserved</p>
-* @author Fan Wang
-* @date Feb 21, 2015
-* @version 1.0
-*/
+
 package com.triplexilaundry.services;
 
 import java.util.ArrayList;
@@ -25,7 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.triplexilaundry.dao.EmployeeDao;
 import com.triplexilaundry.domain.company.AccessRole;
 import com.triplexilaundry.domain.company.Employee;
-
+/**
+ * 
+* <p>Title: AccessUserDetailsService</p>
+* <p>Description: class for implements UserDetailsService for authentication using spring security</p>
+* <p>All Right Reserved</p> 
+* @author Fan Wang
+* @date Mar 30, 2015
+ */
 @Service("userDetailsService")
 
 public class AccessUserDetailsService implements UserDetailsService{

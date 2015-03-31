@@ -33,15 +33,9 @@ import com.triplexilaundry.extjsdata.LaundryOrderModel;
 import com.triplexilaundry.extjsdata.OrderItemCreateModel;
 
 /**
- * <p>
- * Title: OrderService
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
- * All Right Reserved
- * </p>
+ * <p> Title: OrderService</p>
+ * <p> Description: service for handle operations on laundry orders</p>
+ * <p>All Right Reserved</p>
  * 
  * @author Fan Wang
  * @date Feb 26, 2015
@@ -201,6 +195,7 @@ public class LaundryOrderService {
 					lim.setItemName(oi.getItem().getItemName());
 					lim.setAmount(oi.getCount());
 					lim.setPricePerItem(oi.getItem().getUnitPrice());
+					lim.setTotalPrice(oi.getTotalPrice());
 					// lim.setTotalPrice();
 					itemList.add(lim);
 				}
@@ -216,7 +211,7 @@ public class LaundryOrderService {
 
 	/**
 	* <p>Title: findOrder</p>
-	* <p>Description: </p>
+	* <p>Description: search orders according to cellPhone , orderId and current order status page</p>
 	 * @param orderS 
 	* @param userName
 	* @param cellPhone
@@ -272,6 +267,7 @@ public class LaundryOrderService {
 					lim.setItemName(oi.getItem().getItemName());
 					lim.setAmount(oi.getCount());
 					lim.setPricePerItem(oi.getItem().getUnitPrice());
+					lim.setTotalPrice(oi.getTotalPrice());
 					// lim.setTotalPrice();
 					itemList.add(lim);
 				}
@@ -288,7 +284,7 @@ public class LaundryOrderService {
 
 	/**
 	* <p>Title: contactOrder</p>
-	* <p>Description: </p>
+	* <p>Description: convert data to update an order after confirm with customer by a customer service representative</p>
 	* @param updatedOrder
 	 * @throws ParseException 
 	*/
@@ -304,8 +300,8 @@ public class LaundryOrderService {
 		address.setStreetNum(updatedOrder.getStreetNum());
 		address.setFullName(updatedOrder.getFullName());
 		address.setPhoneNumber(updatedOrder.getPhoneNumber());
-		SimpleDateFormat format1 = new SimpleDateFormat("mm/dd/yyyy h:mm a");
-		SimpleDateFormat format2 = new SimpleDateFormat("mm/dd/yyyy");
+		SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+		SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
 		Date pSdate = null;
 		if(updatedOrder.getPreferedPickupETime() != null)
 		  pSdate = format1.parse(updatedOrder.getPreferedPickupSDate() +" " +updatedOrder.getPreferedPickupSTime());
@@ -326,7 +322,7 @@ public class LaundryOrderService {
 
 	/**
 	* <p>Title: createOrderForCustomer</p>
-	* <p>Description: </p>
+	* <p>Description: convert data from client side to create a new order</p>
 	* @param order
 	 * @throws ClientServerCategoryIdNotMatchException 
 	 * @throws ParseException 
@@ -347,8 +343,8 @@ public class LaundryOrderService {
 		address.setStreetNum(order.getStreetNum());
 		lOrder.setAddress(address);
 		Date pSdate = null;
-		SimpleDateFormat format1 = new SimpleDateFormat("mm/dd/yyyy h:mm a");
-		SimpleDateFormat format2 = new SimpleDateFormat("mm/dd/yyyy");
+		SimpleDateFormat format1 = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+		SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
 		if(order.getPreferedPickupETime() != null)
 		  pSdate = format1.parse(order.getPreferedPickupSDate() +" " +order.getPreferedPickupSTime());
 		else

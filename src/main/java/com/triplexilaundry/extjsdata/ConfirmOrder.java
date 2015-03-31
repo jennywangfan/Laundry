@@ -13,7 +13,8 @@ import java.io.Serializable;
 
 /**
  * <p>Title: ConfirmOrder</p>
- * <p>Description: </p>
+ * <p>Description: data send to server after customer service representative confirm 
+ * order with customer, and update the order</p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Mar 26, 2015

@@ -5,7 +5,14 @@ import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+/**
+ * 
+* <p>Title: User</p>
+* <p>Description: may user later as supper class for customer and employee after first version</p>
+* <p>All Right Reserved</p> 
+* @author Fan Wang
+* @date Mar 30, 2015
+ */
 public class User implements Serializable, UserDetails{
 	
 	/** long   serialVersionUID */

@@ -11,7 +11,7 @@ package com.triplexilaundry.extjsdata;
 
 /**
  * <p>Title: DepartmentDataReturnModel</p>
- * <p>Description: </p>
+ * <p>Description: department information send to client</p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Mar 6, 2015

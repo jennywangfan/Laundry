@@ -14,7 +14,7 @@ import java.util.Date;
 
 /**
  * <p>Title: UserDataCreateModel</p>
- * <p>Description: </p>
+ * <p>Description: class for sending to server after create an employee</p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Mar 13, 2015

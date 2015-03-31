@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * <p>Title: EmployeeDataReturnModel</p>
- * <p>Description: </p>
+ * <p>Description: information to send back to client when admin page request employee list </p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Mar 5, 2015

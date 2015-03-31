@@ -27,7 +27,7 @@ import com.triplexilaundry.extjsdata.EmployeeDataReturnModel;
 
 /**
  * <p>Title: AdminService</p>
- * <p>Description: </p>
+ * <p>Description: service for handle most requests from admin page, considering move some </p>
  * <p>All Right Reserved</p> 
  * @author Fan Wang
  * @date Feb 26, 2015
@@ -45,34 +45,10 @@ public class AdminService {
 	@Autowired
 	private AccessRoleDao accessRoleDao;
 	
-	@Transactional
-	public void addAnEmployee(Employee employee){
-		employeeDao.persist(employee);
-		
-		
-	}
-	@Transactional
-	public void modifyEmployee(Employee employee){
-		employeeDao.merge(employee);
-	}
-	
-	@Transactional
-	public void addDepartment(CompanyDepartment dep){
-		departmentDao.persist(dep);
-	}
 
-	@Transactional
-	public void removeDepartment(CompanyDepartment dep){
-		departmentDao.remove(dep);
-	}
-	
-	@Transactional 
-	public void modifyDepartment(CompanyDepartment dep){
-		departmentDao.merge(dep);
-	}
 	/**
 	* <p>Title: findAllEmployees</p>
-	* <p>Description: </p>
+	* <p>Description: find all employee for admin page</p>
 	* @return
 	*/
 	@Transactional

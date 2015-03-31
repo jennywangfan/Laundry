@@ -8,7 +8,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
+/**
+ * 
+* <p>Title: LaundryItem</p>
+* <p>Description: laundry item is a item which used to describe the information of an item,
+* like the price for laundry,the category(top, suits or dress), a constant hashmap is maintained
+* to get all information from LAUNDRYITEM table which records should be inserted before we use 
+* the system, also remember the information in table should be consist with data/category.json 
+* which used in client side </p>
+* <p>All Right Reserved</p> 
+* @author Fan Wang
+* @date Mar 30, 2015
+ */
 @Entity
 @Table(name = "LAUNDRYITEM")
 public class LaundryItem implements Serializable{

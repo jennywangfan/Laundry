@@ -15,7 +15,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.triplexilaundry.domain.Address;
-
+/**
+ * 
+* <p>Title: Customer</p>
+* <p>Description: customer information, right now only userName and addressList are used
+* others are reservered for future use </p>
+* <p>All Right Reserved</p> 
+* @author Fan Wang
+* @date Mar 30, 2015
+ */
 @Entity
 @Table(name = "CUSTOMER")
 public class Customer implements Serializable {

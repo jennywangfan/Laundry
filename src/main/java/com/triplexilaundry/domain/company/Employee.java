@@ -16,24 +16,43 @@ import javax.persistence.Transient;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+/**
+ * 
+* <p>Title: Employee</p>
+* <p>Description: employee information,implements UserDetails for authentication in spring security</p>
+* <p>All Right Reserved</p> 
+* @author Fan Wang
+* @date Mar 30, 2015
+ */
 @Entity
 @Table(name = "EMPLOYEE")
 public class Employee implements UserDetails, Serializable{
 	/** long   serialVersionUID */
 	private static final long serialVersionUID = 1L;
-	//private String employeeId;
+
+	//unique username as employee id
 	private String username;
+	//password,MD5 encrypted
 	private String password;
+	//working department
 	private CompanyDepartment department;
+	//role in the company(like manager,junior employee)
 	private EmployeeRole employeeRole;
+	//people who manage this employee
 	private Employee reportTo;
+	//authorization role
 	private AccessRole accessRole;
+	//date to start working
 	private Date startDate;
+	//full name
     private String fullName;
+    //birthday
     private Date birthDay;
+    //enable or not
     private Character enable;
+    //expire date which is for spring security
     private Date expiredDate;
+    //date to create the employee
     private Date createDate;
 	
     @Id

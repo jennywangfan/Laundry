@@ -381,7 +381,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     rowBodyTpl: [
                                         '<div>地址: {address.state} {address.city} {address.district} {address.street} {address.streetNum} {address.zipcode}</div>',
                                         '<div>联系方式: {address.fullName} {address.phoneNumber}</div>',
-                                        '<div>类别: <tpl for="orderItems"> {itemName} {amount} {pricePerItem}</tpl></div>'
+                                        '<div>类别: <tpl for="orderItems"> {itemName} : {amount}件,单项总价:{totalPrice}</tpl></div>'
                                     ]
                                 }
                             ],
@@ -848,29 +848,43 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                             xtype: 'datefield',
                                             fieldLabel: '最早取单日期',
                                             name: 'preferedPickupSDate',
-                                            allowBlank: false
+                                            allowBlank: false,
+                                            allowOnlyWhitespace: false,
+                                            blankText: '必填项',
+                                            submitFormat: 'm/d/Y'
                                         },
                                         {
                                             xtype: 'timefield',
                                             fieldLabel: '最早时间',
                                             name: 'preferedPickupSTime',
                                             allowBlank: false,
+                                            blankText: '必填项',
+                                            format: 'g:i a',
+                                            increment: 60,
                                             maxValue: '9:00 PM',
-                                            minValue: '9:00 AM'
+                                            minValue: '9:00 AM',
+                                            submitFormat: 'H:i'
                                         },
                                         {
                                             xtype: 'datefield',
                                             fieldLabel: '最晚取单日期',
                                             name: 'preferedPickupEDate',
-                                            allowBlank: false
+                                            allowBlank: false,
+                                            allowOnlyWhitespace: false,
+                                            blankText: '必填项',
+                                            submitFormat: 'm/d/Y'
                                         },
                                         {
                                             xtype: 'timefield',
                                             fieldLabel: '最晚时间',
                                             name: 'preferedPickupETime',
                                             allowBlank: false,
-                                            maxValue: '9:00 PM',
-                                            minValue: '9:00 AM'
+                                            blankText: '必填项',
+                                            format: 'g:i a',
+                                            increment: 60,
+                                            maxValue: '9:00 AM',
+                                            minValue: '9:00 PM',
+                                            submitFormat: 'H:i'
                                         },
                                         {
                                             xtype: 'button',
