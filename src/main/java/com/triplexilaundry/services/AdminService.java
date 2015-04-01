@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.triplexilaundry.dao.AccessRoleDao;
 import com.triplexilaundry.dao.CompanyDepartmentDao;
 import com.triplexilaundry.dao.EmployeeDao;
-import com.triplexilaundry.domain.company.CompanyDepartment;
 import com.triplexilaundry.domain.company.Employee;
 import com.triplexilaundry.extjsdata.ComboboxModel;
 import com.triplexilaundry.extjsdata.DepartmentDataReturnModel;

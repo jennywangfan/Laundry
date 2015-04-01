@@ -7,17 +7,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.triplexilaundry.dao.AuditOrderDao;
 import com.triplexilaundry.dao.CustomerDao;
 import com.triplexilaundry.dao.EmployeeDao;
 import com.triplexilaundry.dao.LaundryItemDao;
 import com.triplexilaundry.dao.LaundryOrderDao;
 import com.triplexilaundry.domain.Address;
+import com.triplexilaundry.domain.AuditOrderForTracking;
 import com.triplexilaundry.domain.LaundryItem;
 import com.triplexilaundry.domain.LaundryOrder;
 import com.triplexilaundry.domain.OrderItem;
@@ -52,29 +52,17 @@ public class LaundryOrderService {
 	
 	@Autowired
 	private EmployeeDao employeeDao;
+	
+	@Autowired
+	private AuditOrderDao auditOrderDao;
 
-	private static final Logger log = LoggerFactory
-			.getLogger(LaundryOrderDao.class);
 
-	@Transactional
-	public void createNewOrder(LaundryOrder order) {
-
-		// Employee e = laundryOrderDao.assignOrderTo();
-		laundryOrderDao.persist(order);
-		Customer customer = order.getCustomer();
-		customerDao.merge(customer);
-
-	}
-
-	@Transactional
-	public void modifyOrder(LaundryOrder order) {
-		log.info("modify an order");
-		laundryOrderDao.merge(order);
-	}
-
+	
 	@Transactional
 	public void cancelOrderById(long orderId,String userName) throws NotAllowToOperationException {
-		laundryOrderDao.cancelOrderById(orderId,userName);
+		LaundryOrder order = laundryOrderDao.cancelOrderById(orderId,userName);
+		AuditOrderForTracking auditOrder = new AuditOrderForTracking(order);
+		auditOrderDao.persist(auditOrder);
 
 	}
 
@@ -316,7 +304,13 @@ public class LaundryOrderService {
 			pEdate = format2.parse(updatedOrder.getPreferedPickupEDate());			
 		if(pEdate != null)
 			order.setPreferedPickupEtime(pEdate);
-	    laundryOrderDao.updateOrderAContact(order);  
+		
+		AuditOrderForTracking auditOrder = new AuditOrderForTracking(order);
+		//update a order and save a record for history tracking
+	    laundryOrderDao.updateOrderAContact(order); 
+	    auditOrderDao.persist(auditOrder);
+	    
+	    
 		
 	}
 
@@ -330,6 +324,8 @@ public class LaundryOrderService {
 	@Transactional
 	public void createOrderForCustomer(String currentUser,LaundryDataCreateModel order) throws ClientServerCategoryIdNotMatchException, ParseException {
 		String orderBy = order.getOrderBy();
+		if(orderBy == null || orderBy.length()==0)
+			orderBy = order.getPhoneNumber();
 		Customer customer = customerDao.findByUserName(orderBy);
 		LaundryOrder lOrder = new LaundryOrder();
 		
@@ -368,12 +364,8 @@ public class LaundryOrderService {
 			price += tPrice;
 			oi.setTotalPrice(tPrice);
 			oi.setBelongto(lOrder);
-			LaundryItem li = null;
-			try {
-			   li = laundryItemDao.findLaundryById(item.getItemId());
-			} catch (ClientServerCategoryIdNotMatchException e) {
-				throw e;
-			}
+			LaundryItem li = LaundryItem.getLaundryItembyId(item.getItemId());
+			
 			oi.setItem(li);
 			orderItems.add(oi);
 			
@@ -381,15 +373,15 @@ public class LaundryOrderService {
 		lOrder.setLaundryDetail(orderItems);
 		if(customer == null){
 			customer = new Customer();
-			if(orderBy.length() == 0)
-				orderBy = order.getPhoneNumber();
 			customer.setUserName(orderBy);
 			List<Address> addressList = new ArrayList<>();
 		    addressList.add(address);			    
 		    customer.setAddressList(addressList);
+		   // customerDao.persist(customer);
 			
 		}else{
 			customer.getAddressList().add(address);
+			//customerDao.merge(customer);
 			
 		}
 		
@@ -400,8 +392,11 @@ public class LaundryOrderService {
 		lOrder.setLastUpdatedBy(csRep);
 		lOrder.setLastUpdateTime(new Date());
 		lOrder.setOrderStatus(OrderStatus.WAITINGFORPICKUP);
-		lOrder.setPrice(price);
+		lOrder.setPrice(price);		
 		laundryOrderDao.persist(lOrder);
+		AuditOrderForTracking auditOrder = new AuditOrderForTracking(lOrder);
+		auditOrderDao.persist(auditOrder);
+		
 	}
 
 }

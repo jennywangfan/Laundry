@@ -523,7 +523,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     rowBodyTpl: [
                                         '<div>地址: {address.state} {address.city} {address.district} {address.street} {address.streetNum} {address.zipcode}</div>',
                                         '<div>联系方式: {address.fullName} {address.phoneNumber}</div>',
-                                        '<div>类别: <tpl for="orderItems"> {itemName} {amount} {pricePerItem}</tpl></div>'
+                                        '<div>类别: <tpl for="orderItems"> {itemName} : {amount}件,单项总价:{totalPrice}</tpl></div>'
                                     ]
                                 }
                             ],
@@ -665,7 +665,6 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     rowBodyTpl: [
                                         '<div>地址: {address.state} {address.city} {address.district} {address.street} {address.streetNum} {address.zipcode}</div>',
                                         '<div>联系方式: {address.fullName} {address.phoneNumber}</div>',
-                                        '<div>类别: <tpl for="orderItems"> {itemName} {amount} {pricePerItem}</tpl></div>'
                                     ]
                                 }
                             ],

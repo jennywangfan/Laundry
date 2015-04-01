@@ -78,7 +78,7 @@ public class LaundryOrder implements Serializable{
 		this.orderId = orderId;
 	}
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinColumn(name = "customer_id")
 	public Customer getCustomer() {
 		return customer;
@@ -131,7 +131,7 @@ public class LaundryOrder implements Serializable{
 	public void setActualIncome(double actualIncome) {
 		this.actualIncome = actualIncome;
 	}
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne
 	@JoinColumn(name="address_id")
 	public Address getAddress() {
 		return address;

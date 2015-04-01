@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -42,8 +44,7 @@ public class OrderItem implements Serializable {
 		this.orderItemId = orderItemId;
 	}
 	
-    @ManyToOne
-    @JoinColumn(name = "laundry_item_id")
+    @Enumerated(EnumType.STRING)
 	public LaundryItem getItem() {
 		return item;
 	}

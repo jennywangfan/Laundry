@@ -191,7 +191,7 @@ public class LaundryOrderDao {
 	* @param orderId
 	 * @throws NotAllowToOperationException 
 	*/
-	public void cancelOrderById(long orderId,String userName) throws NotAllowToOperationException {
+	public LaundryOrder cancelOrderById(long orderId,String userName) throws NotAllowToOperationException {
 		// TODO Auto-generated method stub
 		log.info("cancel order with id and userName " + orderId + "  " + userName);
 		try{
@@ -213,7 +213,7 @@ public class LaundryOrderDao {
 					throw new NotAllowToOperationException("没有权限取消该订单");
 				}
 			}
-			
+			return order;
 		}catch(RuntimeException re){
 			log.error("fail to cancel order with id and userName " + orderId + " "+userName,re);
 			throw re;
