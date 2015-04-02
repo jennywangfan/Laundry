@@ -114,7 +114,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                 },
                 {
                     xtype: 'container',
-                    html: '<div class="menu_operator">已处理订单</div>',
+                    html: '<div class="menu_operator">等待取货订单</div>',
                     id: 'menu_processed'
                 },
                 {
@@ -417,37 +417,14 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                             columns: [
                                 {
                                     xtype: 'actioncolumn',
-                                    align: 'center',
-                                    text: '联系客户',
-                                    items: [
-                                        {
-                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
-                                                console.log(view);
-                                                console.log(rowIndex);
-                                                console.log(item);
-                                                console.log(e);
-                                                console.log(record);
-                                                console.log(row);
-                                            },
-                                            icon: 'orderPage/images/customer.png',
-                                            tooltip: '联系客户'
-                                        }
-                                    ]
-                                },
-                                {
-                                    xtype: 'actioncolumn',
+                                    hidden: true,
                                     width: '',
                                     align: 'center',
                                     text: '取消订单',
                                     items: [
                                         {
                                             handler: function(view, rowIndex, colIndex, item, e, record, row) {
-                                                console.log(view);
-                                                console.log(rowIndex);
-                                                console.log(item);
-                                                console.log(e);
-                                                console.log(record);
-                                                console.log(row);
+
                                             },
                                             icon: 'orderPage/images/error.png',
                                             tooltip: '取消订单'
@@ -558,45 +535,6 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                             store: 'OrderListStore',
                             columns: [
                                 {
-                                    xtype: 'actioncolumn',
-                                    align: 'center',
-                                    text: '联系客户',
-                                    items: [
-                                        {
-                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
-                                                console.log(view);
-                                                console.log(rowIndex);
-                                                console.log(item);
-                                                console.log(e);
-                                                console.log(record);
-                                                console.log(row);
-                                            },
-                                            icon: 'orderPage/images/customer.png',
-                                            tooltip: '联系客户'
-                                        }
-                                    ]
-                                },
-                                {
-                                    xtype: 'actioncolumn',
-                                    width: '',
-                                    align: 'center',
-                                    text: '取消订单',
-                                    items: [
-                                        {
-                                            handler: function(view, rowIndex, colIndex, item, e, record, row) {
-                                                console.log(view);
-                                                console.log(rowIndex);
-                                                console.log(item);
-                                                console.log(e);
-                                                console.log(record);
-                                                console.log(row);
-                                            },
-                                            icon: 'orderPage/images/error.png',
-                                            tooltip: '取消订单'
-                                        }
-                                    ]
-                                },
-                                {
                                     xtype: 'gridcolumn',
                                     dataIndex: 'orderId',
                                     text: '订单号'
@@ -665,6 +603,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                     rowBodyTpl: [
                                         '<div>地址: {address.state} {address.city} {address.district} {address.street} {address.streetNum} {address.zipcode}</div>',
                                         '<div>联系方式: {address.fullName} {address.phoneNumber}</div>',
+                                        '<div>类别: <tpl for="orderItems"> {itemName} : {amount}件,单项总价:{totalPrice}</tpl></div>'
                                     ]
                                 }
                             ],
@@ -879,7 +818,7 @@ Ext.define('Xixixi.view.OrderMainViewport', {
                                             name: 'preferedPickupETime',
                                             allowBlank: false,
                                             blankText: '必填项',
-                                            format: 'g:i a',
+                                            format: 'h:i',
                                             increment: 60,
                                             maxValue: '9:00 AM',
                                             minValue: '9:00 PM',
